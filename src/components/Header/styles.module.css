@@ -1,0 +1,36 @@
+@import 'theme/vars.css';
+
+.header {
+  background-color: var(--color-dark_1);
+}
+
+.navContainer {
+  display: flex;
+}
+.navContainer > * + * {
+  margin-left: 3.2rem;
+}
+
+.navLink {
+  color: white;
+  opacity: 0.5;
+  font-size: 2.4rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: block;
+  padding: 2.4rem 0;
+}
+
+.activeNavLink {
+  opacity: 1;
+  position: relative;
+}
+.activeNavLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  bottom: 0;
+  background-color: var(--color-dark_2);
+}

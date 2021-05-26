@@ -1,25 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import { Web3Provider } from 'web3';
-import './App.css';
+import Home from 'pages/Home';
+import Leaderboard from 'pages/Leaderboard';
+import Settings from 'pages/Settings';
+import {
+  Switch,
+  Route,
+  BrowserRouter as Router,
+} from "react-router-dom";
+
+const nav: Array<{ path: string, component: () => JSX.Element, exact?: boolean }> = [
+  {
+    path: "/",
+    component: Home,
+    exact: true
+  },
+  {
+    path: "/leaderboard",
+    component: Leaderboard,
+  },
+  {
+    path: "/settings",
+    component: Settings,
+  }
+]
 
 function App() {
   return (
     <Web3Provider>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Switch>
+          {nav.map((item, i) => <Route path={item.path} exact={item.exact} key={i} component={item.component} />)}
+        </Switch>
+      </Router>
     </Web3Provider>
   );
 }
