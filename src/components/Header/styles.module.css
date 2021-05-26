@@ -4,8 +4,15 @@
   background-color: var(--color-dark_1);
 }
 
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .navContainer {
   display: flex;
+  margin: 0;
 }
 .navContainer > * + * {
   margin-left: 3.2rem;
@@ -33,4 +40,25 @@
   height: 4px;
   bottom: 0;
   background-color: var(--color-dark_2);
+}
+
+.walletContainer {
+  font-size: 1.6rem;
+  background-color: var(--color-dark_2);
+  padding: 1.2rem;
+  display: grid;
+  place-items: center;
+  color: white;
+  height: fit-content;
+  border-style: none;
+  cursor: pointer;
+  min-width: 16rem;
+}
+
+.walletAddress {
+  display: flex;
+  align-items: center;
+}
+.walletAddress p {
+  margin: 0 0 0 1.2rem;
 }

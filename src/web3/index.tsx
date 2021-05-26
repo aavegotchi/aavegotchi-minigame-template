@@ -11,9 +11,12 @@ export const Web3Context = createContext<{
   provider?: ethers.providers.Web3Provider,
   contract?: ethers.Contract,
   signer?: ethers.providers.JsonRpcSigner,
-  getAddress?: () => Promise<string | undefined>,
+  address?: string,
   getAavegotchisForUser?: () => Promise<FetchAavegotchisRes>,
-}>({});
+  connectToNetwork: () => Promise<void>
+}>({
+  connectToNetwork: async () => {await window.ethereum.enable()}
+});
 
 declare global {
   interface Window {
@@ -46,39 +49,34 @@ export const Web3Provider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    window.addEventListener('load', connectToNetwork);
-
-    return () => {
-      window.removeEventListener('load', connectToNetwork);
-    }
-  })
-
-  useEffect(() => {
     if (window.ethereum && isConnected) {
+      window.ethereum.on('accountsChanged', function (accounts: any) {
+        console.log("Account changed");
+        setAddress(accounts[0]);
+      })
+
       const newProvider = new ethers.providers.Web3Provider(window.ethereum);
       const newContract = new ethers.Contract(aavegotchiAddress, diamondAbi, newProvider);
       const newSigner = newProvider.getSigner();
       setProvider(newProvider);
       setContract(newContract);
       setSigner(newSigner);
+      _setAddress(newSigner);
+    } else {
+      connectToNetwork();
     }
   }, [isConnected]);
 
-  const getAddress = async () => {
-    if (address) return address;
-
-    const resAddress = await signer?.getAddress();
-    setAddress(resAddress);
-
-    return resAddress;
+  const _setAddress = async (rpcSigner: ethers.providers.JsonRpcSigner) => {
+    const res = await rpcSigner.getAddress();
+    setAddress(res);
   }
 
   const getAavegotchisForUser = async (): Promise<FetchAavegotchisRes> => {
     if (usersGotchis.length > 0) return {status: 200, data: usersGotchis};
 
     try {
-      const account = await getAddress();
-      const gotchis = await contract?.allAavegotchisOfOwner(account) as Array<AavegotchiContractObject>;
+      const gotchis = await contract?.allAavegotchisOfOwner(address) as Array<AavegotchiContractObject>;
 
       // Filter out portals
       const gotchisOnly = gotchis.filter(gotchi => gotchi.status.toString() === "3");
@@ -121,8 +119,9 @@ export const Web3Provider = ({ children }: Props) => {
       provider,
       contract,
       signer,
-      getAddress,
+      address,
       getAavegotchisForUser,
+      connectToNetwork,
     }}>
       {children}
     </Web3Context.Provider>
