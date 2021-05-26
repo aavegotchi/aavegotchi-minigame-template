@@ -1,10 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
+import { Web3Provider } from 'web3';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <Web3Provider>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -19,7 +20,7 @@ function App() {
           Learn React
         </a>
       </header>
-    </div>
+    </Web3Provider>
   );
 }
 
