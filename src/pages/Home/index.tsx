@@ -1,13 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout, GotchiSelector } from 'components';
 import globalStyles from 'theme/globalStyles.module.css';
 import styles from './styles.module.css';
 import { getAavegotchisForUser } from 'web3/actions';
 import { useWeb3 } from 'web3';
+import { bounceAnimation, convertInlineSVGToBlobURL, removeBG } from 'helpers/aavegotchi';
 import { ethers } from 'ethers';
+import { AavegotchiObject } from 'types';
 
 const Home = () => {
   const { state: { usersGotchis, contract, address }, updateState } = useWeb3();
+  const [ selectedGotchi, setSelectedGotchi ] = useState<AavegotchiObject>();
 
   useEffect(() => {
     const _fetchGotchis = async (contract: ethers.Contract, address: string) => {
@@ -24,12 +27,27 @@ const Home = () => {
     }
   }, [usersGotchis, contract, address, updateState]);
 
+  const handleCustomiseSvg = (svg: string) => {
+    const noBg = removeBG(svg);
+    const animated = bounceAnimation(noBg);
+    return convertInlineSVGToBlobURL(animated);
+  }
+
   return (
     <Layout>
       <div className={globalStyles.container}>
         <div className={styles.homeContainer}>
           <div className={styles.selectorContainer}>
-            <GotchiSelector gotchis={usersGotchis} selectGotchi={(gotchi) => null} />
+            <GotchiSelector gotchis={usersGotchis} selectGotchi={setSelectedGotchi} />
+          </div>
+          <div>
+            {selectedGotchi && (
+              <img
+                src={handleCustomiseSvg(selectedGotchi.svg)}
+                alt={`Selected ${selectedGotchi.name}`}
+                className={styles.gotchi}
+              />
+            )}
           </div>
         </div>
       </div>

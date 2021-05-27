@@ -6,6 +6,14 @@
   align-items: center;
 }
 
+.chevron.up {
+  margin-bottom: 2.4rem;
+}
+.chevron.down {
+  margin-top: 2.4rem;
+}
+
+
 .gotchiContainer {
   height: 7.2rem;
   width: 7.2rem;

@@ -21,18 +21,22 @@ export const GotchiSelector = ({ gotchis, selectGotchi }: Props) => {
 
   return (
     <div className={styles.selectorContainer}>
-      <ChevronUp width={24} />
+      <ChevronUp width={24} className={`${styles.chevron} ${styles.up}`} />
       {
         gotchis === undefined ? <div>Loading</div> : gotchis?.map((gotchi, i) => {
           const isSelected = selected === i;
           return(
-            <div className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`} key={i}>
+            <div
+              className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
+              key={i}
+              onClick={() => setSelected(i)}
+            >
               <img src={convertInlineSVGToBlobURL(gotchi.svg)} alt={gotchi.name} />
             </div>
           )
         })
       }
-      <ChevronDown width={24} />
+      <ChevronDown width={24} className={`${styles.chevron} ${styles.down}`} />
     </div>
   )
 }

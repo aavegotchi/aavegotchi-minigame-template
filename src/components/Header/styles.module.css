@@ -13,6 +13,7 @@
 .navContainer {
   display: flex;
   margin: 0;
+  padding: 0;
 }
 .navContainer > * + * {
   margin-left: 3.2rem;
