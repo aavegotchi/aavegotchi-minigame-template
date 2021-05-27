@@ -1,8 +1,8 @@
-import React from 'react';
 import { Web3Provider } from 'web3';
 import Home from 'pages/Home';
 import Leaderboard from 'pages/Leaderboard';
 import Settings from 'pages/Settings';
+import Play from 'pages/Play';
 import {
   Switch,
   Route,
@@ -22,6 +22,10 @@ const nav: Array<{ path: string, component: () => JSX.Element, exact?: boolean }
   {
     path: "/settings",
     component: Settings,
+  },
+  {
+    path: "/play",
+    component: Play,
   }
 ]
 

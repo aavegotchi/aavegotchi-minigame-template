@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Layout, GotchiSelector, DetailsPanel } from 'components';
+import { Link } from "react-router-dom";
 import globalStyles from 'theme/globalStyles.module.css';
+import { Send } from 'assets/sounds';
 import styles from './styles.module.css';
 import { getAavegotchisForUser } from 'web3/actions';
 import { useWeb3 } from 'web3';
@@ -48,7 +50,9 @@ const Home = () => {
                 className={styles.gotchi}
               />
             )}
-            <button className={globalStyles.primaryButton}>Start</button>
+            <Link to="/play" className={globalStyles.primaryButton} onClick={() => Send.play()}>
+              Start
+            </Link>
           </div>
           <div>
             <DetailsPanel selectedGotchi={selectedGotchi} />
