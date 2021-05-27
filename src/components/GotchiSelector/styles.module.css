@@ -1,0 +1,18 @@
+@import 'theme/vars.css';
+
+.selectorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gotchiContainer {
+  height: 7.2rem;
+  width: 7.2rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 1.2rem 0;
+}
+.gotchiContainer.selected {
+  border: 2px solid var(--color-pink_0);
+}

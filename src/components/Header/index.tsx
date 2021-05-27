@@ -6,7 +6,7 @@ import { smartTrim } from 'helpers/functions';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
 export const Header = () => {
-  const { address, connectToNetwork } = useWeb3();
+  const { state: { address }, connectToNetwork } = useWeb3();
 
   const handleWalletClick = () => {
     if (!address) {

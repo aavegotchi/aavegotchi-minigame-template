@@ -1,0 +1,9 @@
+.homeContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 5.4rem 0;
+}
+
+.selectorContainer {
+  display: flex;
+}
