@@ -20,6 +20,7 @@
   border-radius: 50%;
   overflow: hidden;
   margin: 1.2rem 0;
+  cursor: pointer;
 }
 .gotchiContainer.selected {
   border: 2px solid var(--color-pink_0);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Layout, GotchiSelector } from 'components';
+import { Layout, GotchiSelector, DetailsPanel } from 'components';
 import globalStyles from 'theme/globalStyles.module.css';
 import styles from './styles.module.css';
 import { getAavegotchisForUser } from 'web3/actions';
@@ -40,7 +40,7 @@ const Home = () => {
           <div className={styles.selectorContainer}>
             <GotchiSelector gotchis={usersGotchis} selectGotchi={setSelectedGotchi} />
           </div>
-          <div>
+          <div className={styles.gotchiContainer}>
             {selectedGotchi && (
               <img
                 src={handleCustomiseSvg(selectedGotchi.svg)}
@@ -48,6 +48,10 @@ const Home = () => {
                 className={styles.gotchi}
               />
             )}
+            <button className={globalStyles.primaryButton}>Start</button>
+          </div>
+          <div>
+            <DetailsPanel selectedGotchi={selectedGotchi} />
           </div>
         </div>
       </div>

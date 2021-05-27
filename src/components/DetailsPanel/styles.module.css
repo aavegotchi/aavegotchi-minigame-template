@@ -1,0 +1,17 @@
+.detailsPanel {
+  color: white;
+}
+
+.traitRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.traitRow p {
+  font-size: 1.4rem;
+  text-transform: uppercase;
+}
+
+.traitRow .emoji {
+  margin-right: 0.8rem;
+}

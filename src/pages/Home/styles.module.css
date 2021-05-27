@@ -1,9 +1,21 @@
 .homeContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
   padding: 5.4rem 0;
 }
 
 .selectorContainer {
   display: flex;
+}
+
+.gotchiContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.gotchiContainer img {
+  max-height: 33rem;
 }

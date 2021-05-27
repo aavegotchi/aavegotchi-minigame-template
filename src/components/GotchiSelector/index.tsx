@@ -1,5 +1,6 @@
 import { AavegotchiObject } from 'types';
 import { ChevronUp, ChevronDown } from 'assets/icons';
+import { Click } from 'assets/sounds';
 import { convertInlineSVGToBlobURL } from 'helpers/aavegotchi';
 import styles from './styles.module.css';
 import globalStyles from 'theme/globalStyles.module.css';
@@ -29,7 +30,10 @@ export const GotchiSelector = ({ gotchis, selectGotchi }: Props) => {
             <div
               className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
               key={i}
-              onClick={() => setSelected(i)}
+              onClick={() => {
+                Click.play();
+                setSelected(i)
+              }}
             >
               <img src={convertInlineSVGToBlobURL(gotchi.svg)} alt={gotchi.name} />
             </div>
