@@ -7,8 +7,12 @@ const Main = () => {
   const { state: { selectedGotchi } } = useWeb3();
 
   const config: GameInstance = {
-    width: "100%",
-    height: "100%",
+    width: 1920,
+    height: 1080,
+    scale: {
+      mode: Phaser.Scale.FIT,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
+    },
     type: Phaser.AUTO,
     scene: Scenes,
     fps: {
@@ -30,7 +34,7 @@ const Main = () => {
   }
 
   return (
-    <IonPhaser initialize={true} game={config} />
+    <IonPhaser initialize={true} game={config} id="phaser-app" />
   )
 }
 

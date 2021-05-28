@@ -1,4 +1,4 @@
-import { LEFT_CHEVRON, CLICK } from 'assets';
+import { LEFT_CHEVRON, CLICK, BG, FULLSCREEN } from 'assets';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { AavegotchiGameObject } from 'types';
 
@@ -20,19 +20,24 @@ export class GameScene extends Phaser.Scene {
 
   // Sounds
   public back?: Phaser.Sound.BaseSound;
+  public click?: Phaser.Sound.BaseSound;
 
   constructor() {
     super(sceneConfig);
   }
 
   init = (data: { selectedGotchi: AavegotchiGameObject }): void => {
-    console.log('Game scene', data.selectedGotchi);
     this.selectedGotchi = data.selectedGotchi;
   };
 
   public create(): void {
+    // Add layout
+    this.add.image(getGameWidth(this) / 2, getGameHeight(this) / 2, BG).setDisplaySize(getGameWidth(this), getGameHeight(this));
     this.back = this.sound.add(CLICK, { loop: false });
+    this.click = this.sound.add(CLICK, { loop: false });
     this.createBackButton();
+    this.createFullScreenToggle();
+
 
     // Add a player sprite that can be moved around. Place him in the middle of the screen.
     this.player = this.physics.add.sprite(
@@ -59,7 +64,22 @@ export class GameScene extends Phaser.Scene {
       .setScale(0.4)
       .on('pointerdown', () => {
         this.back?.play();
-        window.location.replace('/');
+        window.history.back();
+      });
+  };
+
+  private createFullScreenToggle = () => {
+    this.add
+      .image(getGameWidth(this) - 54, getGameHeight(this) - 54, FULLSCREEN)
+      .setInteractive({ useHandCursor: true })
+      .setScale(0.4)
+      .on('pointerdown', () => {
+        this.click?.play();
+        if (this.scale.isFullscreen) {
+          this.scale.stopFullscreen();
+        } else {
+          this.scale.startFullscreen();
+        }
       });
   };
 
