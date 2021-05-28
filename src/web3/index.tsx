@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { ethers } from 'ethers';
 import diamondAbi from './abi/diamond.json';
 import { initialState, State } from './initialState';
@@ -29,7 +29,7 @@ export const Web3Provider = ({ children }: Props) => {
   const [ isConnected, setIsConnected ] = useState(false);
   const [ state, setState ] = useState<State>({});
 
-  const updateState = (updateState: State) => {
+  const updateState = useCallback((updateState: State) => {
     const newState = {...updateState};
     setState((prevState) => {
       return {
@@ -37,7 +37,7 @@ export const Web3Provider = ({ children }: Props) => {
         ...newState,
       }
     })
-  }
+  }, [])
 
   const connectToNetwork = async () => {
     try {

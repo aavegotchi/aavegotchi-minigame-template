@@ -1,9 +1,15 @@
 import { AavegotchiContractObject, AavegotchiObject } from 'types';
-import { ethers } from 'ethers';
+import { Contract, BigNumber } from 'ethers';
 
 type FetchAavegotchisRes = Promise<{status: 200, data: Array<AavegotchiObject>} | {status: 400, error: any}>
 
-export const getAavegotchisForUser = async (contract: ethers.Contract, address: string): Promise<FetchAavegotchisRes> => {
+/**
+ * Fetches all Aavegotchis for given address
+ * @param {ethers.Contract} contract - Aavegotchi contract.
+ * @param {string} address - Address of owners wallet.
+ * @returns {Promise<FetchAavegotchisRes>} Promise object represents success status + corresponding data
+ */
+export const getAavegotchisForUser = async (contract: Contract, address: string): Promise<FetchAavegotchisRes> => {
   try {
     const gotchis = await contract?.allAavegotchisOfOwner(address) as Array<AavegotchiContractObject>;
 
@@ -25,12 +31,12 @@ export const getAavegotchisForUser = async (contract: ethers.Contract, address: 
   }
 };
 
-const _getAavegotchiSvg = async (tokenId: ethers.BigNumber, contract: ethers.Contract) => {
+const _getAavegotchiSvg = async (tokenId: BigNumber, contract: Contract) => {
   const svg = await contract?.getAavegotchiSvg(tokenId) as string;
   return svg;
 };
 
-const _getAllAavegotchiSVGs = async (gotchis: Array<AavegotchiContractObject>, contract: ethers.Contract): Promise<Array<AavegotchiObject>> => {
+const _getAllAavegotchiSVGs = async (gotchis: Array<AavegotchiContractObject>, contract: Contract): Promise<Array<AavegotchiObject>> => {
   return Promise.all(
     gotchis.map(async (gotchi) => {
       const svg = await _getAavegotchiSvg(gotchi.tokenId, contract);

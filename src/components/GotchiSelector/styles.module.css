@@ -13,7 +13,7 @@
   margin-top: 2.4rem;
 }
 
-
+.loadingContainer,
 .gotchiContainer {
   height: 7.2rem;
   width: 7.2rem;
@@ -24,4 +24,12 @@
 }
 .gotchiContainer.selected {
   border: 2px solid var(--color-pink_0);
+}
+
+.loadingContainer {
+  background-color: white;
+}
+.loadingContainer img {
+  width: 100%;
+  height: 100%;
 }

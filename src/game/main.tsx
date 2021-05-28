@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { IonPhaser, GameInstance } from '@ion-phaser/react';
 import Scenes from './scenes';
 import { useWeb3 } from 'web3';
+import { Redirect } from 'react-router';
 
 const Main = () => {
   const { state: { selectedGotchi } } = useWeb3();
@@ -31,6 +32,12 @@ const Main = () => {
         });
       }, 
     }
+  }
+
+  if (!selectedGotchi) {
+    return (
+      <Redirect to="/" />
+    )
   }
 
   return (
