@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Layout, GotchiSelector, DetailsPanel } from 'components';
 import { Link } from "react-router-dom";
 import globalStyles from 'theme/globalStyles.module.css';
@@ -8,11 +8,9 @@ import { getAavegotchisForUser } from 'web3/actions';
 import { useWeb3 } from 'web3';
 import { bounceAnimation, convertInlineSVGToBlobURL, removeBG } from 'helpers/aavegotchi';
 import { ethers } from 'ethers';
-import { AavegotchiObject } from 'types';
 
 const Home = () => {
-  const { state: { usersGotchis, contract, address }, updateState } = useWeb3();
-  const [ selectedGotchi, setSelectedGotchi ] = useState<AavegotchiObject>();
+  const { state: { usersGotchis, contract, address, selectedGotchi }, updateState } = useWeb3();
 
   useEffect(() => {
     const _fetchGotchis = async (contract: ethers.Contract, address: string) => {
@@ -40,7 +38,7 @@ const Home = () => {
       <div className={globalStyles.container}>
         <div className={styles.homeContainer}>
           <div className={styles.selectorContainer}>
-            <GotchiSelector gotchis={usersGotchis} selectGotchi={setSelectedGotchi} />
+            <GotchiSelector gotchis={usersGotchis} selectGotchi={(gotchi) => updateState({ selectedGotchi: gotchi })} />
           </div>
           <div className={styles.gotchiContainer}>
             {selectedGotchi && (

@@ -7,6 +7,7 @@ export interface State {
   signer?: ethers.providers.JsonRpcSigner,
   address?: string,
   usersGotchis?: Array<AavegotchiObject>,
+  selectedGotchi?: AavegotchiObject,
 }
 
 export const initialState = {}

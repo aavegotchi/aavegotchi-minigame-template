@@ -18,7 +18,7 @@ export const GotchiSelector = ({ gotchis, selectGotchi }: Props) => {
     if (gotchis) {
       selectGotchi(gotchis[selected]);
     }
-  }, [selected, gotchis, selectGotchi])
+  }, [selected, gotchis])
 
   return (
     <div className={styles.selectorContainer}>
