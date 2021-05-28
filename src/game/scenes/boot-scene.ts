@@ -20,24 +20,32 @@ export class BootScene extends Phaser.Scene {
   }
 
   public preload = (): void => {
-    this.load.image(KEYS.BG, 'assets/images/bg.png');
-    this.load.svg(KEYS.FULLSCREEN, 'assets/icons/fullscreen.svg');
-    this.load.svg(KEYS.LEFT_CHEVRON, 'assets/icons/chevron_left.svg');
-    this.load.svg(KEYS.RIGHT_CHEVRON, 'assets/icons/chevron_right.svg');
-    this.loadInSounds();
-
     // Construct gotchi game object
     const selectedGotchi = this.game.registry.values.selectedGotchi as AavegotchiObject;
     this.gotchi = {
       ...selectedGotchi,
       spritesheetKey: "PLAYER",
     }
-    this.loadInGotchiSpritesheet(this.gotchi);
 
-    // Start game after Spritesheet construction
+    // Load in images
+    this.load.image(KEYS.BG, 'assets/images/bg.png');
+    this.load.svg(KEYS.FULLSCREEN, 'assets/icons/fullscreen.svg');
+    this.load.svg(KEYS.LEFT_CHEVRON, 'assets/icons/chevron_left.svg');
+    this.load.svg(KEYS.RIGHT_CHEVRON, 'assets/icons/chevron_right.svg');
+
+    // Load in sounds
+    this.loadInSounds();
+
+    // Load spritesheet after audio files loaded
+    // Start game on spritesheet load
     this.load.on(
       'filecomplete',
       (key: string) => {
+        if (key.includes(KEYS.CLICK)) {
+          if (this.gotchi) {
+            this.loadInGotchiSpritesheet(this.gotchi);
+          }
+        }
         if (this.gotchi && key.includes(this.gotchi?.spritesheetKey)) {
           this.scene.start('Game', { selectedGotchi: this.gotchi });
         }
