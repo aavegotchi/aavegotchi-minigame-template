@@ -7,9 +7,9 @@
 }
 
 .glow {
-  webkit-box-shadow: 0px 0px 60px 0px var(--color-pink_0);
-  -moz-box-shadow: 0px 0px 60px 0px var(--color-pink_0);
-  box-shadow: 0px 0px 60px 0px var(--color-pink_0);
+  webkit-box-shadow: 0px 0px 25px 0px var(--color-pink_0);
+  -moz-box-shadow: 0px 0px 25px 0px var(--color-pink_0);
+  box-shadow: 0px 0px 25px 0px var(--color-pink_0);
 }
 
 .primaryButton {
