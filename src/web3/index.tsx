@@ -70,7 +70,7 @@ export const Web3Provider = ({ children }: Props) => {
     } else {
       connectToNetwork();
     }
-  }, [isConnected]);
+  }, [isConnected, updateState]);
 
   return (
     <Web3Context.Provider value={{
