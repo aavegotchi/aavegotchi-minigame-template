@@ -1,7 +1,6 @@
 import { removeBackground, constructSpritesheet, addIdleUp } from '../helpers/spritesheet';
 
-import * as KEYS from '../../assets';
-import { click, boop } from 'assets/sounds';
+import * as KEYS from 'assets';
 import { AavegotchiGameObject, AavegotchiObject } from 'types';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -59,7 +58,7 @@ export class BootScene extends Phaser.Scene {
   };
 
   private loadInSounds = () => {
-    this.load.audio(KEYS.BOOP, [boop]);
-    this.load.audio(KEYS.CLICK, [click]);
+    this.load.audio(KEYS.BOOP, ['assets/sounds/boop.mp3']);
+    this.load.audio(KEYS.CLICK, ['assets/sounds/click.mp3']);
   };
 }

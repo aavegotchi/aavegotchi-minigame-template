@@ -7,8 +7,6 @@ import send from './send.mp3';
 import sending from './sending.mp3';
 import success from './success.mp3';
 
-export { boop, click, oops, portalOpen, portalOpened, send, sending, success};
-
 export const Boop = new Audio(boop);
 export const Click = new Audio(click);
 export const Oops = new Audio(oops);
