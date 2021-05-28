@@ -1,6 +1,6 @@
 # Aavegotchi minigame template
 
-Preview: https://epic-chandrasekhar-a63ea6.netlify.app/play
+Preview: https://epic-chandrasekhar-a63ea6.netlify.app
 
 ## Quick notes
 
