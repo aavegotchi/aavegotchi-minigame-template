@@ -1,0 +1,44 @@
+@import 'theme/vars.css';
+
+.background {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  overflow-y: scroll;
+}
+
+.shadow {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left:0;
+  bottom: 0;
+  opacity: 0.5;
+  z-index: -1;
+  background-color: var(--color-dark_0);
+}
+
+.background.open {
+  display: block;
+}
+
+.panel {
+  position: relative;
+  opacity: 1;
+  background-color: var(--color-dark_1);
+  border: 5px solid var(--color-dark_2);
+  max-width: 60rem;
+  margin: 7.2rem auto;
+  padding: 3.2rem;
+  color: white;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+}

@@ -4,22 +4,16 @@
   background-color: var(--color-dark_1);
 }
 
-.headerContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.desktopHeaderContent {
+  display: none;
 }
 
-.navContainer {
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-.navContainer > * + * {
-  margin-left: 3.2rem;
+.mobileHeaderContent {
+  padding: 1.6rem;
 }
 
 .navLink {
+  text-align: right;
   color: white;
   opacity: 0.5;
   font-size: 2.4rem;
@@ -54,6 +48,8 @@
   border-style: none;
   cursor: pointer;
   min-width: 16rem;
+  margin-top: 3.2rem;
+  margin-left: auto;
 }
 
 .walletAddress {
@@ -62,4 +58,34 @@
 }
 .walletAddress p {
   margin: 0 0 0 1.2rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .desktopHeaderContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mobileHeaderContent {
+    display: none;
+  }
+
+  .navContainer {
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  .navContainer > * + * {
+    margin-left: 3.2rem;
+  }
+
+  .navLink {
+    text-align: left;
+  }
+
+  .walletContainer {
+    margin-top: 0;
+    margin-left: 0;
+  }
 }

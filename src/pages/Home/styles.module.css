@@ -1,22 +1,76 @@
 .homeContainer {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.8rem;
+  gap: 3.2rem;
   padding: 5.4rem 0;
 }
 
 .selectorContainer {
   display: flex;
+  justify-content: center;
 }
 
 .gotchiContainer {
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+.highscore {
+  margin: 1.6rem auto 3.2rem;
+  color: white;
 }
 
 .gotchiContainer img {
   max-height: 33rem;
   width: 100%;
+}
+
+.buttonContainer {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: 15rem 5rem;
+}
+
+
+.detailsPanelContainer {
+  margin-top: 4rem;
+}
+
+.errorContainer {
+  color: white;
+  max-width: 60rem;
+  margin: 5.4rem auto;
+}
+
+.errorContainer h1 {
+  font-size: 5rem;
+  opacity: 0.4;
+}
+
+.errorContainer p {
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+.errorContainer .secondaryErrorMessage {
+  margin: 5.4rem 0 2.4rem;
+}
+
+
+.modalContent h1 {
+  font-size: 3.2rem;
+}
+.modalContent p {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+@media only screen and (min-width: 768px) {
+  .homeContainer {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+  }
+
+  .detailsPanelContainer {
+    margin-top: 0;
+  }
 }

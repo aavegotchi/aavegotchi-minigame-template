@@ -31,6 +31,14 @@ export const addIdleUp = (svg: string): string => {
   return styledSvg;
 };
 
+export const makeFirefoxCompatible = (svg: string) => {
+  const styledSvg = svg.replace(
+    '<svg xmlns=',
+    '<svg width="150" height="150" xmlns=',
+  );
+  return styledSvg;
+}
+
 export const constructSpritesheet = async (down: string, up: string): Promise<string> => {
   const canvas = document.createElement('canvas');
   canvas.width = 300;
@@ -39,8 +47,8 @@ export const constructSpritesheet = async (down: string, up: string): Promise<st
 
   const b64 = await mergeImages([
     { src: baseUrl },
-    { src: convertInlineSVGToBlobURL(down), x: 0, y: 0 },
-    { src: convertInlineSVGToBlobURL(up), x: 150, y: 0 },
+    { src: convertInlineSVGToBlobURL(makeFirefoxCompatible(down)), x: 0, y: 0 },
+    { src: convertInlineSVGToBlobURL(makeFirefoxCompatible(up)), x: 150, y: 0 },
   ]);
   return convertBase64toBlobURL(b64);
 };

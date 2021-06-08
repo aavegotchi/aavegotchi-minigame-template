@@ -1,0 +1,18 @@
+@import 'theme/vars.css';
+
+.container {
+  position: fixed;
+  width: 80%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background-color: var(--color-dark_1);
+  z-index: 5;
+  padding: 5.4rem 1.6rem;
+  transition: transform 300ms ease;
+  transform: translateX(100%);
+}
+
+.container.open {
+  transform: translateX(0);
+}

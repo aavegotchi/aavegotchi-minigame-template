@@ -13,6 +13,7 @@
 }
 
 .primaryButton {
+  cursor: pointer;
   display: grid;
   place-items: center;
   background-color: var(--color-purple_0);
@@ -27,4 +28,30 @@
   webkit-box-shadow: 0px 0px 20px 0px var(--color-pink_0);
   -moz-box-shadow: 0px 0px 20px 0px var(--color-pink_0);
   box-shadow: 0px 0px 20px 0px var(--color-pink_0);
+}
+
+.secondaryButton {
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  background-color: var(--color-purple_0);
+  color: white;
+  border: none;
+  font-size: 1.6rem;
+  max-width: 16rem;
+  width: 100%;
+  padding: 1.2rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.circleButton {
+  border-radius: 50%;
+  height: 5rem;
+  width: 5rem;
+}
+
+.disabledLink {
+  pointer-events: none;
+  opacity: 0.4;
 }

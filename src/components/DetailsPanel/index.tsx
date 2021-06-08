@@ -7,28 +7,80 @@ interface Props {
 
 export const DetailsPanel = ({ selectedGotchi }: Props) => {
 
-  if (!selectedGotchi) return <div></div>;
+  const calculatePercentage = (number: number) => {
+    if (number > 100) {
+      return '100%';
+    }
+    if (number < 0) {
+      return '0';
+    }
+    return `${number}%`
+  }
+
+  const renderModifier = (name: string, percentage: string) => {
+    return (
+      <div className={styles.modifierRow}>
+        <p>{name}</p>
+        <div className={styles.modifierMeter}>
+          <span
+            className={styles.progress}
+            style={{width: percentage}}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  const renderTrait = (i: number) => {
+    switch (i) {
+      case 0:
+        return (
+          <>
+            <p><span className={styles.emoji}>⚡️</span> Energy</p>
+            <p>{selectedGotchi?.withSetsNumericTraits[0]}</p>
+          </>
+        );
+      case 1:
+        return (
+          <>
+            <p><span className={styles.emoji}>👹</span> Aggression</p>
+            <p>{selectedGotchi?.withSetsNumericTraits[1]}</p>
+          </>
+        )
+      case 2:
+        return (
+          <>
+            <p><span className={styles.emoji}>👻</span> Spookiness</p>
+            <p>{selectedGotchi?.withSetsNumericTraits[2]}</p>
+          </>
+        )
+      case 3:
+        return (
+          <>
+            <p><span className={styles.emoji}>🧠</span> Brain size</p>
+            <p>{selectedGotchi?.withSetsNumericTraits[3]}</p>
+          </>
+        )
+      default:
+        return;
+    }
+  }
 
   return (
     <div className={styles.detailsPanel}>
-      <h1>{selectedGotchi.name} ({selectedGotchi.tokenId.toString()})</h1>
+      <h1>{selectedGotchi ? `${selectedGotchi?.name} (${selectedGotchi?.id})` : 'Fetching Aavegotchi...'}</h1>
       <hr />
-      <div className={styles.traitRow}>
-        <p><span className={styles.emoji}>⚡️</span> Energy</p>
-        <p>{selectedGotchi.modifiedNumericTraits[0]}</p>
-      </div>
-      <div className={styles.traitRow}>
-        <p><span className={styles.emoji}>👹</span> Aggression</p>
-        <p>{selectedGotchi.modifiedNumericTraits[1]}</p>
-      </div>
-      <div className={styles.traitRow}>
-        <p><span className={styles.emoji}>👻</span> Spookiness</p>
-        <p>{selectedGotchi.modifiedNumericTraits[2]}</p>
-      </div>
-      <div className={styles.traitRow}>
-        <p><span className={styles.emoji}>🧠</span> Brain size</p>
-        <p>{selectedGotchi.modifiedNumericTraits[3]}</p>
-      </div>
+
+      {selectedGotchi?.withSetsNumericTraits.map((_, i) => {
+        return (
+          <>
+            <div className={styles.traitRow} key={i}>
+              {renderTrait(i)}
+            </div>
+            {renderModifier("Move speed", calculatePercentage(selectedGotchi?.withSetsNumericTraits[i] as number))}
+          </>
+        )
+      })}
     </div>
   )
 };

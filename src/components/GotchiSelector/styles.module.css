@@ -2,35 +2,47 @@
 
 .selectorContainer {
   display: flex;
-  flex-direction: column;
+  margin: 0 auto;
+  flex-direction: row;
   align-items: center;
 }
 
 .selectorWrapper {
   box-sizing: revert;
   position: relative;
-  width: 7.2rem;
-  padding: 1.2rem;
+  height: 7.2rem;
+  padding: 0.8rem;
   overflow: hidden;
 }
 
 .selector {
+  display: flex;
+  align-items: center;
   position: absolute;
   transition: transform 300ms ease;
-  left: 1.2rem;
 }
 
+.loadingContainer:not(:first-child),
+.gotchiContainer:not(:first-child) {
+  margin-left: 0.8rem;
+}
+
+.chevron.up,
+.chevron.down {
+  transform: rotate(-90deg);
+}
 .chevron.up {
-  margin-bottom: 2.4rem;
+  margin-right: 0.4rem;
 }
 .chevron.down {
-  margin-top: 2.4rem;
+  margin-left: 0.4rem;
 }
+
 .chevron.enabled {
   cursor: pointer;
 }
 .chevron.disabled {
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .loadingContainer,
@@ -40,10 +52,6 @@
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-}
-.loadingContainer:not(:first-child),
-.gotchiContainer:not(:first-child) {
-  margin-top: 2.4rem;
 }
 
 .gotchiContainer.selected {
@@ -56,4 +64,40 @@
 .loadingContainer img {
   width: 100%;
   height: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .selectorContainer {
+    flex-direction: column;
+    margin: revert;
+    width: revert;
+  }
+
+  .selectorWrapper {
+    width: 7.2rem;
+    padding: 1.2rem;
+  }
+
+  .selector {
+    display: block;
+  }
+
+  .loadingContainer:not(:first-child),
+  .gotchiContainer:not(:first-child) {
+    margin-top: 2.4rem;
+    margin-left: 0;
+  }
+
+  .chevron.up,
+  .chevron.down {
+    transform: rotate(0);
+  }
+  .chevron.up {
+    margin-right: 0;
+    margin-bottom: 2.4rem;
+  }
+  .chevron.down {
+    margin-left: 0;
+    margin-top: 2.4rem;
+  }
 }

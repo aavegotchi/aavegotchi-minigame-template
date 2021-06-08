@@ -1,0 +1,47 @@
+@import 'theme/vars.css';
+
+.container {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 5.4rem 1.2rem;
+  color: white;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+.inputContainer label {
+  color: white;
+  font-size: 1.6rem;
+  margin-right: 0.8rem;
+  margin-bottom: 0.4rem;
+}
+.inputContainer option {
+  background-color: white;
+}
+
+input[type='range'] {
+  overflow: hidden;
+  -webkit-appearance: none;
+  background-color: var(--color-dark_2);
+  max-width: 30rem;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  width: 10px;
+  -webkit-appearance: none;
+  height: 10px;
+  cursor: ew-resize;
+  border-radius: 50%;
+  background-color: var(--color-pink_0);
+  
+  box-shadow: -155px 0 0 150px var(--color-purple_0);
+}
+
+/** FF*/
+input[type="range"]::-moz-range-progress {
+  background-color: var(--color-purple_0);
+}
+
