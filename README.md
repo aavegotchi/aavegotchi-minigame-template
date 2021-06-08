@@ -1,8 +1,12 @@
-# Getting Started with Create React App
+# Aavegotchi minigame template
+
+Preview: https://epic-chandrasekhar-a63ea6.netlify.app
 
 ## Quick notes
 
 Assets for game files should be stored in the public folder
+
+
 
 ## Available Scripts
 
