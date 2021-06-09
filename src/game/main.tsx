@@ -26,27 +26,27 @@ const Main = () => {
       // setHighscore(gotchiScore);
 
       let width = window.innerWidth;
-      let height = width / 1.333;
+      let height = width / 1.778;
 
       if (height > window.innerHeight) {
         height = window.innerHeight;
-        width = height * 1.333;
+        width = height * 1.778;
       }
 
       setConfig({
         type: Phaser.AUTO,
-        width: width,
-        height: height,
-          backgroundColor: '0x808080',
+        
         physics: {
           default: 'arcade',
           arcade: {
             gravity: { y: 0 },
-            //debug: true
+            debug: process.env.NODE_ENV === 'development',
           }
         },
         scale: {
-          autoCenter: Phaser.Scale.CENTER_BOTH
+          mode: Phaser.Scale.NONE,
+          width: width,
+          height: height,
         },
         scene: Scenes,
         fps: {
