@@ -1,4 +1,4 @@
-import { LEFT_CHEVRON, CLICK, BG, FULLSCREEN } from 'assets';
+import { LEFT_CHEVRON, CLICK, BG, FULLSCREEN } from 'game/assets';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { AavegotchiGameObject } from 'types';
 

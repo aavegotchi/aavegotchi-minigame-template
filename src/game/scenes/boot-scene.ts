@@ -3,66 +3,15 @@ import {
   constructSpritesheet,
   addIdleUp,
 } from "../helpers/spritesheet";
-import * as KEYS from "assets";
 import { AavegotchiGameObject, AavegotchiObject } from "types";
 import { getGameHeight, getGameWidth } from "game/helpers";
+import { assets, SpritesheetAsset } from 'game/assets';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
   key: "Boot",
 };
-
-interface Asset {
-  key: string;
-  src: string;
-  type: "IMAGE" | "SVG" | "SPRITESHEET" | "AUDIO";
-  data?: {
-    frameWidth?: number;
-    frameHeight?: number;
-  };
-}
-
-interface SpritesheetAsset extends Asset {
-  type: "SPRITESHEET";
-  data: {
-    frameWidth: number;
-    frameHeight: number;
-  };
-}
-
-const assets: Array<Asset | SpritesheetAsset> = [
-  {
-    key: KEYS.BG,
-    src: "assets/images/bg.png",
-    type: "IMAGE",
-  },
-  {
-    key: KEYS.FULLSCREEN,
-    src: "assets/icons/fullscreen.svg",
-    type: "SVG",
-  },
-  {
-    key: KEYS.LEFT_CHEVRON,
-    src: "assets/icons/chevron_left.svg",
-    type: "SVG",
-  },
-  {
-    key: KEYS.RIGHT_CHEVRON,
-    src: "assets/icons/chevron_right.svg",
-    type: "SVG",
-  },
-  {
-    key: KEYS.BOOP,
-    src: "assets/sounds/boop.mp3",
-    type: "AUDIO",
-  },
-  {
-    key: KEYS.CLICK,
-    src: "assets/sounds/click.mp3",
-    type: "AUDIO",
-  },
-];
 
 /**
  * The initial scene that loads all necessary assets to the game.

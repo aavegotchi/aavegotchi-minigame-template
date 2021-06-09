@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Layout, GotchiSelector, DetailsPanel, Modal } from "components";
 import { Link } from "react-router-dom";
 import globalStyles from "theme/globalStyles.module.css";
-import { click, send } from "assets/sounds";
 import styles from "./styles.module.css";
 import { getAavegotchisForUser } from "web3/actions";
 import { useServer } from "server-store";
@@ -128,13 +127,13 @@ const Home = () => {
                 className={`${globalStyles.primaryButton} ${
                   !selectedGotchi ? globalStyles.disabledLink : ""
                 }`}
-                onClick={() => playSound(send)}
+                onClick={() => playSound("send")}
               >
                 Start
               </Link>
               <button
                 onClick={() => {
-                  playSound(click);
+                  playSound("click");
                   setShowRulesModal(true);
                 }}
                 className={`${globalStyles.secondaryButton} ${globalStyles.circleButton}`}

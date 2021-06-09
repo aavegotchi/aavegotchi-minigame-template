@@ -2,7 +2,6 @@ import { Layout } from 'components/Layout';
 import { useState } from 'react';
 import styles from './styles.module.css';
 import { playSound } from 'helpers/hooks/useSound';
-import { click } from 'assets/sounds';
 
 const Settings = () => {
   const [ seVolume, setSEVolume ] = useState(window.localStorage.getItem("seVolume") ?? "5");
@@ -10,12 +9,12 @@ const Settings = () => {
 
   const handleSEVolumeChange = () => {
     window.localStorage.setItem("seVolume", seVolume);
-    playSound(click);
+    playSound("click");
   }
 
   const handleMusicVolumeChange = () => {
     window.localStorage.setItem("musicVolume", musicVolume);
-    playSound(click);
+    playSound("click");
   }
 
   return (

@@ -1,7 +1,6 @@
 import styles from './styles.module.css';
 import { useState } from 'react';
 import globalStyles from 'theme/globalStyles.module.css';
-import { click } from 'assets/sounds';
 import { NavLink } from "react-router-dom";
 import { useWeb3 } from 'web3';
 import { smartTrim } from 'helpers/functions';
@@ -15,7 +14,7 @@ const WalletButton = () => {
 
   const handleWalletClick = () => {
     if (!address) {
-      playSound(click);
+      playSound("click");
       connectToNetwork();
     }
   }
@@ -45,7 +44,7 @@ export const Header = () => {
       <nav className={`${globalStyles.container} ${styles.desktopHeaderContent}`}>
         <ul className={styles.navContainer}>
           <NavLink
-            onClick={() => playSound(click)}
+            onClick={() => playSound("click")}
             to="/"
             className={styles.navLink}
             activeClassName={styles.activeNavLink}
@@ -57,7 +56,7 @@ export const Header = () => {
             Game
           </NavLink>
           <NavLink
-            onClick={() => playSound(click)}
+            onClick={() => playSound("click")}
             to="/leaderboard"
             className={styles.navLink}
             activeClassName={styles.activeNavLink}
@@ -65,7 +64,7 @@ export const Header = () => {
             Leaderboard
           </NavLink>
           <NavLink
-            onClick={() => playSound(click)}
+            onClick={() => playSound("click")}
             to="/settings"
             className={styles.navLink}
             activeClassName={styles.activeNavLink}
@@ -80,7 +79,7 @@ export const Header = () => {
         <SideTray open={menuOpen}>
           <nav>
             <NavLink
-              onClick={() => playSound(click)}
+              onClick={() => playSound("click")}
               to="/"
               className={styles.navLink}
               activeClassName={styles.activeNavLink}
@@ -92,7 +91,7 @@ export const Header = () => {
               Game
             </NavLink>
             <NavLink
-              onClick={() => playSound(click)}
+              onClick={() => playSound("click")}
               to="/leaderboard"
               className={styles.navLink}
               activeClassName={styles.activeNavLink}
@@ -100,7 +99,7 @@ export const Header = () => {
               Leaderboard
             </NavLink>
             <NavLink
-              onClick={() => playSound(click)}
+              onClick={() => playSound("click")}
               to="/settings"
               className={styles.navLink}
               activeClassName={styles.activeNavLink}

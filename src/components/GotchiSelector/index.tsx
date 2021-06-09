@@ -1,6 +1,5 @@
 import { AavegotchiObject } from 'types';
-import { ChevronUp, ChevronDown } from 'assets/icons';
-import { click } from 'assets/sounds';
+import { ChevronUp, ChevronDown, click } from 'assets';
 import { convertInlineSVGToBlobURL } from 'helpers/aavegotchi';
 import { playSound } from 'helpers/hooks/useSound';
 import styles from './styles.module.css';

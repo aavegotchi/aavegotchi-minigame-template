@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { HighScore } from 'types';
 import { playSound } from 'helpers/hooks/useSound';
-import { click } from 'assets/sounds';
 import styles from './styles.module.css';
 
 interface Props {
@@ -66,7 +65,7 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
           <button
             className={styles.toggle}
             onClick={() => {
-              playSound(click);
+              playSound("click");
               setOnlyMine(prevState => !prevState)
             }}
           >
@@ -102,7 +101,7 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
                 <div
                   className={`${styles.selector} ${i === currentPage ? `${styles.selected}` : ''}`}
                   onClick={() => {
-                    playSound(click);
+                    playSound("click");
                     setCurrentPage(i)
                   }}
                 >
