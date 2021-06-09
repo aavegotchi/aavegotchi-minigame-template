@@ -4,9 +4,9 @@ export const convertInlineSVGToBlobURL = (svg: string) => {
 };
 
 export const removeBG = (svg: string) => {
-  const styledSvg = svg.replace('<style>', `<style>.gotchi-bg{display: none}`);
+  const styledSvg = svg.replace('<style>', '<style>.gotchi-bg{display: none}');
   return styledSvg;
-}
+};
 
 export const bounceAnimation = (svg: string) => {
   const style = `
@@ -70,7 +70,7 @@ export const bounceAnimation = (svg: string) => {
       animation-timing-function: linear;
       animation-timing-function: steps(2);
     }
-  `
+  `;
   const styledSvg = svg.replace('<style>', `<style>${style}`);
   return styledSvg;
-}
+};

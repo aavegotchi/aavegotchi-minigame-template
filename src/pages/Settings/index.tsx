@@ -1,28 +1,32 @@
 import { Layout } from 'components/Layout';
 import { useState } from 'react';
-import styles from './styles.module.css';
 import { playSound } from 'helpers/hooks/useSound';
+import styles from './styles.module.css';
 
 const Settings = () => {
-  const [ seVolume, setSEVolume ] = useState(window.localStorage.getItem("seVolume") ?? "5");
-  const [ musicVolume, setMusicVolume ] = useState(window.localStorage.getItem("musicVolume") ?? "5");
+  const [seVolume, setSEVolume] = useState(window.localStorage.getItem('seVolume') ?? '5');
+  const [musicVolume, setMusicVolume] = useState(window.localStorage.getItem('musicVolume') ?? '5');
 
   const handleSEVolumeChange = () => {
-    window.localStorage.setItem("seVolume", seVolume);
-    playSound("click");
-  }
+    window.localStorage.setItem('seVolume', seVolume);
+    playSound('click');
+  };
 
   const handleMusicVolumeChange = () => {
-    window.localStorage.setItem("musicVolume", musicVolume);
-    playSound("click");
-  }
+    window.localStorage.setItem('musicVolume', musicVolume);
+    playSound('click');
+  };
 
   return (
     <Layout>
       <div className={styles.container}>
         <h1>Audio settings</h1>
         <div className={styles.inputContainer}>
-          <label htmlFor="sound-effects">Sound Effects: {Number(seVolume) * 10}%</label>
+          <label htmlFor="sound-effects">
+            Sound Effects:
+            {Number(seVolume) * 10}
+            %
+          </label>
           <input
             value={seVolume}
             type="range"
@@ -36,7 +40,11 @@ const Settings = () => {
           />
         </div>
         <div className={styles.inputContainer}>
-          <label htmlFor="music">Music: {Number(musicVolume) * 10}%</label>
+          <label htmlFor="music">
+            Music:
+            {Number(musicVolume) * 10}
+            %
+          </label>
           <input
             value={musicVolume}
             type="range"
@@ -51,7 +59,7 @@ const Settings = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
 export default Settings;

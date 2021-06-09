@@ -37,7 +37,7 @@ export const makeFirefoxCompatible = (svg: string) => {
     '<svg width="150" height="150" xmlns=',
   );
   return styledSvg;
-}
+};
 
 export const constructSpritesheet = async (down: string, up: string): Promise<string> => {
   const canvas = document.createElement('canvas');

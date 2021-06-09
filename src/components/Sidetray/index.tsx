@@ -5,10 +5,8 @@ interface Props {
   open: boolean,
 }
 
-export const SideTray = ({ children, open }: Props) => {
-  return (
-    <div className={`${styles.container} ${open ? styles.open : ''}`}>
-      {children}
-    </div>
-  )
-}
+export const SideTray = ({ children, open }: Props) => (
+  <div className={`${styles.container} ${open ? styles.open : ''}`}>
+    {children}
+  </div>
+);

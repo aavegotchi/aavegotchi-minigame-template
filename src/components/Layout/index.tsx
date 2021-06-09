@@ -5,11 +5,9 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const Layout = ({ children }: Props) => {
-  return (
-    <div className={styles.container}>
-      <Header />
-      {children}
-    </div>
-  )
-}
+export const Layout = ({ children }: Props) => (
+  <div className={styles.container}>
+    <Header />
+    {children}
+  </div>
+);

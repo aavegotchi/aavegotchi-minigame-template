@@ -10,4 +10,4 @@ export interface State {
   selectedGotchi?: AavegotchiObject,
 }
 
-export const initialState = {}
+export const initialState = {};

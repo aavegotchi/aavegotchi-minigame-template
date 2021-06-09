@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { SubmitScoreReq, HighScore } from "types";
+import React, {
+  createContext, useContext, useEffect, useState,
+} from 'react';
+import { SubmitScoreReq, HighScore } from 'types';
 
 interface IServerContext {
   highscores?: Array<HighScore>;
@@ -18,20 +20,18 @@ export const ServerProvider = ({
 }) => {
   const [highscores, setHighscores] = useState<Array<HighScore>>();
 
-  const sortByScore = (a: HighScore, b: HighScore) => {
-    return b.score - a.score;
-  };
+  const sortByScore = (a: HighScore, b: HighScore) => b.score - a.score;
 
   const handleSubmitScore = (
     score: number,
-    gotchiData: SubmitScoreReq
+    gotchiData: SubmitScoreReq,
   ) => {
     const { name, tokenId } = gotchiData;
 
     // Replace localstorage logic with serverside highscore api request here ==========
     const newHighscores = highscores ? [...highscores] : [];
     const gotchiPrevScore = newHighscores.find(
-      (score) => score.tokenId === gotchiData.tokenId
+      (score) => score.tokenId === gotchiData.tokenId,
     );
     console.log(newHighscores);
     if (gotchiPrevScore) {
@@ -45,7 +45,7 @@ export const ServerProvider = ({
         name,
       });
     }
-    window.localStorage.setItem("highscores", JSON.stringify(newHighscores));
+    window.localStorage.setItem('highscores', JSON.stringify(newHighscores));
     const success = true;
     // ========================================================================
 
@@ -53,15 +53,15 @@ export const ServerProvider = ({
       const highscoresCopy = highscores === undefined ? [] : [...highscores];
 
       const indexOfScore = highscoresCopy.findIndex(
-        (score) => score.tokenId === tokenId
+        (score) => score.tokenId === tokenId,
       );
       if (indexOfScore >= 0) {
         highscoresCopy[indexOfScore].score = score;
       } else {
         highscoresCopy.push({
-          tokenId: tokenId,
-          score: score,
-          name: name,
+          tokenId,
+          score,
+          name,
         });
       }
 
@@ -74,7 +74,7 @@ export const ServerProvider = ({
     // Replace dummy logic with API request to fetch highscores
     const res = await new Promise<HighScore[]>((res) => {
       setTimeout(() => {
-        res(JSON.parse(window.localStorage.getItem("highscores") || "[]"));
+        res(JSON.parse(window.localStorage.getItem('highscores') || '[]'));
       }, 300);
     });
     return res;

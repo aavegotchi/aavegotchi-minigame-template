@@ -1,7 +1,7 @@
 export interface Asset {
   key: string;
   src: string;
-  type: "IMAGE" | "SVG" | "SPRITESHEET" | "AUDIO";
+  type: 'IMAGE' | 'SVG' | 'SPRITESHEET' | 'AUDIO';
   data?: {
     frameWidth?: number;
     frameHeight?: number;
@@ -9,7 +9,7 @@ export interface Asset {
 }
 
 export interface SpritesheetAsset extends Asset {
-  type: "SPRITESHEET";
+  type: 'SPRITESHEET';
   data: {
     frameWidth: number;
     frameHeight: number;
@@ -26,27 +26,27 @@ export const CLICK = 'click';
 export const assets: Array<Asset | SpritesheetAsset> = [
   {
     key: BG,
-    src: "assets/images/bg.png",
-    type: "IMAGE",
+    src: 'assets/images/bg.png',
+    type: 'IMAGE',
   },
   {
     key: FULLSCREEN,
-    src: "assets/icons/fullscreen.svg",
-    type: "SVG",
+    src: 'assets/icons/fullscreen.svg',
+    type: 'SVG',
   },
   {
     key: LEFT_CHEVRON,
-    src: "assets/icons/chevron_left.svg",
-    type: "SVG",
+    src: 'assets/icons/chevron_left.svg',
+    type: 'SVG',
   },
   {
     key: BOOP,
-    src: "assets/sounds/boop.mp3",
-    type: "AUDIO",
+    src: 'assets/sounds/boop.mp3',
+    type: 'AUDIO',
   },
   {
     key: CLICK,
-    src: "assets/sounds/click.mp3",
-    type: "AUDIO",
+    src: 'assets/sounds/click.mp3',
+    type: 'AUDIO',
   },
 ];

@@ -9,11 +9,11 @@ export interface AavegotchiObject extends AavegotchiContractObject {
 }
 
 export interface AavegotchiContractObject {
-  //collateral: string;
+  // collateral: string;
   name: string;
-  //modifiedNumericTraits: number[];
+  // modifiedNumericTraits: number[];
 
-  //Only in subgraph
+  // Only in subgraph
   withSetsNumericTraits: number[];
   id: string;
   // withSetsRarityScore?: ethers.BigNumber;

@@ -8,27 +8,27 @@ import {
   Switch,
   Route,
   BrowserRouter as Router,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 const nav: Array<{ path: string, component: () => JSX.Element, exact?: boolean }> = [
   {
-    path: "/",
+    path: '/',
     component: Home,
-    exact: true
+    exact: true,
   },
   {
-    path: "/leaderboard",
+    path: '/leaderboard',
     component: Leaderboard,
   },
   {
-    path: "/settings",
+    path: '/settings',
     component: Settings,
   },
   {
-    path: "/play",
+    path: '/play',
     component: Play,
-  }
-]
+  },
+];
 
 function App() {
   return (

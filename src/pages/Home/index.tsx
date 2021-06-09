@@ -1,25 +1,28 @@
-import { useCallback, useEffect, useState } from "react";
-import { Layout, GotchiSelector, DetailsPanel, Modal } from "components";
-import { Link } from "react-router-dom";
-import globalStyles from "theme/globalStyles.module.css";
-import styles from "./styles.module.css";
-import { getAavegotchisForUser } from "web3/actions";
-import { useServer } from "server-store";
-import { useWeb3 } from "web3";
+import { useCallback, useEffect, useState } from 'react';
+import {
+  Layout, GotchiSelector, DetailsPanel, Modal,
+} from 'components';
+import { Link } from 'react-router-dom';
+import globalStyles from 'theme/globalStyles.module.css';
+import { getAavegotchisForUser } from 'web3/actions';
+import { useServer } from 'server-store';
+import { useWeb3 } from 'web3';
 import {
   bounceAnimation,
   convertInlineSVGToBlobURL,
   removeBG,
-} from "helpers/aavegotchi";
-import { Contract } from "ethers";
-import gotchiLoading from "assets/gifs/loading.gif";
-import { playSound } from "helpers/hooks/useSound";
-import { Web3Error } from "types";
-
+} from 'helpers/aavegotchi';
+import { Contract } from 'ethers';
+import gotchiLoading from 'assets/gifs/loading.gif';
+import { playSound } from 'helpers/hooks/useSound';
+import { Web3Error } from 'types';
+import styles from './styles.module.css';
 
 const Home = () => {
   const {
-    state: { usersGotchis, contract, address, selectedGotchi },
+    state: {
+      usersGotchis, contract, address, selectedGotchi,
+    },
     updateState,
   } = useWeb3();
   const { highscores } = useServer();
@@ -55,7 +58,7 @@ const Home = () => {
     (gotchi) => {
       updateState({ selectedGotchi: gotchi });
     },
-    [updateState]
+    [updateState],
   );
 
   if (error) {
@@ -63,7 +66,10 @@ const Home = () => {
       <Layout>
         <div className={globalStyles.container}>
           <div className={styles.errorContainer}>
-            <h1>Error code: {error.status}</h1>
+            <h1>
+              Error code:
+              {error.status}
+            </h1>
             <p>{error.error.message}</p>
             {error.status === 403 && (
               <div>
@@ -114,10 +120,11 @@ const Home = () => {
                 alt={`Selected ${selectedGotchi.name}`}
               />
             ) : (
-              <img src={gotchiLoading} alt={`Loading Aavegotchi`} />
+              <img src={gotchiLoading} alt="Loading Aavegotchi" />
             )}
             <h1 className={styles.highscore}>
-              Highscore:{" "}
+              Highscore:
+              {' '}
               {highscores?.find((score) => score.tokenId === selectedGotchi?.id)
                 ?.score || 0}
             </h1>
@@ -125,15 +132,15 @@ const Home = () => {
               <Link
                 to="/play"
                 className={`${globalStyles.primaryButton} ${
-                  !selectedGotchi ? globalStyles.disabledLink : ""
+                  !selectedGotchi ? globalStyles.disabledLink : ''
                 }`}
-                onClick={() => playSound("send")}
+                onClick={() => playSound('send')}
               >
                 Start
               </Link>
               <button
                 onClick={() => {
-                  playSound("click");
+                  playSound('click');
                   setShowRulesModal(true);
                 }}
                 className={`${globalStyles.secondaryButton} ${globalStyles.circleButton}`}

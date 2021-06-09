@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { playSound } from 'helpers/hooks/useSound';
 import styles from './styles.module.css';
 
@@ -7,23 +7,23 @@ interface Props {
 }
 
 export const Hamburger = (props: Props) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
-    playSound("click");
+    playSound('click');
     setOpen(!open);
     props.onClick();
-  }
+  };
 
   return (
     <div
       onClick={() => handleClick()}
       className={`${styles.hamburgerWrapper} ${open ? styles.open : ''}`}
     >
-      <span className={styles.stroke}></span>
-      <span className={styles.stroke}></span>
-      <span className={styles.stroke}></span>
-      <span className={styles.stroke}></span>
+      <span className={styles.stroke} />
+      <span className={styles.stroke} />
+      <span className={styles.stroke} />
+      <span className={styles.stroke} />
     </div>
-  )
-}
+  );
+};

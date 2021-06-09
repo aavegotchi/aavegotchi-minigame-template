@@ -1,6 +1,5 @@
-import styles from './styles.module.css';
 import globalStyles from 'theme/globalStyles.module.css';
-
+import styles from './styles.module.css';
 
 interface Props {
   active: boolean;
@@ -8,21 +7,17 @@ interface Props {
   handleClose: () => void;
 }
 
-export const Modal = ({ active, children, handleClose }: Props) => {
-  return (
-    <div className={`${styles.background} ${active ? styles.open : ''}`}>
-      <div className={styles.shadow}>
-
-      </div>
-      <div className={styles.panel}>
-        <button
-          onClick={() => handleClose()}
-          className={`${globalStyles.circleButton} ${globalStyles.secondaryButton} ${styles.closeButton}`}
-        >
-          X
-        </button>
-        {children}
-      </div>
+export const Modal = ({ active, children, handleClose }: Props) => (
+  <div className={`${styles.background} ${active ? styles.open : ''}`}>
+    <div className={styles.shadow} />
+    <div className={styles.panel}>
+      <button
+        onClick={() => handleClose()}
+        className={`${globalStyles.circleButton} ${globalStyles.secondaryButton} ${styles.closeButton}`}
+      >
+        X
+      </button>
+      {children}
     </div>
-  )
-}
+  </div>
+);

@@ -1,6 +1,8 @@
-import { LEFT_CHEVRON, CLICK, BG, FULLSCREEN } from 'game/assets';
-import { getGameWidth, getGameHeight } from '../helpers';
+import {
+  LEFT_CHEVRON, CLICK, BG, FULLSCREEN,
+} from 'game/assets';
 import { AavegotchiGameObject } from 'types';
+import { getGameWidth, getGameHeight } from '../helpers';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -15,12 +17,16 @@ export class GameScene extends Phaser.Scene {
   public speed = 200;
 
   private submitScore?: (score: number) => void;
+
   private cursorKeys?: Phaser.Types.Input.Keyboard.CursorKeys;
+
   private player?: Phaser.Physics.Arcade.Sprite;
+
   private selectedGotchi?: AavegotchiGameObject;
 
   // Sounds
   public back?: Phaser.Sound.BaseSound;
+
   public click?: Phaser.Sound.BaseSound;
 
   constructor() {
@@ -41,7 +47,6 @@ export class GameScene extends Phaser.Scene {
     this.createBackButton();
     this.createFullScreenToggle();
 
-
     // Add a player sprite that can be moved around.
     this.player = this.physics.add.sprite(
       getGameWidth(this) / 2,
@@ -51,7 +56,7 @@ export class GameScene extends Phaser.Scene {
 
     this.player.anims.create({
       key: 'idle',
-      frames: this.anims.generateFrameNumbers(this.selectedGotchi?.spritesheetKey || "", { start: 0, end: 1 }),
+      frames: this.anims.generateFrameNumbers(this.selectedGotchi?.spritesheetKey || '', { start: 0, end: 1 }),
       frameRate: 2,
       repeat: -1,
     });

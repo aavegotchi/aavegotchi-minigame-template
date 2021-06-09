@@ -1,9 +1,7 @@
 import Game from 'game/main';
 
-const Play = () => {
-  return (
-    <Game />
-  )
-}
+const Play = () => (
+  <Game />
+);
 
 export default Play;

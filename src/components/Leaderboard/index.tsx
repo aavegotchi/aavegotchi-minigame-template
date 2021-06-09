@@ -14,13 +14,13 @@ interface DisplayedScore extends HighScore {
 }
 
 export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
-  const [ currentPage, setCurrentPage ] = useState(0);
-  const [ onlyMine, setOnlyMine ] = useState(false);
-  const [ sortedScores, setSortedScores ] = useState<Array<DisplayedScore>>([]);
-  const [ displayedScores, setDisplayedScores ] = useState<Array<DisplayedScore>>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [onlyMine, setOnlyMine] = useState(false);
+  const [sortedScores, setSortedScores] = useState<Array<DisplayedScore>>([]);
+  const [displayedScores, setDisplayedScores] = useState<Array<DisplayedScore>>([]);
 
   const pageTotal = 50;
-  
+
   const getExp = (score: number, position: number) => {
     if (position <= 50) {
       return 15;
@@ -32,12 +32,12 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
       return 5;
     }
     return 0;
-  }
+  };
 
   useEffect(() => {
     if (onlyMine && ownedGotchis) {
       setCurrentPage(0);
-      const scores = [...sortedScores].filter(score => ownedGotchis.includes(score.tokenId));
+      const scores = [...sortedScores].filter((score) => ownedGotchis.includes(score.tokenId));
       setDisplayedScores(scores);
     } else {
       setDisplayedScores(sortedScores);
@@ -50,13 +50,13 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
         const position = i + 1;
         return {
           ...score,
-          position: position,
+          position,
           exp: getExp(score.score, position),
-        }
-      })
+        };
+      });
       setSortedScores(hs);
     }
-  }, [highscores])
+  }, [highscores]);
 
   return (
     <div className={styles.leaderboard}>
@@ -65,11 +65,11 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
           <button
             className={styles.toggle}
             onClick={() => {
-              playSound("click");
-              setOnlyMine(prevState => !prevState)
+              playSound('click');
+              setOnlyMine((prevState) => !prevState);
             }}
           >
-            {onlyMine ? "View all" : "Only mine"}
+            {onlyMine ? 'View all' : 'Only mine'}
           </button>
         )
       }
@@ -78,40 +78,51 @@ export const Leaderboard = ({ highscores, ownedGotchis }: Props) => {
         <div className={styles.cell}>Score</div>
         <div className={styles.cell}>Rewards</div>
       </div>
-      {displayedScores?.slice(currentPage * pageTotal, currentPage * pageTotal + pageTotal).map(item => {
-        return (
-          <div
-            className={`
+      {displayedScores?.slice(currentPage * pageTotal, currentPage * pageTotal + pageTotal).map((item) => (
+        <div
+          className={`
               ${styles.row}
               ${ownedGotchis?.includes(item.tokenId) ? styles.owned : ''}
             `}
-            key={item.tokenId}
-          >
-            <div className={styles.cell}>{item.position}. {item.name} [{item.tokenId}]</div>
-            <div className={styles.cell}>{item.score}</div>
-            <div className={styles.cell}>{item.exp} EXP</div>
+          key={item.tokenId}
+        >
+          <div className={styles.cell}>
+            {item.position}
+            .
+            {' '}
+            {item.name}
+            {' '}
+            [
+            {item.tokenId}
+            ]
           </div>
-        )
-      })}
-      {displayedScores.length > pageTotal &&
+          <div className={styles.cell}>{item.score}</div>
+          <div className={styles.cell}>
+            {item.exp}
+            {' '}
+            EXP
+          </div>
+        </div>
+      ))}
+      {displayedScores.length > pageTotal
+        && (
         <div className={styles.pageSelector}>
           {
-            Array(Math.ceil(displayedScores.length / pageTotal)).fill(null).map((_, i) => {
-              return (
-                <div
-                  className={`${styles.selector} ${i === currentPage ? `${styles.selected}` : ''}`}
-                  onClick={() => {
-                    playSound("click");
-                    setCurrentPage(i)
-                  }}
-                >
-                  {i + 1}
-                </div>
-              )
-            })
+            Array(Math.ceil(displayedScores.length / pageTotal)).fill(null).map((_, i) => (
+              <div
+                key={i}
+                className={`${styles.selector} ${i === currentPage ? `${styles.selected}` : ''}`}
+                onClick={() => {
+                  playSound('click');
+                  setCurrentPage(i);
+                }}
+              >
+                {i + 1}
+              </div>
+            ))
           }
         </div>
-      }
+        )}
     </div>
-  )
-}
+  );
+};
