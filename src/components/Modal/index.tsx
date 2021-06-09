@@ -7,6 +7,9 @@ interface Props {
   handleClose: () => void;
 }
 
+/**
+ * Reusable Modal component.
+ */
 export const Modal = ({ active, children, handleClose }: Props) => (
   <div className={`${styles.background} ${active ? styles.open : ''}`}>
     <div className={styles.shadow} />

@@ -1,16 +1,16 @@
-import { AavegotchiGameObject, AavegotchiObject } from 'types';
-import { getGameHeight, getGameWidth } from 'game/helpers';
-import { assets, SpritesheetAsset } from 'game/assets';
+import { AavegotchiGameObject, AavegotchiObject } from "types";
+import { getGameHeight, getGameWidth } from "game/helpers";
+import { assets, SpritesheetAsset } from "game/assets";
 import {
   removeBackground,
   constructSpritesheet,
   addIdleUp,
-} from '../helpers/spritesheet';
+} from "../helpers/spritesheet";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: 'Boot',
+  key: "Boot",
 };
 
 /**
@@ -18,13 +18,9 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
  */
 export class BootScene extends Phaser.Scene {
   gotchi?: AavegotchiGameObject;
-
   loadIndex: number;
-
   progressBarContainer?: Phaser.GameObjects.Rectangle;
-
   progressBar?: Phaser.GameObjects.Rectangle;
-
   loadingText?: Phaser.GameObjects.Text;
 
   constructor() {
@@ -34,16 +30,45 @@ export class BootScene extends Phaser.Scene {
 
   public preload = (): void => {
     // Construct progress bar
+    this.createProgressBar();
+
+    // Construct gotchi game object
+    const selectedGotchi = this.game.registry.values
+      .selectedGotchi as AavegotchiObject;
+    this.gotchi = {
+      ...selectedGotchi,
+      spritesheetKey: "PLAYER",
+    };
+
+    // Load spritesheet after audio files loaded
+    // Start game on spritesheet load
+    this.load.on(
+      "filecomplete",
+      (key: string) => {
+        if (key === "PLAYER") {
+          return this.scene.start("Game", { selectedGotchi: this.gotchi });
+        }
+        if (this.loadIndex === assets.length && this.gotchi) {
+          this.loadInGotchiSpritesheet(this.gotchi);
+        } else {
+          this.loadNextFile(this.loadIndex);
+        }
+      },
+      this
+    );
+    this.loadNextFile(0);
+  };
+
+  private createProgressBar = () => {
     const width = getGameWidth(this) * 0.5;
     const height = 12;
-
     this.progressBarContainer = this.add
       .rectangle(
         getGameWidth(this) / 2,
         getGameHeight(this) / 2,
         width,
         height,
-        0x12032e,
+        0x12032e
       )
       .setOrigin(0.5);
 
@@ -53,45 +78,14 @@ export class BootScene extends Phaser.Scene {
         getGameHeight(this) / 2,
         0,
         height,
-        0x6d18f8,
+        0x6d18f8
       )
       .setOrigin(0, 0.5);
 
     this.loadingText = this.add
-      .text(
-        getGameWidth(this) / 2,
-        getGameHeight(this) / 2 - 32,
-        'Loading...',
-      )
+      .text(getGameWidth(this) / 2, getGameHeight(this) / 2 - 32, "Loading...")
       .setFontSize(24)
       .setOrigin(0.5);
-
-    // Construct gotchi game object
-    const selectedGotchi = this.game.registry.values
-      .selectedGotchi as AavegotchiObject;
-    this.gotchi = {
-      ...selectedGotchi,
-      spritesheetKey: 'PLAYER',
-    };
-
-    // Load spritesheet after audio files loaded
-    // Start game on spritesheet load
-    this.load.on(
-      'filecomplete',
-      (key: string) => {
-        console.log(key);
-        if (key === 'PLAYER') {
-          return this.scene.start('Game', { selectedGotchi: this.gotchi });
-        }
-        if (this.loadIndex === assets.length && this.gotchi) {
-          this.loadInGotchiSpritesheet(this.gotchi);
-        } else {
-          this.loadNextFile(this.loadIndex);
-        }
-      },
-      this,
-    );
-    this.loadNextFile(0);
   };
 
   private loadNextFile = (index: number) => {
@@ -100,24 +94,25 @@ export class BootScene extends Phaser.Scene {
 
     if (this.loadingText && this.progressBar && this.progressBarContainer) {
       this.loadingText.setText(`Loading: ${file.key}`);
-      this.progressBar.width = (this.progressBarContainer.width / assets.length) * index;
+      this.progressBar.width =
+        (this.progressBarContainer.width / assets.length) * index;
     }
 
     switch (file.type) {
-      case 'IMAGE':
+      case "IMAGE":
         this.load.image(file.key, file.src);
         break;
-      case 'SVG':
+      case "SVG":
         this.load.svg(file.key, file.src);
         break;
-      case 'AUDIO':
+      case "AUDIO":
         this.load.audio(file.key, [file.src]);
         break;
-      case 'SPRITESHEET':
+      case "SPRITESHEET":
         this.load.spritesheet(
           file.key,
           file.src,
-          (file as SpritesheetAsset).data,
+          (file as SpritesheetAsset).data
         );
         break;
       default:
@@ -126,14 +121,17 @@ export class BootScene extends Phaser.Scene {
   };
 
   private loadInGotchiSpritesheet = async (
-    gotchiObject: AavegotchiGameObject,
+    gotchiObject: AavegotchiGameObject
   ) => {
     const gotchi = { ...gotchiObject };
     const svgNoBg = removeBackground(gotchi.svg);
-    const spritesheet = await constructSpritesheet(svgNoBg, addIdleUp(svgNoBg));
-    this.load.spritesheet(gotchi.spritesheetKey, spritesheet, {
-      frameWidth: 300 / 2,
-      frameHeight: 150 / 1,
+
+    const spriteMatrix = [[svgNoBg, addIdleUp(svgNoBg)]];
+
+    const { src, dimensions } = await constructSpritesheet(spriteMatrix);
+    this.load.spritesheet(gotchi.spritesheetKey, src, {
+      frameWidth: dimensions.width / dimensions.x,
+      frameHeight: dimensions.height / dimensions.y,
     });
     this.load.start();
   };
