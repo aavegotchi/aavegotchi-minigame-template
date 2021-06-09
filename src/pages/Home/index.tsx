@@ -5,7 +5,7 @@ import globalStyles from "theme/globalStyles.module.css";
 import { click, send } from "assets/sounds";
 import styles from "./styles.module.css";
 import { getAavegotchisForUser } from "web3/actions";
-// import { useFirebase } from "firebase-client";
+import { useServer } from "server-store";
 import { useWeb3 } from "web3";
 import {
   bounceAnimation,
@@ -23,7 +23,7 @@ const Home = () => {
     state: { usersGotchis, contract, address, selectedGotchi },
     updateState,
   } = useWeb3();
-  // const { highscores } = useFirebase();
+  const { highscores } = useServer();
   const [error, setError] = useState<Web3Error>();
   const [showRulesModal, setShowRulesModal] = useState(false);
 
@@ -117,11 +117,11 @@ const Home = () => {
             ) : (
               <img src={gotchiLoading} alt={`Loading Aavegotchi`} />
             )}
-            {/* <h1 className={styles.highscore}>
+            <h1 className={styles.highscore}>
               Highscore:{" "}
               {highscores?.find((score) => score.tokenId === selectedGotchi?.id)
                 ?.score || 0}
-            </h1> */}
+            </h1>
             <div className={styles.buttonContainer}>
               <Link
                 to="/play"

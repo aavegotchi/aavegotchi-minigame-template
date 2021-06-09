@@ -14,6 +14,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 export class GameScene extends Phaser.Scene {
   public speed = 200;
 
+  private submitScore?: (score: number) => void;
   private cursorKeys?: Phaser.Types.Input.Keyboard.CursorKeys;
   private player?: Phaser.Physics.Arcade.Sprite;
   private selectedGotchi?: AavegotchiGameObject;
@@ -31,6 +32,8 @@ export class GameScene extends Phaser.Scene {
   };
 
   public create(): void {
+    this.submitScore = this.game.registry.values.submitScore;
+
     // Add layout
     this.add.image(getGameWidth(this) / 2, getGameHeight(this) / 2, BG).setDisplaySize(getGameWidth(this), getGameHeight(this));
     this.back = this.sound.add(CLICK, { loop: false });
@@ -39,7 +42,7 @@ export class GameScene extends Phaser.Scene {
     this.createFullScreenToggle();
 
 
-    // Add a player sprite that can be moved around. Place him in the middle of the screen.
+    // Add a player sprite that can be moved around.
     this.player = this.physics.add.sprite(
       getGameWidth(this) / 2,
       getGameHeight(this) / 2,

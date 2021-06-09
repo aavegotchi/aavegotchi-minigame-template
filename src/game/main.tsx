@@ -3,27 +3,27 @@ import { useState, useEffect } from 'react';
 import { IonPhaser, GameInstance } from '@ion-phaser/react';
 import Scenes from './scenes';
 import { useWeb3 } from 'web3';
-//import { useFirebase } from 'firebase-client';
+import { useServer } from 'server-store';
 import { Redirect } from 'react-router';
 
 const Main = () => {
   const { state: { selectedGotchi } } = useWeb3();
-  //const { highscores, handleSubmitScore } = useFirebase();
+  const { highscores, handleSubmitScore } = useServer();
 
-  //const [highscore, setHighscore] = useState(0);
+  const [ highscore, setHighscore ] = useState(0);
   const [ initialised, setInitialised ] = useState(true);
   const [ config, setConfig ] = useState<GameInstance>();
 
-  // const submitScore = (score: number) => {
-  //   if (score > highscore && selectedGotchi && handleSubmitScore) {
-  //     handleSubmitScore(score, { name: selectedGotchi.name, tokenId: selectedGotchi.id })
-  //   }
-  // }
+  const submitScore = (score: number) => {
+    if (score > highscore && selectedGotchi && handleSubmitScore) {
+      handleSubmitScore(score, { name: selectedGotchi.name, tokenId: selectedGotchi.id })
+    }
+  }
 
   useEffect(() => {
-    if (selectedGotchi) {
-      // const gotchiScore = highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0;
-      // setHighscore(gotchiScore);
+    if (selectedGotchi && handleSubmitScore) {
+      const gotchiScore = highscores?.find(score => score.tokenId === selectedGotchi?.id)?.score || 0;
+      setHighscore(gotchiScore);
 
       let width = window.innerWidth;
       let height = width / 1.778;
@@ -58,14 +58,15 @@ const Main = () => {
             setInitialised(false);
             game.registry.merge({
               selectedGotchi,
-              // submitScore,
-              // highscore: gotchiScore,
+              submitScore,
+              highscore: gotchiScore,
             });
           }, 
         }
       })
     }
-  }, [selectedGotchi])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (!selectedGotchi) {
     return (

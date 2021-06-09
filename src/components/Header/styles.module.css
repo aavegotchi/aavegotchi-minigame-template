@@ -51,6 +51,9 @@
   margin-top: 3.2rem;
   margin-left: auto;
 }
+.walletContainer:disabled {
+  cursor: auto;
+}
 
 .walletAddress {
   display: flex;

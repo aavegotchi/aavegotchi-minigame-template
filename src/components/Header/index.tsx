@@ -21,7 +21,7 @@ const WalletButton = () => {
   }
 
   return (
-    <button className={styles.walletContainer} onClick={handleWalletClick}>
+    <button className={styles.walletContainer} onClick={handleWalletClick} disabled={!!address}>
       {address
         ?
           (
