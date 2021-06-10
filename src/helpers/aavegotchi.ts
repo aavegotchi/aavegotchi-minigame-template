@@ -212,3 +212,42 @@ export function replaceParts(svg: string, element: ReplaceElement) {
   div.appendChild(doc);
   return div.innerHTML;
 }
+
+
+type CustomiseOptions = {
+  removeBg?: boolean,
+  eyes?: keyof typeof eyes,
+  mouth?: keyof typeof mouths,
+  float?: boolean,
+  armsUp?: boolean,
+}
+
+/**
+ * Customise Aavegotchi SVG
+ * @param {string} svg - SVG you want to customise
+ * @param {CustomiseOptions} options - Properties you want to change
+ * @returns {string} Returns customised SVG
+ */
+export const customiseSVG = (svg: string, options: CustomiseOptions) => {
+  let styledSvg = svg;
+  (Object.keys(options) as Array<keyof typeof options>).map((option) => {
+    const value = options[option];
+    if (value) {
+      switch (option) {
+        case 'removeBg':
+          return styledSvg = removeBG(styledSvg);
+        case 'eyes':
+          return styledSvg = replaceParts(styledSvg, {target: option, replaceSvg: value as keyof typeof eyes});
+        case 'mouth':
+          return styledSvg = replaceParts(styledSvg, {target: option, replaceSvg: value as keyof typeof mouths});
+        case 'float':
+          return styledSvg = addIdleUp(styledSvg);
+        case 'armsUp':
+          return styledSvg = raiseHands(styledSvg);
+        default:
+          return styledSvg;
+      }
+    }
+  })
+  return styledSvg;
+}
