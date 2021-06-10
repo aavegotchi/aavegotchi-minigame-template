@@ -1,4 +1,5 @@
 import mergeImages from 'merge-images';
+import { convertInlineSVGToBlobURL } from 'helpers/aavegotchi';
 
 export const convertBase64toBlobURL = (b64: string): string => {
   const byteString = atob(b64.split(',')[1]);
@@ -11,24 +12,6 @@ export const convertBase64toBlobURL = (b64: string): string => {
 
   const blob = new Blob([ab], { type: mimeString });
   return URL.createObjectURL(blob);
-};
-
-export const convertInlineSVGToBlobURL = (svg: string): string => {
-  const blob = new Blob([svg], { type: 'image/svg+xml' });
-  return URL.createObjectURL(blob);
-};
-
-export const removeBackground = (svg: string): string => {
-  const styledSvg = svg.replace('<style>', '<style>.gotchi-bg{display:none;}');
-  return styledSvg;
-};
-
-export const addIdleUp = (svg: string): string => {
-  const styledSvg = svg.replace(
-    '<style>',
-    '<style>.gotchi-shadow {transform: translateY(1px);}.gotchi-wearable,.gotchi-handsDownClosed,.gotchi-handsUp,.gotchi-handsDownOpen,.gotchi-handsDownClosed,.gotchi-body,.gotchi-eyeColor,.gotchi-collateral,.gotchi-cheek,.gotchi-primary-mouth,.gotchi-wearable,.gotchi-sleeves {transform: translateY(-1px);}',
-  );
-  return styledSvg;
 };
 
 const makeFirefoxCompatible = (svg: string) => {

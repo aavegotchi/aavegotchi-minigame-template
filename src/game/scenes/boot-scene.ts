@@ -1,11 +1,8 @@
 import { AavegotchiGameObject, AavegotchiObject } from "types";
 import { getGameHeight, getGameWidth } from "game/helpers";
 import { assets, SpritesheetAsset } from "game/assets";
-import {
-  removeBackground,
-  constructSpritesheet,
-  addIdleUp,
-} from "../helpers/spritesheet";
+import { constructSpritesheet } from "../helpers/spritesheet";
+import { removeBG, raiseHands, replaceParts } from 'helpers/aavegotchi';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -124,9 +121,9 @@ export class BootScene extends Phaser.Scene {
     gotchiObject: AavegotchiGameObject
   ) => {
     const gotchi = { ...gotchiObject };
-    const svgNoBg = removeBackground(gotchi.svg);
+    const svgNoBg = removeBG(gotchi.svg);
 
-    const spriteMatrix = [[svgNoBg, addIdleUp(svgNoBg)]];
+    const spriteMatrix = [[svgNoBg, raiseHands(replaceParts(svgNoBg, {target: "eyes", replaceSvg: "happy"}))]];
 
     const { src, dimensions } = await constructSpritesheet(spriteMatrix);
     this.load.spritesheet(gotchi.spritesheetKey, src, {
