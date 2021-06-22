@@ -1,7 +1,5 @@
 # Aavegotchi minigame template
 
-Preview: https://epic-chandrasekhar-a63ea6.netlify.app
-
 The official Aavegotchi minigame template. This template allows you to create your own Aavegotchi minigames without any prior knowledge of web3. A basic understanding of Javascript and Typescript is necessary.
 
 ![Screenshot 2021-06-22 at 16 14 35](https://user-images.githubusercontent.com/44173285/122954387-4c52dd00-d377-11eb-9e8d-3f76e064062c.png)
