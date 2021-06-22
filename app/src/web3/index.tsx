@@ -40,6 +40,8 @@ export const Web3Provider = ({ children }: Props) => {
   }, []);
 
   const connectToNetwork = async () => {
+    if (process.env.REACT_APP_OFFCHAIN) return;
+
     try {
       await window.ethereum.enable();
       setIsConnected(true);

@@ -30,23 +30,6 @@ const Home = () => {
   const [error, setError] = useState<Web3Error>();
   const [showRulesModal, setShowRulesModal] = useState(false);
 
-  useEffect(() => {
-    const _fetchGotchis = async (contract: Contract, address: string) => {
-      const res = await getAavegotchisForUser(contract, address);
-
-      if (res.status === 200) {
-        setError(undefined);
-        updateState({ usersGotchis: res.data });
-      } else {
-        setError(res);
-      }
-    };
-
-    if (!usersGotchis && contract && address) {
-      _fetchGotchis(contract, address);
-    }
-  }, [usersGotchis, contract, address, updateState]);
-
   const handleCustomiseSvg = (svg: string) => {
     const noBg = removeBG(svg);
     const animated = bounceAnimation(noBg);
@@ -67,6 +50,26 @@ const Home = () => {
     },
     [updateState],
   );
+
+  useEffect(() => {
+    if (usersGotchis) return;
+    if (process.env.REACT_APP_OFFCHAIN) return useDefaultGotchi();
+
+    const _fetchGotchis = async (contract: Contract, address: string) => {
+      const res = await getAavegotchisForUser(contract, address);
+
+      if (res.status === 200) {
+        setError(undefined);
+        updateState({ usersGotchis: res.data });
+      } else {
+        setError(res);
+      }
+    };
+
+    if (contract && address) {
+      _fetchGotchis(contract, address);
+    }
+  }, [usersGotchis, contract, address, updateState]);
 
   if (error) {
     return (

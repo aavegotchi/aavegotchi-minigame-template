@@ -33,6 +33,7 @@
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
     "start": "react-scripts start",
+    "start:offchain": "REACT_APP_OFFCHAIN=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
