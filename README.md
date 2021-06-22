@@ -28,6 +28,7 @@ npm run start
 
 Your server by default will run on [http://localhost:443](http://localhost:443) and your app will run on [http://localhost:3000/](http://localhost:3000/).
 
+<p>&nbsp;</p>
 
 ## Available Scripts
 
@@ -40,12 +41,15 @@ This will allow you to runs the app in the development mode.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
+<p>&nbsp;</p>
+
 * `npm run start:offchain`
 
 This will allow you to runs the app in the development mode without the need of a web3 connection, or an owned Aavegotchi
 
+<p>&nbsp;</p>
 
-*`npm run build`
+* `npm run build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -54,6 +58,7 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<p>&nbsp;</p>
 
 
 ### In the project server directory, you can run:
@@ -64,6 +69,8 @@ This will allow you to runs the server in the development mode.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+<p>&nbsp;</p>
 
 * `npm run start:prod`
 
