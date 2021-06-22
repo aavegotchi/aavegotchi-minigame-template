@@ -74,8 +74,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 This will allow you to runs the server in the development mode.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
 <p>&nbsp;</p>
 
