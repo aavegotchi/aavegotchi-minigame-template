@@ -1,6 +1,7 @@
 import { AavegotchiContractObject, AavegotchiObject } from "types";
 import { Contract } from "ethers";
 import { request } from "graphql-request";
+import defaultGotchi from 'assets/svgs/defaultGotchi';
 
 const uri =
   "https://api.thegraph.com/subgraphs/name/aavegotchi/aavegotchi-core-matic";

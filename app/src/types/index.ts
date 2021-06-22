@@ -14,14 +14,14 @@ export interface AavegotchiContractObject {
   // modifiedNumericTraits: number[];
 
   // Only in subgraph
-  withSetsNumericTraits: number[];
+  withSetsNumericTraits: [number, number, number, number, number, number];
   id: string;
   // withSetsRarityScore?: ethers.BigNumber;
 
   // numericTraits: number[];
   // owner: string;
   // randomNumber: string;
-  status: ethers.BigNumber;
+  status: number;
   // tokenId: ethers.BigNumber;
   // items: ItemsAndBalances[];
   // equippedWearables: number[];

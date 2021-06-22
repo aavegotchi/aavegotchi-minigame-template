@@ -10,6 +10,7 @@ import { useWeb3 } from 'web3';
 import {
   bounceAnimation,
   convertInlineSVGToBlobURL,
+  getDefaultGotchi,
   removeBG,
 } from 'helpers/aavegotchi';
 import { Contract } from 'ethers';
@@ -32,6 +33,7 @@ const Home = () => {
   useEffect(() => {
     const _fetchGotchis = async (contract: Contract, address: string) => {
       const res = await getAavegotchisForUser(contract, address);
+
       if (res.status === 200) {
         setError(undefined);
         updateState({ usersGotchis: res.data });
@@ -50,6 +52,11 @@ const Home = () => {
     const animated = bounceAnimation(noBg);
     return convertInlineSVGToBlobURL(animated);
   };
+
+  const useDefaultGotchi = () => {
+    setError(undefined);
+    updateState({ usersGotchis: [getDefaultGotchi()] });
+  }
 
   /**
    * Updates global state with selected gotchi
@@ -71,6 +78,15 @@ const Home = () => {
               {error.status}
             </h1>
             <p>{error.error.message}</p>
+            {/* Allows developers to build without the requirement of owning a gotchi */}
+            {process.env.NODE_ENV === 'development' && (
+              <button
+                onClick={useDefaultGotchi}
+                className={globalStyles.primaryButton}
+              >
+                Use Default Gotchi
+              </button>
+            )}
             {error.status === 403 && (
               <div>
                 <p className={styles.secondaryErrorMessage}>
