@@ -1,0 +1,87 @@
+@import 'theme/vars.css';
+
+.leaderboard {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+  margin-top: 3.2rem;
+}
+
+.leaderboardOptions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leaderboardOptions .endDate {
+  color: white;
+  text-transform: uppercase;
+}
+.leaderboardOptions .endDate span {
+  opacity: 0.5;
+}
+
+.toggle {
+  cursor: pointer;
+  background-color: var(--color-purple_0);
+  border: none;
+  width: 16rem;
+  padding: 0.8rem;
+  color: white;
+  margin-left: auto;
+  text-transform: uppercase;
+}
+
+.leaderboard .row {
+  border: 2px solid var(--color-purple_0);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.leaderboard .headerRow {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-dark_1);;
+}
+.leaderboard .headerRow .cell {
+  text-transform: uppercase;
+}
+.leaderboard .row .cell {
+  color: white;
+  padding: 1.2rem;
+  overflow: hidden;
+  font-size: 1.4rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.leaderboard .row.owned .cell {
+  color: var(--color-pink_0);
+}
+.leaderboard .row.hide {
+  display: none;
+}
+
+.pageSelector {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.pageSelector .selector {
+  cursor: pointer;
+  border: 2px solid var(--color-purple_0);
+  color: white;
+  font-size: 1.2rem;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+}
+
+.pageSelector .selector.selected {
+  background-color: var(--color-purple_0);
+}
+
+@media only screen and (min-width: 768px) {
+  .pageSelector {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
