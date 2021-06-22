@@ -52,7 +52,6 @@ const Home = () => {
   );
 
   useEffect(() => {
-    if (usersGotchis) return;
     if (process.env.REACT_APP_OFFCHAIN) return useDefaultGotchi();
 
     const _fetchGotchis = async (contract: Contract, address: string) => {
@@ -69,7 +68,7 @@ const Home = () => {
     if (contract && address) {
       _fetchGotchis(contract, address);
     }
-  }, [usersGotchis, contract, address, updateState]);
+  }, [contract, address, updateState]);
 
   if (error) {
     return (
