@@ -7,6 +7,19 @@
   margin-top: 3.2rem;
 }
 
+.leaderboardOptions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leaderboardOptions .endDate {
+  color: white;
+  text-transform: uppercase;
+}
+.leaderboardOptions .endDate span {
+  opacity: 0.5;
+}
+
 .toggle {
   cursor: pointer;
   background-color: var(--color-purple_0);

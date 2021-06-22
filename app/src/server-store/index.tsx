@@ -22,13 +22,13 @@ export const ServerProvider = ({
 
   const sortByScore = (a: HighScore, b: HighScore) => b.score - a.score;
 
+  // Used in development only - Highscore submissions in production should submit server side
   const handleSubmitScore = (
     score: number,
     gotchiData: SubmitScoreReq,
   ) => {
     const { name, tokenId } = gotchiData;
 
-    // Replace localstorage logic with serverside highscore api request here ==========
     const newHighscores = highscores ? [...highscores] : [];
     const gotchiPrevScore = newHighscores.find(
       (score) => score.tokenId === gotchiData.tokenId,
@@ -47,7 +47,6 @@ export const ServerProvider = ({
     }
     window.localStorage.setItem('highscores', JSON.stringify(newHighscores));
     const success = true;
-    // ========================================================================
 
     if (success) {
       const highscoresCopy = highscores === undefined ? [] : [...highscores];

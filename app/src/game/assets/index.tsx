@@ -19,7 +19,6 @@ export interface SpritesheetAsset extends Asset {
 export const BG = 'bg';
 export const FULLSCREEN = 'fullscreen';
 export const LEFT_CHEVRON = 'left_chevron';
-export const BOOP = 'boop';
 export const CLICK = 'click';
 
 // Save all in game assets in the public folder
@@ -30,19 +29,9 @@ export const assets: Array<Asset | SpritesheetAsset> = [
     type: 'IMAGE',
   },
   {
-    key: FULLSCREEN,
-    src: 'assets/icons/fullscreen.svg',
-    type: 'SVG',
-  },
-  {
     key: LEFT_CHEVRON,
     src: 'assets/icons/chevron_left.svg',
     type: 'SVG',
-  },
-  {
-    key: BOOP,
-    src: 'assets/sounds/boop.mp3',
-    type: 'AUDIO',
   },
   {
     key: CLICK,

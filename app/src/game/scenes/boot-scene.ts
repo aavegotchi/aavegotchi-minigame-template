@@ -3,6 +3,7 @@ import { getGameHeight, getGameWidth } from "game/helpers";
 import { assets, SpritesheetAsset } from "game/assets";
 import { constructSpritesheet } from "../helpers/spritesheet";
 import { customiseSVG } from "helpers/aavegotchi";
+import { Socket } from "socket.io-client";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -14,11 +15,14 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
  * The initial scene that loads all necessary assets to the game.
  */
 export class BootScene extends Phaser.Scene {
-  gotchi?: AavegotchiGameObject;
-  loadIndex: number;
-  progressBarContainer?: Phaser.GameObjects.Rectangle;
-  progressBar?: Phaser.GameObjects.Rectangle;
-  loadingText?: Phaser.GameObjects.Text;
+  private socket?: Socket;
+  private connected?: boolean;
+  private assetsLoaded?: boolean;
+  private gotchi?: AavegotchiGameObject;
+  private loadIndex: number;
+  private progressBarContainer?: Phaser.GameObjects.Rectangle;
+  private progressBar?: Phaser.GameObjects.Rectangle;
+  private loadingText?: Phaser.GameObjects.Text;
 
   constructor() {
     super(sceneConfig);
@@ -29,7 +33,7 @@ export class BootScene extends Phaser.Scene {
     // Construct progress bar
     this.createProgressBar();
 
-    // Construct gotchi game object
+    // Construct gotchi game object from registry
     const selectedGotchi = this.game.registry.values
       .selectedGotchi as AavegotchiObject;
     this.gotchi = {
@@ -37,13 +41,23 @@ export class BootScene extends Phaser.Scene {
       spritesheetKey: "PLAYER",
     };
 
-    // Load spritesheet after audio files loaded
-    // Start game on spritesheet load
+    // Checks connection to the server
+    this.socket = this.game.registry.values.socket;
+    !this.socket?.connected
+      ? this.socket?.on("connect", () => {
+          this.handleConnection();
+        })
+      : this.handleConnection();
+
+    // Listener that triggers when an asset has loaded
     this.load.on(
       "filecomplete",
       (key: string) => {
+        // As the spritesheet is the last asset to load in, we can attempt to start the game
         if (key === "PLAYER") {
-          return this.scene.start("Game", { selectedGotchi: this.gotchi });
+          this.assetsLoaded = true;
+          this.loadingText?.setText(`Connecting to server...`);
+          this.startGame();
         }
         if (this.loadIndex === assets.length && this.gotchi) {
           this.loadInGotchiSpritesheet(this.gotchi);
@@ -56,6 +70,32 @@ export class BootScene extends Phaser.Scene {
     this.loadNextFile(0);
   };
 
+  /**
+   * Submits gotchi data to the server and attempts to start game
+   */
+  private handleConnection = () => {
+    const gotchi = this.game.registry.values.selectedGotchi as AavegotchiObject;
+    this.connected = true;
+    this.socket?.emit("setGotchiData", {
+      name: gotchi.name,
+      tokenId: gotchi.id,
+    });
+
+    this.startGame();
+  };
+
+  /**
+   * If all the assets are loaded in, and user is connected to server, start game
+   */
+  private startGame = () => {
+    if (this.assetsLoaded && this.connected) {
+      this.scene.start("Game", { selectedGotchi: this.gotchi });
+    }
+  };
+
+  /**
+   * Renders UI component to display loading progress
+   */
   private createProgressBar = () => {
     const width = getGameWidth(this) * 0.5;
     const height = 12;
@@ -85,6 +125,9 @@ export class BootScene extends Phaser.Scene {
       .setOrigin(0.5);
   };
 
+  /**
+   * Iterates through each file in the assets array
+   */
   private loadNextFile = (index: number) => {
     const file = assets[index];
     this.loadIndex++;
@@ -117,6 +160,9 @@ export class BootScene extends Phaser.Scene {
     }
   };
 
+  /**
+   * Constructs and loads in the Aavegotchi spritesheet, you can use customiseSVG() to create custom poses and animations
+   */
   private loadInGotchiSpritesheet = async (
     gotchiObject: AavegotchiGameObject
   ) => {

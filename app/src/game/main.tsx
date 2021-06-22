@@ -1,29 +1,22 @@
-import Phaser from 'phaser';
-import { useState, useEffect } from 'react';
-import { IonPhaser, GameInstance } from '@ion-phaser/react';
-import { useWeb3 } from 'web3';
-import { useServer } from 'server-store';
-import { Redirect } from 'react-router';
-import Scenes from './scenes';
+import Phaser from "phaser";
+import { useState, useEffect } from "react";
+import { IonPhaser, GameInstance } from "@ion-phaser/react";
+import { useWeb3 } from "web3";
+import { Redirect } from "react-router";
+import Scenes from "./scenes";
+import io from "socket.io-client";
 
 const Main = () => {
-  const { state: { selectedGotchi } } = useWeb3();
-  const { highscores, handleSubmitScore } = useServer();
-
-  const [highscore, setHighscore] = useState(0);
+  const {
+    state: { selectedGotchi },
+  } = useWeb3();
   const [initialised, setInitialised] = useState(true);
   const [config, setConfig] = useState<GameInstance>();
 
-  const submitScore = (score: number) => {
-    if (score > highscore && selectedGotchi && handleSubmitScore) {
-      handleSubmitScore(score, { name: selectedGotchi.name, tokenId: selectedGotchi.id });
-    }
-  };
-
   useEffect(() => {
-    if (selectedGotchi && handleSubmitScore) {
-      const gotchiScore = highscores?.find((score) => score.tokenId === selectedGotchi?.id)?.score || 0;
-      setHighscore(gotchiScore);
+    if (selectedGotchi) {
+      // Socket is called here so we can take advantage of the useEffect hook to disconnect upon leaving the game screen
+      const socket = io(process.env.REACT_APP_SERVER_PORT || 'http://localhost:443');
 
       let width = window.innerWidth;
       let height = width / 1.778;
@@ -35,12 +28,11 @@ const Main = () => {
 
       setConfig({
         type: Phaser.AUTO,
-
         physics: {
-          default: 'arcade',
+          default: "arcade",
           arcade: {
             gravity: { y: 0 },
-            debug: process.env.NODE_ENV === 'development',
+            debug: process.env.NODE_ENV === "development",
           },
         },
         scale: {
@@ -58,24 +50,23 @@ const Main = () => {
             setInitialised(false);
             game.registry.merge({
               selectedGotchi,
-              submitScore,
-              highscore: gotchiScore,
+              socket: socket
             });
           },
         },
       });
+
+      return () => {
+        socket.emit("handleDisconnect");
+      };
     }
   }, []);
 
   if (!selectedGotchi) {
-    return (
-      <Redirect to="/" />
-    );
+    return <Redirect to="/" />;
   }
 
-  return (
-    <IonPhaser initialize={initialised} game={config} id="phaser-app" />
-  );
+  return <IonPhaser initialize={initialised} game={config} id="phaser-app" />;
 };
 
 export default Main;
