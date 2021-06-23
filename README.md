@@ -15,6 +15,7 @@ Using the [github client](https://cli.github.com/), in your command line run:
 ```
 gh repo create <minigame-project> --template="https://github.com/aavegotchi/aavegotchi-minigame-template.git"
 cd <my-minigame-project>
+git pull origin main
 ```
 
 The template is made up of two directories, the *server* and the *app*. The two directories run independently of one another and therefore have their own dependencies.
