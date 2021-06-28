@@ -32,6 +32,16 @@ export const removeBG = (svg: string) => {
 };
 
 /**
+ * Removes shadow from Aavegotchi SVG
+ * @param {string} svg - SVG you want to customise
+ * @returns {string} Returns customised SVG
+ */
+ export const removeShadow = (svg: string) => {
+  const styledSvg = svg.replace("<style>", "<style>.gotchi-shadow{display: none}");
+  return styledSvg;
+};
+
+/**
  * Adds Keyframe animation to SVG. (NOT TO BE USED IN IN GAME SPRITESHEET)
  * @param {string} svg - SVG you want to customise
  * @returns {string} Returns customised SVG
@@ -198,6 +208,7 @@ type CustomiseOptions = {
   mouth?: keyof typeof mouths,
   float?: boolean,
   armsUp?: boolean,
+  removeShadow?: boolean,
 }
 
 /**
@@ -222,6 +233,8 @@ export const customiseSVG = (svg: string, options: CustomiseOptions) => {
           return styledSvg = addIdleUp(styledSvg);
         case 'armsUp':
           return styledSvg = raiseHands(styledSvg);
+        case 'removeShadow':
+          return styledSvg = removeShadow(styledSvg);
         default:
           return styledSvg;
       }
