@@ -30,6 +30,7 @@ If on **Windows** you will need to update both `package.json`'s with the followi
 +   "start:offchain": "set REACT_APP_OFFCHAIN=true && react-scripts start",
     ...
   },
+```
 
 ```diff
   // server/package.json
