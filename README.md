@@ -20,6 +20,29 @@ git pull origin main
 
 The template is made up of two directories, the *server* and the *app*. The two directories run independently of one another and therefore have their own dependencies.
 
+If on **Windows** you will need to update both `package.json`'s with the following:
+```diff
+  // app/package.json
+
+  "scripts": {
+    ...
+-   "start:offchain": "REACT_APP_OFFCHAIN=true react-scripts start",
++   "start:offchain": "set REACT_APP_OFFCHAIN=true && react-scripts start",
+    ...
+  },
+
+```diff
+  // server/package.json
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+-   "start:prod": "NODE_ENV=production nodemon server.ts",
++   "start:prod": "set NODE_ENV=production && nodemon server.ts",
+-   "start": "NODE_ENV=development nodemon server.ts"
++   "start": "set NODE_ENV=development && nodemon server.ts"
+  },
+```
+
 To run the app, you need to serve both the *server* and the *app* on your local machine. In one terminal run:
 ```
 cd <minigame-project>/server
