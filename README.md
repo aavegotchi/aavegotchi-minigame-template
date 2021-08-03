@@ -8,6 +8,10 @@ The template includes both the *app* and *server* directories. The *app* consist
 
 The *server* consists of *nodejs* and *express* and it utilises [socket.io](https://socket.io/) to enable web socket functionality within the game. This is necessary to enable multiplayer. However it is also required for single player games, as it allows for server side logic to prevent people using client side dev tools to intercept and send false data to your games leaderboard (If you have one set up that is).
 
+## Dev dependencies needed
+
+* [ts-node](https://github.com/TypeStrong/ts-node)
+* [Node >= 10.16 and npm >= 5.6](https://nodejs.org/en/)
 
 ## Getting started
 
@@ -19,6 +23,30 @@ git pull origin main
 ```
 
 The template is made up of two directories, the *server* and the *app*. The two directories run independently of one another and therefore have their own dependencies.
+
+If on **Windows** you will need to update both `package.json`'s with the following:
+```diff
+  // app/package.json
+
+  "scripts": {
+    ...
+-   "start:offchain": "REACT_APP_OFFCHAIN=true react-scripts start",
++   "start:offchain": "set REACT_APP_OFFCHAIN=true && react-scripts start",
+    ...
+  },
+```
+
+```diff
+  // server/package.json
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+-   "start:prod": "NODE_ENV=production nodemon server.ts",
++   "start:prod": "set NODE_ENV=production && nodemon server.ts",
+-   "start": "NODE_ENV=development nodemon server.ts"
++   "start": "set NODE_ENV=development && nodemon server.ts"
+  },
+```
 
 To run the app, you need to serve both the *server* and the *app* on your local machine. In one terminal run:
 ```
