@@ -2,18 +2,16 @@ require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 import { Socket } from 'socket.io';
 const server = require('express')();
 
-const https = process.env.NODE_ENV === "production"
-  ? require('https').createServer()
-  : require('http').createServer(server);
+const http = require('http').createServer(server);
 
-const io = require('socket.io')(https, {
+const io = require('socket.io')(http, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"]
   }
 });
 
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 8080;
 
 const connectedGotchis = {};
 
@@ -37,7 +35,7 @@ io.on('connection', function (socket: Socket) {
     });
 });
 
-https.listen(port, function () {
+http.listen(port, function () {
     console.log(`Listening on - PORT:${port}`);
 });
 
