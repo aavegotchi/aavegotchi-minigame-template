@@ -8,6 +8,10 @@ The template includes both the *app* and *server* directories. The *app* consist
 
 The *server* consists of *nodejs* and *express* and it utilises [socket.io](https://socket.io/) to enable web socket functionality within the game. This is necessary to enable multiplayer. However it is also required for single player games, as it allows for server side logic to prevent people using client side dev tools to intercept and send false data to your games leaderboard (If you have one set up that is).
 
+## Dev dependencies needed
+
+* [ts-node](https://github.com/TypeStrong/ts-node)
+* [Node >= 10.16 and npm >= 5.6](https://nodejs.org/en/)
 
 ## Getting started
 
