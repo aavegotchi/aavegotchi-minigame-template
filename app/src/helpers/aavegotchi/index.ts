@@ -27,7 +27,7 @@ export const getDefaultGotchi = (): AavegotchiObject => {
  * @returns {string} Returns customised SVG
  */
 export const removeBG = (svg: string) => {
-  const styledSvg = svg.replace("<style>", "<style>.gotchi-bg{display: none}");
+  const styledSvg = svg.replace("<style>", "<style>.gotchi-bg,.wearable-bg{display: none}");
   return styledSvg;
 };
 
@@ -107,6 +107,9 @@ export const bounceAnimation = (svg: string) => {
       animation-iteration-count: infinite;
       animation-timing-function: linear;
       animation-timing-function: steps(2);
+    }
+    .wearable-bg {
+      animation-name: none;
     }
   `;
   const styledSvg = svg.replace("<style>", `<style>${style}`);
