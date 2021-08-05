@@ -4,16 +4,14 @@ import {
 } from 'components';
 import { Link } from 'react-router-dom';
 import globalStyles from 'theme/globalStyles.module.css';
-import { getAavegotchisForUser } from 'web3/actions';
 import { useServer } from 'server-store';
-import { useWeb3 } from 'web3';
+import { useWeb3, updateAavegotchis } from 'web3/context';
 import {
   bounceAnimation,
   convertInlineSVGToBlobURL,
   getDefaultGotchi,
   removeBG,
 } from 'helpers/aavegotchi';
-import { Contract } from 'ethers';
 import gotchiLoading from 'assets/gifs/loading.gif';
 import { playSound } from 'helpers/hooks/useSound';
 import { Web3Error } from 'types';
@@ -22,9 +20,9 @@ import styles from './styles.module.css';
 const Home = () => {
   const {
     state: {
-      usersGotchis, contract, address, selectedGotchi,
+      usersAavegotchis, address, selectedAavegotchiIndex,
     },
-    updateState,
+    dispatch,
   } = useWeb3();
   const { highscores } = useServer();
   const [error, setError] = useState<Web3Error>();
@@ -38,37 +36,26 @@ const Home = () => {
 
   const useDefaultGotchi = () => {
     setError(undefined);
-    updateState({ usersGotchis: [getDefaultGotchi()] });
+    dispatch({ type: "SET_USERS_AAVEGOTCHIS", usersAavegotchis: [getDefaultGotchi()]});
   }
 
   /**
    * Updates global state with selected gotchi
    */
   const handleSelect = useCallback(
-    (gotchi) => {
-      updateState({ selectedGotchi: gotchi });
+    (gotchiIndex: number) => {
+      dispatch({ type: "SET_SELECTED_AAVEGOTCHI", selectedAavegotchiIndex: gotchiIndex });
     },
-    [updateState],
+    [dispatch],
   );
 
   useEffect(() => {
     if (process.env.REACT_APP_OFFCHAIN) return useDefaultGotchi();
 
-    const _fetchGotchis = async (contract: Contract, address: string) => {
-      const res = await getAavegotchisForUser(contract, address);
-
-      if (res.status === 200) {
-        setError(undefined);
-        updateState({ usersGotchis: res.data });
-      } else {
-        setError(res);
-      }
-    };
-
-    if (contract && address) {
-      _fetchGotchis(contract, address);
+    if (address) {
+      updateAavegotchis(dispatch, address)
     }
-  }, [contract, address, updateState]);
+  }, [address]);
 
   if (error) {
     return (
@@ -126,16 +113,16 @@ const Home = () => {
         <div className={styles.homeContainer}>
           <div className={styles.selectorContainer}>
             <GotchiSelector
-              initialGotchi={selectedGotchi}
-              gotchis={usersGotchis}
+              initialGotchiIndex={selectedAavegotchiIndex}
+              gotchis={usersAavegotchis}
               selectGotchi={handleSelect}
             />
           </div>
           <div className={styles.gotchiContainer}>
-            {selectedGotchi ? (
+            {usersAavegotchis && usersAavegotchis[selectedAavegotchiIndex].svg ? (
               <img
-                src={handleCustomiseSvg(selectedGotchi.svg)}
-                alt={`Selected ${selectedGotchi.name}`}
+                src={handleCustomiseSvg(usersAavegotchis[selectedAavegotchiIndex].svg || "")}
+                alt={`Selected ${usersAavegotchis[selectedAavegotchiIndex].name}`}
               />
             ) : (
               <img src={gotchiLoading} alt="Loading Aavegotchi" />
@@ -143,14 +130,14 @@ const Home = () => {
             <h1 className={styles.highscore}>
               Highscore:
               {' '}
-              {highscores?.find((score) => score.tokenId === selectedGotchi?.id)
+              {usersAavegotchis && highscores?.find((score) => score.tokenId === usersAavegotchis[selectedAavegotchiIndex]?.id)
                 ?.score || 0}
             </h1>
             <div className={styles.buttonContainer}>
               <Link
                 to="/play"
                 className={`${globalStyles.primaryButton} ${
-                  !selectedGotchi ? globalStyles.disabledLink : ''
+                  (!usersAavegotchis) ? globalStyles.disabledLink : ''
                 }`}
                 onClick={() => playSound('send')}
               >
@@ -168,7 +155,7 @@ const Home = () => {
             </div>
           </div>
           <div className={styles.detailsPanelContainer}>
-            <DetailsPanel selectedGotchi={selectedGotchi} />
+            <DetailsPanel selectedGotchi={usersAavegotchis[selectedAavegotchiIndex]} />
           </div>
         </div>
       </div>

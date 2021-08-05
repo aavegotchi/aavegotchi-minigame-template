@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 
 export interface AavegotchiGameObject extends AavegotchiObject {
   spritesheetKey: string;
+  svg: string;
 }
 
 export interface AavegotchiObject extends AavegotchiContractObject {

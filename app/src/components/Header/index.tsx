@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import globalStyles from 'theme/globalStyles.module.css';
 import { NavLink } from 'react-router-dom';
-import { useWeb3 } from 'web3';
+import { useWeb3, connectToNetwork } from 'web3/context';
 import { smartTrim } from 'helpers/functions';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { Hamburger, SideTray } from 'components';
@@ -9,12 +9,12 @@ import { playSound } from 'helpers/hooks/useSound';
 import styles from './styles.module.css';
 
 const WalletButton = () => {
-  const { state: { address }, connectToNetwork } = useWeb3();
+  const { state: { address }, dispatch } = useWeb3();
 
   const handleWalletClick = () => {
     if (!address) {
       playSound('click');
-      connectToNetwork();
+      connectToNetwork(dispatch, window.ethereum);
     }
   };
 

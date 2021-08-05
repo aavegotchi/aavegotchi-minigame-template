@@ -1,22 +1,22 @@
 import Phaser from "phaser";
 import { useState, useEffect } from "react";
 import { IonPhaser, GameInstance } from "@ion-phaser/react";
-import { useWeb3 } from "web3";
+import { useWeb3 } from "web3/context";
 import { Redirect } from "react-router";
 import Scenes from "./scenes";
 import io from "socket.io-client";
 
 const Main = () => {
   const {
-    state: { selectedGotchi },
+    state: { usersAavegotchis, selectedAavegotchiIndex },
   } = useWeb3();
   const [initialised, setInitialised] = useState(true);
   const [config, setConfig] = useState<GameInstance>();
 
   useEffect(() => {
-    if (selectedGotchi) {
+    if (usersAavegotchis) {
       // Socket is called here so we can take advantage of the useEffect hook to disconnect upon leaving the game screen
-      const socket = io(process.env.REACT_APP_SERVER_PORT || 'http://localhost:443');
+      const socket = io(process.env.REACT_APP_SERVER_PORT || 'http://localhost:8080');
 
       let width = window.innerWidth;
       let height = width / 1.778;
@@ -49,7 +49,7 @@ const Main = () => {
             // Makes sure the game doesnt create another game on rerender
             setInitialised(false);
             game.registry.merge({
-              selectedGotchi,
+              selectedGotchi: usersAavegotchis[selectedAavegotchiIndex],
               socket: socket
             });
           },
@@ -62,7 +62,7 @@ const Main = () => {
     }
   }, []);
 
-  if (!selectedGotchi) {
+  if (!usersAavegotchis) {
     return <Redirect to="/" />;
   }
 

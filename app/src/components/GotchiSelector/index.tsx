@@ -16,20 +16,20 @@ interface Props {
   /**
    * Gotchi to initially select
    */
-  initialGotchi?: AavegotchiObject;
+  initialGotchiIndex?: number;
   /**
    * Maximum gotchis visible in selector per scroll
    */
    maxVisible?: number;
   /**
    * Callback function that triggers on gotchi select
-   * @param {AavegotchiObject} gotchi - Aavegotchi selected
+   * @param {number} gotchiIndex - Aavegotchi index selected
    */
-  selectGotchi: (gotchi: AavegotchiObject) => void;
+  selectGotchi: (gotchiIndex: number) => void;
 }
 
 export const GotchiSelector = ({
-  gotchis, selectGotchi, initialGotchi, maxVisible = 3,
+  gotchis, selectGotchi, initialGotchiIndex = 0, maxVisible = 3,
 }: Props) => {
   const [selected, setSelected] = useState<number>();
   const [currentIteration, setCurrentIteration] = useState(0);
@@ -46,7 +46,7 @@ export const GotchiSelector = ({
 
     setSelected(index);
     if (gotchis) {
-      selectGotchi(gotchis[index]);
+      selectGotchi(index);
     }
   }, [gotchis, selectGotchi, selected]);
 
@@ -61,12 +61,12 @@ export const GotchiSelector = ({
 
   useEffect(() => {
     if (gotchis) {
-      const index = initialGotchi ? gotchis.findIndex((gotchi) => gotchi.id === initialGotchi.id) || 0 : 0;
+      const index = initialGotchiIndex;
       handleSelect(index);
       const selectorIteration = index + 1 - maxVisible < 0 ? 0 : index + 1 - maxVisible;
       setCurrentIteration(selectorIteration);
     }
-  }, [gotchis, initialGotchi, handleSelect, maxVisible]);
+  }, [gotchis, initialGotchiIndex, handleSelect, maxVisible]);
 
   return (
     <div className={styles.selectorContainer}>
@@ -86,19 +86,21 @@ export const GotchiSelector = ({
               ))
               : gotchis?.map((gotchi, i) => {
                 const isSelected = selected === i;
-                return (
-                  <div
-                    className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
-                    key={i}
-                    onClick={() => {
-                      playSound(click);
-                      handleSelect(i);
-                    }}
-                  >
-                    <img src={convertInlineSVGToBlobURL(gotchi.svg)} alt={gotchi.name} />
-                  </div>
-                );
-              })
+                if (gotchi.svg) {
+                  return (
+                    <div
+                      className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
+                      key={i}
+                      onClick={() => {
+                        playSound(click);
+                        handleSelect(i);
+                      }}
+                    >
+                      <img src={convertInlineSVGToBlobURL(gotchi.svg)} alt={gotchi.name} />
+                    </div>
+                  );
+                }
+                })
           }
         </div>
       </div>
