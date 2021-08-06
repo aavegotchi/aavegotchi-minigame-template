@@ -48,6 +48,7 @@
   border-style: none;
   cursor: pointer;
   min-width: 14rem;
+  min-height: 4.8rem;
   margin-top: 3.2rem;
   margin-left: auto;
 }
