@@ -16,7 +16,7 @@ import styles from './styles.module.css';
 const Home = () => {
   const {
     state: {
-      usersAavegotchis, address, selectedAavegotchiIndex,
+      usersAavegotchis, address, selectedAavegotchiIndex, networkId
     },
     dispatch,
   } = useWeb3();
@@ -45,33 +45,46 @@ const Home = () => {
     }
   }, [address]);
 
+  if (networkId !== 137) {
+    return (
+      <Layout>
+        <div className={globalStyles.container}>
+          <div className={styles.errorContainer}>
+            <h1>Wrong network.</h1>
+            <p className={styles.secondaryErrorMessage}>
+              Please connect to the Polygon network.
+            </p>
+          </div>
+        </div>
+      </Layout>
+    )
+  }
+
   if (usersAavegotchis && usersAavegotchis?.length <= 0) {
     return (
       <Layout>
         <div className={globalStyles.container}>
           <div className={styles.errorContainer}>
-              <div>
-                <p>No Aavegotchis found for address - Please make sure the correct wallet is connected.</p>
-                <p className={styles.secondaryErrorMessage}>
-                  Don’t have an Aavegotchi? Visit the Baazaar to get one.
-                </p>
-                <a
-                  href="https://aavegotchi.com/baazaar/portals-closed?sort=latest"
-                  target="__blank"
-                  className={globalStyles.primaryButton}
-                >
-                  Visit Bazaar
-                </a>
-                {/* Allows developers to build without the requirement of owning a gotchi */}
-                {process.env.NODE_ENV === 'development' && (
-                  <button
-                    onClick={useDefaultGotchi}
-                    className={globalStyles.primaryButton}
-                  >
-                    Use Default Gotchi
-                  </button>
-                )}
-              </div>
+            <p>No Aavegotchis found for address - Please make sure the correct wallet is connected.</p>
+            <p className={styles.secondaryErrorMessage}>
+              Don’t have an Aavegotchi? Visit the Baazaar to get one.
+            </p>
+            <a
+              href="https://aavegotchi.com/baazaar/portals-closed?sort=latest"
+              target="__blank"
+              className={globalStyles.primaryButton}
+            >
+              Visit Bazaar
+            </a>
+            {/* Allows developers to build without the requirement of owning a gotchi */}
+            {process.env.NODE_ENV === 'development' && (
+              <button
+                onClick={useDefaultGotchi}
+                className={globalStyles.primaryButton}
+              >
+                Use Default Gotchi
+              </button>
+            )}
           </div>
         </div>
       </Layout>

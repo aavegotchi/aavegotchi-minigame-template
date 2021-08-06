@@ -24,6 +24,13 @@ export const Layout = ({ children }: Props) => {
         address: accounts[0]
       })
     })
+
+    window.ethereum.on('chainChanged', (chainId: string) => {
+      dispatch({
+        type: "SET_NETWORK_ID",
+        networkId: Number(chainId)
+      })
+    })
   }, [])
 
   return (
