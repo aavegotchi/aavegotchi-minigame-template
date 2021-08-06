@@ -45,44 +45,38 @@ const Home = () => {
     }
   }, [address]);
 
-  // if (error) {
-  //   return (
-  //     <Layout>
-  //       <div className={globalStyles.container}>
-  //         <div className={styles.errorContainer}>
-  //           <h1>
-  //             Error code:
-  //             {error.status}
-  //           </h1>
-  //           <p>{error.error.message}</p>
-  //           {/* Allows developers to build without the requirement of owning a gotchi */}
-  //           {process.env.NODE_ENV === 'development' && (
-  //             <button
-  //               onClick={useDefaultGotchi}
-  //               className={globalStyles.primaryButton}
-  //             >
-  //               Use Default Gotchi
-  //             </button>
-  //           )}
-  //           {error.status === 403 && (
-  //             <div>
-  //               <p className={styles.secondaryErrorMessage}>
-  //                 Don’t have an Aavegotchi? Visit the Baazaar to get one.
-  //               </p>
-  //               <a
-  //                 href="https://aavegotchi.com/baazaar/portals-closed?sort=latest"
-  //                 target="__blank"
-  //                 className={globalStyles.primaryButton}
-  //               >
-  //                 Visit Bazaar
-  //               </a>
-  //             </div>
-  //           )}
-  //         </div>
-  //       </div>
-  //     </Layout>
-  //   );
-  // }
+  if (usersAavegotchis && usersAavegotchis?.length <= 0) {
+    return (
+      <Layout>
+        <div className={globalStyles.container}>
+          <div className={styles.errorContainer}>
+              <div>
+                <p>No Aavegotchis found for address - Please make sure the correct wallet is connected.</p>
+                <p className={styles.secondaryErrorMessage}>
+                  Don’t have an Aavegotchi? Visit the Baazaar to get one.
+                </p>
+                <a
+                  href="https://aavegotchi.com/baazaar/portals-closed?sort=latest"
+                  target="__blank"
+                  className={globalStyles.primaryButton}
+                >
+                  Visit Bazaar
+                </a>
+                {/* Allows developers to build without the requirement of owning a gotchi */}
+                {process.env.NODE_ENV === 'development' && (
+                  <button
+                    onClick={useDefaultGotchi}
+                    className={globalStyles.primaryButton}
+                  >
+                    Use Default Gotchi
+                  </button>
+                )}
+              </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

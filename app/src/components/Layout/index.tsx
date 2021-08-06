@@ -1,4 +1,5 @@
 import { ErrorModal, Header } from 'components';
+import { useEffect } from 'react';
 import { useWeb3 } from 'web3/context';
 import styles from './styles.module.css';
 
@@ -14,7 +15,16 @@ export const Layout = ({ children }: Props) => {
       type: "SET_ERROR",
       error: undefined,
     })
-  }
+  };
+
+  useEffect(() => {
+    window.ethereum.on('accountsChanged', (accounts: Array<string>) => {
+      dispatch({
+        type: "SET_ADDRESS",
+        address: accounts[0]
+      })
+    })
+  }, [])
 
   return (
     <div className={styles.container}>
