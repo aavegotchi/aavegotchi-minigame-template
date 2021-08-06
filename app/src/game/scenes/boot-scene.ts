@@ -5,7 +5,6 @@ import { constructSpritesheet } from "../helpers/spritesheet";
 import { customiseSvg } from "helpers/aavegotchi";
 import { Socket } from "socket.io-client";
 
-
 interface AavegotchiWithSvg extends AavegotchiObject {
   svg: string;
 }

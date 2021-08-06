@@ -1,6 +1,7 @@
 import { useWeb3 } from "web3/context";
 import { useEffect, useState } from "react";
 import { useDiamondCall } from "web3/actions";
+import gotchiLoading from 'assets/gifs/loading.gif';
 import { Web3Provider } from "@ethersproject/providers";
 import { convertInlineSVGToBlobURL, customiseSvg, CustomiseOptions} from 'helpers/aavegotchi';
 
@@ -26,6 +27,8 @@ export const GotchiSVG = ({ tokenId, options }: Props) => {
         setSvg(options ? customiseSvg(res, options) : res)
       }
     } catch (error) {
+      console.log(error);
+
       dispatch({
         type: "SET_ERROR",
         error
@@ -37,16 +40,15 @@ export const GotchiSVG = ({ tokenId, options }: Props) => {
     if (usersAavegotchis) {
       const gotchis = [...usersAavegotchis]
       const selectedGotchi = gotchis.find(gotchi => gotchi.id === tokenId);
-
       if (selectedGotchi?.svg) {
         setSvg(options ? customiseSvg(selectedGotchi.svg, options, selectedGotchi.equippedWearables) : selectedGotchi.svg);
       } else if (provider) {
         fetchGotchiSvg(tokenId, !!selectedGotchi, provider);
       }
     }
-  }, [tokenId, usersAavegotchis,provider, options])
+  }, [usersAavegotchis, tokenId])
 
   return (
-    <img src={svg ? convertInlineSVGToBlobURL(svg) : "/assets/gifs/loading.gif"} height="100%" width="100%" />
+    <img src={svg ? convertInlineSVGToBlobURL(svg) : gotchiLoading} height="100%" width="100%" />
   )
 }

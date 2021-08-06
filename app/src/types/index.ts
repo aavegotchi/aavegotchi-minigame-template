@@ -83,10 +83,6 @@ export interface HighScore {
   name: string,
 }
 
-export interface Web3Error {
-  status: number,
-  error: {
-    message: string,
-    stack: string,
-  }
+export interface CustomError extends Error {
+  status?: number;
 }

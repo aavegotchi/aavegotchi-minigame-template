@@ -79,10 +79,10 @@ export const reducer = (state: State, action: Action): State => {
     case "UPDATE_AAVEGOTCHI_SVG": {
       if (!state.usersAavegotchis) throw "No Aavegotchis to update."
       const copyGotchiState = [...state.usersAavegotchis];
-      const updatedGotchiIndex = copyGotchiState.findIndex(gotchi => gotchi.id === action.tokenId);
+      const updatedGotchi = copyGotchiState.find(gotchi => gotchi.id === action.tokenId);
 
-      if (updatedGotchiIndex >= 0) {
-        copyGotchiState[updatedGotchiIndex].svg = action.svg;
+      if (updatedGotchi) {
+        updatedGotchi.svg = action.svg;
         return {
           ...state,
           usersAavegotchis: copyGotchiState

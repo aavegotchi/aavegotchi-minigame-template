@@ -51,7 +51,6 @@ export const GotchiSelector = ({
   }, [gotchis, selectGotchi, selected]);
 
   const handleScroll = (i: number) => {
-    console.log(i);
     const nextIteration = currentIteration + i;
     if (nextIteration > maxIterations || nextIteration < 0) return;
 
@@ -86,21 +85,20 @@ export const GotchiSelector = ({
               ))
               : gotchis?.map((gotchi, i) => {
                 const isSelected = selected === i;
-                if (gotchi.svg) {
-                  return (
-                    <div
-                      className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
-                      key={i}
-                      onClick={() => {
-                        playSound(click);
-                        handleSelect(i);
-                      }}
-                    >
-                      <GotchiSVG tokenId={gotchi.id} />
-                    </div>
-                  );
-                }
-                })
+                
+                return (
+                  <div
+                    className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
+                    key={i}
+                    onClick={() => {
+                      playSound(click);
+                      handleSelect(i);
+                    }}
+                  >
+                    <GotchiSVG tokenId={gotchi.id} />
+                  </div>
+                );
+              })
           }
         </div>
       </div>

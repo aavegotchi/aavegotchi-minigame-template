@@ -11,7 +11,6 @@ import {
 } from 'helpers/aavegotchi';
 import gotchiLoading from 'assets/gifs/loading.gif';
 import { playSound } from 'helpers/hooks/useSound';
-import { Web3Error } from 'types';
 import styles from './styles.module.css';
 
 const Home = () => {
@@ -22,11 +21,9 @@ const Home = () => {
     dispatch,
   } = useWeb3();
   const { highscores } = useServer();
-  const [error, setError] = useState<Web3Error>();
   const [showRulesModal, setShowRulesModal] = useState(false);
 
   const useDefaultGotchi = () => {
-    setError(undefined);
     dispatch({ type: "SET_USERS_AAVEGOTCHIS", usersAavegotchis: [getDefaultGotchi()]});
   }
 
@@ -48,58 +45,57 @@ const Home = () => {
     }
   }, [address]);
 
-  if (error) {
-    return (
-      <Layout>
-        <div className={globalStyles.container}>
-          <div className={styles.errorContainer}>
-            <h1>
-              Error code:
-              {error.status}
-            </h1>
-            <p>{error.error.message}</p>
-            {/* Allows developers to build without the requirement of owning a gotchi */}
-            {process.env.NODE_ENV === 'development' && (
-              <button
-                onClick={useDefaultGotchi}
-                className={globalStyles.primaryButton}
-              >
-                Use Default Gotchi
-              </button>
-            )}
-            {error.status === 403 && (
-              <div>
-                <p className={styles.secondaryErrorMessage}>
-                  Don’t have an Aavegotchi? Visit the Baazaar to get one.
-                </p>
-                <a
-                  href="https://aavegotchi.com/baazaar/portals-closed?sort=latest"
-                  target="__blank"
-                  className={globalStyles.primaryButton}
-                >
-                  Visit Bazaar
-                </a>
-              </div>
-            )}
-          </div>
-        </div>
-      </Layout>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <Layout>
+  //       <div className={globalStyles.container}>
+  //         <div className={styles.errorContainer}>
+  //           <h1>
+  //             Error code:
+  //             {error.status}
+  //           </h1>
+  //           <p>{error.error.message}</p>
+  //           {/* Allows developers to build without the requirement of owning a gotchi */}
+  //           {process.env.NODE_ENV === 'development' && (
+  //             <button
+  //               onClick={useDefaultGotchi}
+  //               className={globalStyles.primaryButton}
+  //             >
+  //               Use Default Gotchi
+  //             </button>
+  //           )}
+  //           {error.status === 403 && (
+  //             <div>
+  //               <p className={styles.secondaryErrorMessage}>
+  //                 Don’t have an Aavegotchi? Visit the Baazaar to get one.
+  //               </p>
+  //               <a
+  //                 href="https://aavegotchi.com/baazaar/portals-closed?sort=latest"
+  //                 target="__blank"
+  //                 className={globalStyles.primaryButton}
+  //               >
+  //                 Visit Bazaar
+  //               </a>
+  //             </div>
+  //           )}
+  //         </div>
+  //       </div>
+  //     </Layout>
+  //   );
+  // }
 
   return (
     <Layout>
-      <Modal
-        active={showRulesModal}
-        handleClose={() => setShowRulesModal(false)}
-      >
-        <div className={styles.modalContent}>
-          <h1>Minigame Template</h1>
-          <p>
-            Just a modal example. You can put your game rules in here.
-          </p>
-        </div>
-      </Modal>
+      {showRulesModal && (
+        <Modal onHandleClose={() => setShowRulesModal(false)}>
+          <div className={styles.modalContent}>
+            <h1>Minigame Template</h1>
+            <p>
+              Just a modal example. You can put your game rules in here.
+            </p>
+          </div>
+        </Modal>
+      )}
       <div className={globalStyles.container}>
         <div className={styles.homeContainer}>
           <div className={styles.selectorContainer}>
@@ -111,7 +107,7 @@ const Home = () => {
           </div>
           <div className={styles.gotchiContainer}>
             {usersAavegotchis ? (
-              <GotchiSVG tokenId={usersAavegotchis[selectedAavegotchiIndex].id} options={{ animate: true }}  />
+              <GotchiSVG tokenId={usersAavegotchis[selectedAavegotchiIndex].id} options={{ animate: true, removeBg: true }}  />
             ) : (
               <img src={gotchiLoading} alt="Loading Aavegotchi" />
             )}

@@ -31,7 +31,7 @@ export const useDiamondCall = async <R extends unknown>(
   const contract = new ethers.Contract(addresses.diamond, diamondAbi, provider);
   try {
     const { name, parameters } = method;
-    const res = await contract.methods[name](...parameters).call();
+    const res = await contract[name](...parameters);
     return res;
   } catch (err) {
     throw { status: 400, name: "Diamond contract error", message: err.message, stack: err.stack };

@@ -1,26 +1,31 @@
 import globalStyles from 'theme/globalStyles.module.css';
+import { Portal } from 'components';
 import styles from './styles.module.css';
 
 interface Props {
-  active: boolean;
   children: React.ReactNode;
-  handleClose: () => void;
+  onHandleClose: () => void;
 }
 
 /**
  * Reusable Modal component.
  */
-export const Modal = ({ active, children, handleClose }: Props) => (
-  <div className={`${styles.background} ${active ? styles.open : ''}`}>
-    <div className={styles.shadow} />
-    <div className={styles.panel}>
-      <button
-        onClick={() => handleClose()}
-        className={`${globalStyles.circleButton} ${globalStyles.secondaryButton} ${styles.closeButton}`}
-      >
-        X
-      </button>
-      {children}
-    </div>
-  </div>
-);
+export const Modal = ({ children, onHandleClose }: Props) => {
+  return (
+    <Portal>
+      <div className={styles.background}>
+        <div className={styles.shadow} />
+        <div className={styles.panel}>
+          <button
+            onClick={() => onHandleClose()}
+            className={`${globalStyles.circleButton} ${globalStyles.secondaryButton} ${styles.closeButton}`}
+          >
+            X
+          </button>
+          {children}
+        </div>
+      </div>
+    </Portal>
+  )
+};
+
