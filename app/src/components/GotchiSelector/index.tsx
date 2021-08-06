@@ -1,12 +1,12 @@
 import { AavegotchiObject } from 'types';
 import { ChevronUp, ChevronDown, click } from 'assets';
-import { convertInlineSVGToBlobURL } from 'helpers/aavegotchi';
 import { playSound } from 'helpers/hooks/useSound';
 import globalStyles from 'theme/globalStyles.module.css';
 import { useEffect, useState, useCallback } from 'react';
 import gotchiLoading from 'assets/gifs/loading.gif';
 import useWindowWidth from 'helpers/hooks/windowSize';
 import styles from './styles.module.css';
+import { GotchiSVG } from 'components/GotchiSVG';
 
 interface Props {
   /**
@@ -96,7 +96,7 @@ export const GotchiSelector = ({
                         handleSelect(i);
                       }}
                     >
-                      <img src={convertInlineSVGToBlobURL(gotchi.svg)} alt={gotchi.name} />
+                      <GotchiSVG tokenId={gotchi.id} />
                     </div>
                   );
                 }

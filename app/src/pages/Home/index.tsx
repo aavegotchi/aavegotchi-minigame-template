@@ -1,16 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  Layout, GotchiSelector, DetailsPanel, Modal,
+  Layout, GotchiSelector, DetailsPanel, Modal, GotchiSVG,
 } from 'components';
 import { Link } from 'react-router-dom';
 import globalStyles from 'theme/globalStyles.module.css';
 import { useServer } from 'server-store';
 import { useWeb3, updateAavegotchis } from 'web3/context';
 import {
-  bounceAnimation,
-  convertInlineSVGToBlobURL,
-  getDefaultGotchi,
-  removeBG,
+  getDefaultGotchi
 } from 'helpers/aavegotchi';
 import gotchiLoading from 'assets/gifs/loading.gif';
 import { playSound } from 'helpers/hooks/useSound';
@@ -27,12 +24,6 @@ const Home = () => {
   const { highscores } = useServer();
   const [error, setError] = useState<Web3Error>();
   const [showRulesModal, setShowRulesModal] = useState(false);
-
-  const handleCustomiseSvg = (svg: string) => {
-    const noBg = removeBG(svg);
-    const animated = bounceAnimation(noBg);
-    return convertInlineSVGToBlobURL(animated);
-  };
 
   const useDefaultGotchi = () => {
     setError(undefined);
@@ -119,11 +110,8 @@ const Home = () => {
             />
           </div>
           <div className={styles.gotchiContainer}>
-            {usersAavegotchis && usersAavegotchis[selectedAavegotchiIndex].svg ? (
-              <img
-                src={handleCustomiseSvg(usersAavegotchis[selectedAavegotchiIndex].svg || "")}
-                alt={`Selected ${usersAavegotchis[selectedAavegotchiIndex].name}`}
-              />
+            {usersAavegotchis ? (
+              <GotchiSVG tokenId={usersAavegotchis[selectedAavegotchiIndex].id} options={{ animate: true }}  />
             ) : (
               <img src={gotchiLoading} alt="Loading Aavegotchi" />
             )}
@@ -155,7 +143,7 @@ const Home = () => {
             </div>
           </div>
           <div className={styles.detailsPanelContainer}>
-            <DetailsPanel selectedGotchi={usersAavegotchis[selectedAavegotchiIndex]} />
+            <DetailsPanel selectedGotchi={usersAavegotchis ? usersAavegotchis[selectedAavegotchiIndex] : undefined} />
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { mouths, eyes, defaultGotchi } from "./svg";
-import { AavegotchiObject } from "types";
+import { Tuple, AavegotchiObject } from "types";
 
 export const getDefaultGotchi = (): AavegotchiObject => {
   return {
@@ -7,6 +7,7 @@ export const getDefaultGotchi = (): AavegotchiObject => {
     name: 'Aavegotchi',
     withSetsNumericTraits: [50, 50, 50, 50, 50, 50],
     svg: defaultGotchi,
+    equippedWearables: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     status: 3,
   }
 }
@@ -50,10 +51,10 @@ export const bounceAnimation = (svg: string) => {
   const style = `
     @keyframes downHands {
       from {
-        transform: translate(0px, -4px);
+        --hand_translateY: -4px;
       }
       to {
-        transform: translate(0px, -3px);
+        --hand_translateY: -3.5px;
       }
     }
     @keyframes up {
@@ -102,7 +103,7 @@ export const bounceAnimation = (svg: string) => {
       animation-timing-function: steps(2);
     }
     .wearable-hand {
-      animation-name:down !important;
+      animation-name:downHands !important;
       animation-duration:1s;
       animation-iteration-count: infinite;
       animation-timing-function: linear;
@@ -120,9 +121,23 @@ export const bounceAnimation = (svg: string) => {
 /**
  * Adds SVG styling to Aavegotchi to raise its arms
  * @param {string} svg - SVG you want to customise
+ * @param {{left?: number, right?: number}} arms - Wearable id of arms for unique animations 
  * @returns {string} Returns customised SVG
  */
-export const raiseHands = (svg: string) => {
+export const raiseHands = (svg: string, arms?: {left?: number, right?: number}) => {
+  const leftArm = arms?.left === 201 ? `
+      .wearable-hand-left {
+        transform: translateY(calc(14px + var(--hand_translateY, -4px))) scaleY(-1);
+        transform-origin: 50% 50%;
+      }
+    ` : ''
+    const rightArm = arms?.right === 201 ? `
+      .wearable-hand-right {
+        transform: translateY(calc(14px + var(--hand_translateY, -4px))) scaleY(-1);
+        transform-origin: 50% 50%;
+      }
+    ` : ``
+
   const style = `
     .gotchi-handsDownClosed {
       display:none !important;
@@ -140,8 +155,10 @@ export const raiseHands = (svg: string) => {
       display:block !important;
     }
     .wearable-hand {
-      transform: translateY(-7px);
+      transform: translateY(var(--hand_translateY, -4px));
     }
+    ${leftArm}
+    ${rightArm}
   `;
 
   const styledSvg = svg.replace("<style>", `<style>${style}`);
@@ -192,12 +209,11 @@ export function replaceParts(svg: string, element: ReplaceElement) {
   const textnodes = doc.querySelectorAll(targetClass);
 
   textnodes.forEach(function (txt) {
-    const el = document.createElement("g");
-    el.innerHTML =
+    txt.innerHTML =
       element.target === "eyes"
         ? eyes[element.replaceSvg]
         : mouths[element.replaceSvg];
-    txt.parentNode?.replaceChild(el, txt);
+    //txt.parentNode?.replaceChild(el, txt);
   });
   const div = document.createElement("svg");
   div.appendChild(doc);
@@ -205,11 +221,12 @@ export function replaceParts(svg: string, element: ReplaceElement) {
 }
 
 
-type CustomiseOptions = {
+export type CustomiseOptions = {
   removeBg?: boolean,
   eyes?: keyof typeof eyes,
   mouth?: keyof typeof mouths,
   float?: boolean,
+  animate?: boolean,
   armsUp?: boolean,
   removeShadow?: boolean,
 }
@@ -218,9 +235,10 @@ type CustomiseOptions = {
  * Customise Aavegotchi SVG
  * @param {string} svg - SVG you want to customise
  * @param {CustomiseOptions} options - Properties you want to change
+ * @param {Tuple<number, 16>} equipped - Equipped wearables (Only necessary for raised mechanical arms)
  * @returns {string} Returns customised SVG
  */
-export const customiseSVG = (svg: string, options: CustomiseOptions) => {
+export const customiseSvg = (svg: string, options: CustomiseOptions, equipped?: Tuple<number, 16>) => {
   let styledSvg = svg;
   (Object.keys(options) as Array<keyof typeof options>).map((option) => {
     const value = options[option];
@@ -232,10 +250,12 @@ export const customiseSVG = (svg: string, options: CustomiseOptions) => {
           return styledSvg = replaceParts(styledSvg, {target: option, replaceSvg: value as keyof typeof eyes});
         case 'mouth':
           return styledSvg = replaceParts(styledSvg, {target: option, replaceSvg: value as keyof typeof mouths});
+        case 'animate':
+          return styledSvg = bounceAnimation(styledSvg);
         case 'float':
           return styledSvg = addIdleUp(styledSvg);
         case 'armsUp':
-          return styledSvg = raiseHands(styledSvg);
+          return styledSvg = raiseHands(styledSvg, equipped ? {left: equipped[4], right: equipped[5]} : undefined);
         case 'removeShadow':
           return styledSvg = removeShadow(styledSvg);
         default:

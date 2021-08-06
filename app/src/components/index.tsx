@@ -1,5 +1,6 @@
 export * from './DetailsPanel';
 export * from './GotchiSelector';
+export * from './GotchiSVG';
 export * from './Hamburger';
 export * from './Header';
 export * from './Layout';

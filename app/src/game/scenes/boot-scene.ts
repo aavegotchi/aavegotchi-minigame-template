@@ -2,8 +2,13 @@ import { AavegotchiGameObject, AavegotchiObject } from "types";
 import { getGameHeight, getGameWidth } from "game/helpers";
 import { assets, SpritesheetAsset } from "game/assets";
 import { constructSpritesheet } from "../helpers/spritesheet";
-import { customiseSVG } from "helpers/aavegotchi";
+import { customiseSvg } from "helpers/aavegotchi";
 import { Socket } from "socket.io-client";
+
+
+interface AavegotchiWithSvg extends AavegotchiObject {
+  svg: string;
+}
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -35,7 +40,7 @@ export class BootScene extends Phaser.Scene {
 
     // Construct gotchi game object from registry
     const selectedGotchi = this.game.registry.values
-      .selectedGotchi as AavegotchiObject;
+      .selectedGotchi as AavegotchiWithSvg;
     this.gotchi = {
       ...selectedGotchi,
       spritesheetKey: "PLAYER",
@@ -169,8 +174,8 @@ export class BootScene extends Phaser.Scene {
     const svg = gotchiObject.svg;
     const spriteMatrix = [
       [
-        customiseSVG(svg, { removeBg: true }),
-        customiseSVG(svg, {
+        customiseSvg(svg, { removeBg: true }),
+        customiseSvg(svg, {
           armsUp: true,
           eyes: "happy",
           float: true,
