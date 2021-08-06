@@ -1,12 +1,12 @@
 import { AavegotchiObject } from 'types';
 import { ChevronUp, ChevronDown, click } from 'assets';
-import { convertInlineSVGToBlobURL } from 'helpers/aavegotchi';
 import { playSound } from 'helpers/hooks/useSound';
 import globalStyles from 'theme/globalStyles.module.css';
 import { useEffect, useState, useCallback } from 'react';
 import gotchiLoading from 'assets/gifs/loading.gif';
 import useWindowWidth from 'helpers/hooks/windowSize';
 import styles from './styles.module.css';
+import { GotchiSVG } from 'components/GotchiSVG';
 
 interface Props {
   /**
@@ -16,20 +16,20 @@ interface Props {
   /**
    * Gotchi to initially select
    */
-  initialGotchi?: AavegotchiObject;
+  initialGotchiIndex?: number;
   /**
    * Maximum gotchis visible in selector per scroll
    */
    maxVisible?: number;
   /**
    * Callback function that triggers on gotchi select
-   * @param {AavegotchiObject} gotchi - Aavegotchi selected
+   * @param {number} gotchiIndex - Aavegotchi index selected
    */
-  selectGotchi: (gotchi: AavegotchiObject) => void;
+  selectGotchi: (gotchiIndex: number) => void;
 }
 
 export const GotchiSelector = ({
-  gotchis, selectGotchi, initialGotchi, maxVisible = 3,
+  gotchis, selectGotchi, initialGotchiIndex = 0, maxVisible = 3,
 }: Props) => {
   const [selected, setSelected] = useState<number>();
   const [currentIteration, setCurrentIteration] = useState(0);
@@ -46,12 +46,11 @@ export const GotchiSelector = ({
 
     setSelected(index);
     if (gotchis) {
-      selectGotchi(gotchis[index]);
+      selectGotchi(index);
     }
   }, [gotchis, selectGotchi, selected]);
 
   const handleScroll = (i: number) => {
-    console.log(i);
     const nextIteration = currentIteration + i;
     if (nextIteration > maxIterations || nextIteration < 0) return;
 
@@ -61,12 +60,12 @@ export const GotchiSelector = ({
 
   useEffect(() => {
     if (gotchis) {
-      const index = initialGotchi ? gotchis.findIndex((gotchi) => gotchi.id === initialGotchi.id) || 0 : 0;
+      const index = initialGotchiIndex;
       handleSelect(index);
       const selectorIteration = index + 1 - maxVisible < 0 ? 0 : index + 1 - maxVisible;
       setCurrentIteration(selectorIteration);
     }
-  }, [gotchis, initialGotchi, handleSelect, maxVisible]);
+  }, [gotchis, initialGotchiIndex, handleSelect, maxVisible]);
 
   return (
     <div className={styles.selectorContainer}>
@@ -86,6 +85,7 @@ export const GotchiSelector = ({
               ))
               : gotchis?.map((gotchi, i) => {
                 const isSelected = selected === i;
+                
                 return (
                   <div
                     className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
@@ -95,7 +95,7 @@ export const GotchiSelector = ({
                       handleSelect(i);
                     }}
                   >
-                    <img src={convertInlineSVGToBlobURL(gotchi.svg)} alt={gotchi.name} />
+                    <GotchiSVG tokenId={gotchi.id} />
                   </div>
                 );
               })

@@ -40,14 +40,15 @@
 .walletContainer {
   font-size: 1.6rem;
   background-color: var(--color-dark_2);
-  padding: 1.2rem;
+  padding: 0.8rem 1.2rem;
   display: grid;
   place-items: center;
   color: white;
   height: fit-content;
   border-style: none;
   cursor: pointer;
-  min-width: 16rem;
+  min-width: 14rem;
+  min-height: 4.8rem;
   margin-top: 3.2rem;
   margin-left: auto;
 }
@@ -58,9 +59,22 @@
 .walletAddress {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 .walletAddress p {
   margin: 0 0 0 1.2rem;
+}
+
+.connectedDetails {
+  margin-left: 1.6rem;
+}
+.connectedDetails p {
+  font-size: 1.2rem;
+  text-align: right;
+  margin: 0;
+  line-height: 1.4;
+  color: white;
 }
 
 @media only screen and (min-width: 768px) {

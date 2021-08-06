@@ -55,3 +55,16 @@
   pointer-events: none;
   opacity: 0.4;
 }
+
+pre {
+  background-color: var(--color-dark_1);
+  padding: 1.2rem;
+  white-space: pre-wrap;
+  max-height: 60rem;
+  overflow-y: scroll;
+}
+
+code {
+  color: white;
+  line-height: 1.8rem;
+}

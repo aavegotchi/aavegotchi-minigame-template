@@ -1,4 +1,4 @@
-import { Web3Provider } from 'web3';
+import Web3ContextProvider from 'web3/context';
 import { ServerProvider } from 'server-store';
 import Home from 'pages/Home';
 import Leaderboard from 'pages/Leaderboard';
@@ -32,7 +32,7 @@ const nav: Array<{ path: string, component: () => JSX.Element, exact?: boolean }
 
 function App() {
   return (
-    <Web3Provider>
+    <Web3ContextProvider>
       <ServerProvider>
         <Router>
           <Switch>
@@ -40,7 +40,7 @@ function App() {
           </Switch>
         </Router>
       </ServerProvider>
-    </Web3Provider>
+    </Web3ContextProvider>
   );
 }
 

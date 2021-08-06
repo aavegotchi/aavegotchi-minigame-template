@@ -1,11 +1,16 @@
 import { ethers } from 'ethers';
+export interface Tuple<T extends unknown, L extends number> extends Array<T> {
+  0: T;
+  length: L;
+}
 
 export interface AavegotchiGameObject extends AavegotchiObject {
   spritesheetKey: string;
+  svg: string;
 }
 
 export interface AavegotchiObject extends AavegotchiContractObject {
-  svg: string;
+  svg?: string;
 }
 
 export interface AavegotchiContractObject {
@@ -14,7 +19,7 @@ export interface AavegotchiContractObject {
   // modifiedNumericTraits: number[];
 
   // Only in subgraph
-  withSetsNumericTraits: [number, number, number, number, number, number];
+  withSetsNumericTraits: Tuple<number, 6>;
   id: string;
   // withSetsRarityScore?: ethers.BigNumber;
 
@@ -24,7 +29,7 @@ export interface AavegotchiContractObject {
   status: number;
   // tokenId: ethers.BigNumber;
   // items: ItemsAndBalances[];
-  // equippedWearables: number[];
+  equippedWearables: Tuple<number, 16>;
   // experience: ethers.BigNumber;
   // hauntId: ethers.BigNumber;
   // kinship: ethers.BigNumber;
@@ -78,10 +83,6 @@ export interface HighScore {
   name: string,
 }
 
-export interface Web3Error {
-  status: number,
-  error: {
-    message: string,
-    stack: string,
-  }
+export interface CustomError extends Error {
+  status?: number;
 }

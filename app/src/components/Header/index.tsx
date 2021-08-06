@@ -1,32 +1,35 @@
 import { useState } from 'react';
 import globalStyles from 'theme/globalStyles.module.css';
 import { NavLink } from 'react-router-dom';
-import { useWeb3 } from 'web3';
+import { useWeb3, connectToNetwork } from 'web3/context';
 import { smartTrim } from 'helpers/functions';
+import { networkIdToName } from 'helpers/vars';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { Hamburger, SideTray } from 'components';
 import { playSound } from 'helpers/hooks/useSound';
 import styles from './styles.module.css';
 
 const WalletButton = () => {
-  const { state: { address }, connectToNetwork } = useWeb3();
+  const { state: { address, networkId, loading }, dispatch } = useWeb3();
 
   const handleWalletClick = () => {
     if (!address) {
       playSound('click');
-      connectToNetwork();
+      connectToNetwork(dispatch, window.ethereum);
     }
   };
 
   return (
     <button className={styles.walletContainer} onClick={handleWalletClick} disabled={!!address}>
-      {address
-        ? (
+      {loading ? "Loading..." : address  ? (
           <div className={styles.walletAddress}>
             <Jazzicon diameter={24} seed={jsNumberForAddress(address)} />
-            <p>
-              {smartTrim(address, 8)}
-            </p>
+            <div className={styles.connectedDetails}>
+              <p>{networkId ? networkIdToName[networkId] : ''}</p>
+              <p>
+                {smartTrim(address, 8)}
+              </p>
+            </div>
           </div>
         )
         : 'Connect'}
