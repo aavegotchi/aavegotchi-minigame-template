@@ -45,12 +45,12 @@ const Home = () => {
     }
   }, [address]);
 
-  if (networkId !== 137) {
+  if (networkId !== 137 && !process.env.REACT_APP_OFFCHAIN) {
     return (
       <Layout>
         <div className={globalStyles.container}>
           <div className={styles.errorContainer}>
-            <h1>Wrong network.</h1>
+            <h1>{!networkId ? "Not connected" : "Wrong network"}</h1>
             <p className={styles.secondaryErrorMessage}>
               Please connect to the Polygon network.
             </p>
