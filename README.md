@@ -2,7 +2,7 @@
 
 The official Aavegotchi minigame template. This template allows you to create your own Aavegotchi minigames without any prior knowledge of web3. A basic understanding of Javascript and Typescript is necessary.
 
-![Screenshot 2021-06-22 at 16 14 35](https://user-images.githubusercontent.com/44173285/122954387-4c52dd00-d377-11eb-9e8d-3f76e064062c.png)
+![Screenshot 2021-06-22 at 16 14 35](https://user-images.githubusercontent.com/44173285/129406574-110c347d-803b-4e6d-90d1-66346f379844.png)
 
 The template includes both the *app* and *server* directories. The *app* consists of [Phaser3](https://phaser.io/phaser3) with a [React](https://reactjs.org/) wrapper. Phaser is a 2D game framework used for making HTML5 games for desktop and mobile. React is used for an intuitive main menu UI, as well as giving access to custom hooks for a more smooth Web3 / Aavegotchi integration.
 
