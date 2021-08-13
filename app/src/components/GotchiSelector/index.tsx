@@ -48,23 +48,26 @@ interface Props {
 export const GotchiSelector = ({
   gotchis, selectGotchi, initialGotchiIndex = 0, maxVisible = 3,
 }: Props) => {
-  const [selected, setSelected] = useState<number>();
+  const [selected, setSelected] = useState<string>();
   const [currentIteration, setCurrentIteration] = useState(0);
   const [initGotchis, setInitGotchis] = useState<Array<AavegotchiObject>>();
-
+  const [displayedGotchis, setDisplayedGotchis] = useState<Array<AavegotchiObject>>();
   /**
    * Maximum amount of times you can scroll down
    */
-  const maxIterations = gotchis ? gotchis.length - maxVisible < 0 ? 0 : gotchis.length - maxVisible : 0;
+  const [ maxIterations, setMaxIterations ] = useState(gotchis ? gotchis.length - maxVisible < 0 ? 0 : gotchis.length - maxVisible : 0);
+
+  const [searchInput, setSearchInput] = useState<string>("");
   const width = useWindowWidth();
   const isMobile = width < 768;
 
-  const handleSelect = useCallback((index: number) => {
-    if (index === selected) return;
+  const handleSelect = useCallback((id: string) => {
+    if (id === selected) return;
 
-    setSelected(index);
+    setSelected(id);
     if (gotchis) {
-      selectGotchi(index);
+      const index = initGotchis?.findIndex(gotchi => gotchi.id === id)
+      selectGotchi(index || 0);
     }
   }, [gotchis, selectGotchi, selected]);
 
@@ -81,13 +84,26 @@ export const GotchiSelector = ({
     return !newGotchis.find((gotchi, i) => gotchi.id !== prevGotchis[i].id);
   }
 
+  // Handle search
+  useEffect(() => {
+    if (initGotchis && initGotchis?.length > 0) {
+      const gotchis = [...initGotchis];
+      const searchMatches = gotchis.filter(gotchi => gotchi.id.includes(searchInput) || gotchi.name.toLowerCase().includes(searchInput.toLowerCase()));
+      setCurrentIteration(0);
+
+      setMaxIterations(searchMatches.length - maxVisible < 0 ? 0 : searchMatches.length - maxVisible);
+
+      setDisplayedGotchis(searchMatches);
+    }
+  }, [searchInput, initGotchis])
+
   useEffect(() => {
     if (gotchis) {
       if (isSameGotchis(gotchis, initGotchis)) return;
       setInitGotchis(gotchis)
-      const index = initialGotchiIndex;
-      handleSelect(index);
-      const selectorIteration = index + 1 - maxVisible < 0 ? 0 : index + 1 - maxVisible;
+      const id = gotchis[initialGotchiIndex].id
+      handleSelect(id);
+      const selectorIteration = initialGotchiIndex + 1 - maxVisible < 0 ? 0 : initialGotchiIndex + 1 - maxVisible;
       setCurrentIteration(selectorIteration);
       setInitGotchis(gotchis)
     }
@@ -110,8 +126,8 @@ export const GotchiSelector = ({
                     <img src={gotchiLoading} alt={`Loading gotchi ${i}`} />
                   </div>
                 ))
-                : gotchis?.slice(0, 6 + 3 * currentIteration).map((gotchi, i) => {
-                  const isSelected = selected === i;
+                : displayedGotchis?.slice(0, 6 + 3 * currentIteration).map((gotchi, i) => {
+                  const isSelected = selected === gotchi.id;
                   
                   return (
                     <div
@@ -119,7 +135,7 @@ export const GotchiSelector = ({
                       key={i}
                       onClick={() => {
                         playSound(click);
-                        handleSelect(i);
+                        handleSelect(gotchi.id);
                       }}
                     >
                       <GotchiSVG tokenId={gotchi.id} />
@@ -136,7 +152,7 @@ export const GotchiSelector = ({
         />
       </div>
       <div className={styles.filterOptions}>
-        <SearchToggle />
+        <SearchToggle placeholder="Token ID or Name" onChange={setSearchInput} />
         <SortToggle options={sortOptions} />
       </div>
     </div>
