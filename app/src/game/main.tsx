@@ -10,7 +10,7 @@ import { useDiamondCall } from "web3/actions";
 
 const Main = () => {
   const {
-    state: { usersAavegotchis, selectedAavegotchiIndex, provider },
+    state: { usersAavegotchis, selectedAavegotchiId, provider },
   } = useWeb3();
   const [initialised, setInitialised] = useState(true);
   const [config, setConfig] = useState<GameInstance>();
@@ -66,10 +66,11 @@ const Main = () => {
   }
 
   useEffect(() => {
-    if (usersAavegotchis) {
+    if (usersAavegotchis && selectedAavegotchiId) {
       // Socket is called here so we can take advantage of the useEffect hook to disconnect upon leaving the game screen
       const socket = io(process.env.REACT_APP_SERVER_PORT || 'http://localhost:8080');
-      const selectedGotchi = usersAavegotchis[selectedAavegotchiIndex];
+      const selectedGotchi = usersAavegotchis.find(gotchi => gotchi.id === selectedAavegotchiId);
+      if (!selectedGotchi) return;
       
       startGame(socket, selectedGotchi)
 

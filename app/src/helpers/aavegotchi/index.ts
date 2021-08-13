@@ -9,6 +9,7 @@ export const getDefaultGotchi = (): AavegotchiObject => {
     svg: defaultGotchi,
     equippedWearables: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     status: 3,
+    withSetsRarityScore: 300,
   }
 }
 

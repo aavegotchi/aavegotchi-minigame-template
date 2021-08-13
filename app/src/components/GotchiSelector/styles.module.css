@@ -1,5 +1,9 @@
 @import 'theme/vars.css';
 
+.gotchiSelector {
+  position: relative;
+}
+
 .selectorContainer {
   display: flex;
   margin: 0 auto;
@@ -66,6 +70,16 @@
   height: 100%;
 }
 
+.filterOptions {
+  display: flex;
+  left: 100%;
+  top: 0;
+  margin-bottom: 1.6rem;
+}
+.filterOptions > * + * {
+  margin-left: 1.2rem;
+}
+
 @media only screen and (min-width: 768px) {
   .selectorContainer {
     flex-direction: column;
@@ -99,5 +113,16 @@
   .chevron.down {
     margin-left: 0;
     margin-top: 2.4rem;
+  }
+
+  .filterOptions {
+    position: absolute;
+    display: revert;
+    left: 100%;
+    top: 0;
+  }
+  .filterOptions > * + * {
+    margin-top: 1.2rem;
+    margin-left: 0;
   }
 }

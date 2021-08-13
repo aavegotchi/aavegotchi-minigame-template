@@ -1,0 +1,69 @@
+@import 'theme/vars.css';
+
+.inputContainer {
+  position: relative;
+  background-color: white;
+  height: 4.2rem;
+  width: 4.2rem;
+  border-radius: 2.3rem;
+  transition: all 200ms ease;
+}
+.inputContainer.open {
+  width: 25rem;
+}
+.inputContainer.open .sortOptions {
+  padding-left: 4.4rem;
+  opacity: 1;
+}
+
+.toggle {
+  position: absolute;
+  background-color: var(--color-purple_0);
+  height: 4.2rem;
+  width: 4.2rem;
+  border-radius: 2.3rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border: none;
+  z-index: 1;
+}
+
+.sortOptions {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.6rem;
+  opacity: 0;
+  transition: all 400ms ease;
+  overflow: hidden;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  margin-left: 0.6rem;
+  cursor: pointer;
+}
+.sortOptions p {
+  margin: 0;
+}
+
+.option.active p {
+  color: var(--color-pink_0);
+}
+.option.active svg {
+  color: var(--color-pink_0);
+  display: inline;
+}
+.option.inactive p {
+  opacity: 0.4;
+}
+.option.inactive svg {
+  opacity: 0;
+}
+
+.asc {
+  transform: rotate(180deg);
+}

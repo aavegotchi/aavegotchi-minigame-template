@@ -21,7 +21,7 @@ export interface AavegotchiContractObject {
   // Only in subgraph
   withSetsNumericTraits: Tuple<number, 6>;
   id: string;
-  // withSetsRarityScore?: ethers.BigNumber;
+  withSetsRarityScore: number;
 
   // numericTraits: number[];
   // owner: string;
