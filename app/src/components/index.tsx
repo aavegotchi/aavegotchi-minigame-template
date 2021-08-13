@@ -8,4 +8,6 @@ export * from './Layout';
 export * from './Leaderboard';
 export * from './Modal';
 export * from './Portal';
+export * from './SearchToggle';
+export * from './SortToggle';
 export * from './Sidetray';

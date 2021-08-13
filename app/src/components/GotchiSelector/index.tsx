@@ -7,6 +7,23 @@ import gotchiLoading from 'assets/gifs/loading.gif';
 import useWindowWidth from 'helpers/hooks/windowSize';
 import styles from './styles.module.css';
 import { GotchiSVG } from 'components/GotchiSVG';
+import { SearchToggle } from 'components/SearchToggle';
+import { SortToggle } from 'components/SortToggle';
+
+const sortOptions = [
+  {
+    name: "BRS",
+    value: "withSetsRarityScore"
+  },
+  {
+    name: "TokenId",
+    value: "gotchiId"
+  },
+  {
+    name: "Name",
+    value: "name"
+  }
+]
 
 interface Props {
   /**
@@ -77,45 +94,51 @@ export const GotchiSelector = ({
   }, [gotchis, initialGotchiIndex, handleSelect, maxVisible]);
 
   return (
-    <div className={styles.selectorContainer}>
-      <ChevronUp
-        width={24}
-        className={`${styles.chevron} ${styles.up} ${currentIteration === 0 ? styles.disabled : styles.enabled}`}
-        onClick={() => handleScroll(-1)}
-      />
-      <div className={styles.selectorWrapper} style={isMobile ? { width: `${maxVisible * 7.2 + 1.6}rem` } : { height: `${maxVisible * 8.8}rem` }}>
-        <div className={styles.selector} style={isMobile ? { transform: `translateX(-${currentIteration * 8}rem)` } : { transform: `translateY(-${currentIteration * (9.6)}rem)` }}>
-          {
-            gotchis === undefined
-              ? new Array(3).fill('').map((_, i) => (
-                <div className={styles.loadingContainer} key={i}>
-                  <img src={gotchiLoading} alt={`Loading gotchi ${i}`} />
-                </div>
-              ))
-              : gotchis?.slice(0, 6 + 3 * currentIteration).map((gotchi, i) => {
-                const isSelected = selected === i;
-                
-                return (
-                  <div
-                    className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
-                    key={i}
-                    onClick={() => {
-                      playSound(click);
-                      handleSelect(i);
-                    }}
-                  >
-                    <GotchiSVG tokenId={gotchi.id} />
+    <div className={styles.gotchiSelector}>
+      <div className={styles.selectorContainer}>
+        <ChevronUp
+          width={24}
+          className={`${styles.chevron} ${styles.up} ${currentIteration === 0 ? styles.disabled : styles.enabled}`}
+          onClick={() => handleScroll(-1)}
+        />
+        <div className={styles.selectorWrapper} style={isMobile ? { width: `${maxVisible * 7.2 + 1.6}rem` } : { height: `${maxVisible * 8.8}rem` }}>
+          <div className={styles.selector} style={isMobile ? { transform: `translateX(-${currentIteration * 8}rem)` } : { transform: `translateY(-${currentIteration * (9.6)}rem)` }}>
+            {
+              gotchis === undefined
+                ? new Array(3).fill('').map((_, i) => (
+                  <div className={styles.loadingContainer} key={i}>
+                    <img src={gotchiLoading} alt={`Loading gotchi ${i}`} />
                   </div>
-                );
-              })
-          }
+                ))
+                : gotchis?.slice(0, 6 + 3 * currentIteration).map((gotchi, i) => {
+                  const isSelected = selected === i;
+                  
+                  return (
+                    <div
+                      className={`${styles.gotchiContainer} ${isSelected ? `${styles.selected} ${globalStyles.glow}` : ''}`}
+                      key={i}
+                      onClick={() => {
+                        playSound(click);
+                        handleSelect(i);
+                      }}
+                    >
+                      <GotchiSVG tokenId={gotchi.id} />
+                    </div>
+                  );
+                })
+            }
+          </div>
         </div>
+        <ChevronDown
+          width={24}
+          className={`${styles.chevron} ${styles.down} ${currentIteration === maxIterations ? styles.disabled : styles.enabled}`}
+          onClick={() => handleScroll(1)}
+        />
       </div>
-      <ChevronDown
-        width={24}
-        className={`${styles.chevron} ${styles.down} ${currentIteration === maxIterations ? styles.disabled : styles.enabled}`}
-        onClick={() => handleScroll(1)}
-      />
+      <div className={styles.filterOptions}>
+        <SearchToggle />
+        <SortToggle options={sortOptions} />
+      </div>
     </div>
   );
 };
