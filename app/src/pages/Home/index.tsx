@@ -41,7 +41,7 @@ const Home = () => {
     if (process.env.REACT_APP_OFFCHAIN) return useDefaultGotchi();
 
     if (address) {
-      updateAavegotchis(dispatch, "0xE29555e804e414E295E2A059Fc49d002EC18F268")
+      updateAavegotchis(dispatch, address)
     }
   }, [address]);
 
