@@ -8,9 +8,10 @@ import { convertInlineSVGToBlobURL, customiseSvg, CustomiseOptions} from 'helper
 interface Props {
   tokenId: string;
   options?: CustomiseOptions;
+  lazyloadIn?: boolean;
 }
 
-export const GotchiSVG = ({ tokenId, options }: Props) => {
+export const GotchiSVG = ({ tokenId, options, lazyloadIn }: Props) => {
   const { state: { usersAavegotchis, provider }, dispatch} = useWeb3();
   const [ svg, setSvg ] = useState<string>();
 
@@ -37,7 +38,7 @@ export const GotchiSVG = ({ tokenId, options }: Props) => {
   }
 
   useEffect(() => {
-    if (usersAavegotchis) {
+    if (usersAavegotchis && (lazyloadIn === undefined || lazyloadIn)) {
       const gotchis = [...usersAavegotchis]
       const selectedGotchi = gotchis.find(gotchi => gotchi.id === tokenId);
       if (selectedGotchi?.svg) {
@@ -46,7 +47,7 @@ export const GotchiSVG = ({ tokenId, options }: Props) => {
         fetchGotchiSvg(tokenId, !!selectedGotchi, provider);
       }
     }
-  }, [usersAavegotchis, tokenId])
+  }, [usersAavegotchis, tokenId, lazyloadIn])
 
   return (
     <img src={svg ? convertInlineSVGToBlobURL(svg) : gotchiLoading} height="100%" width="100%" />

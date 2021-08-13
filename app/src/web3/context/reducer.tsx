@@ -7,7 +7,7 @@ export type Action =
     }
   | {
       type: "SET_SELECTED_AAVEGOTCHI";
-      selectedAavegotchiIndex: State["selectedAavegotchiIndex"];
+      selectedAavegotchiId: State["selectedAavegotchiId"];
     }
   | {
       type: "START_ASYNC";
@@ -48,7 +48,7 @@ export const reducer = (state: State, action: Action): State => {
     case "SET_SELECTED_AAVEGOTCHI": {
       return {
         ...state,
-        selectedAavegotchiIndex: action.selectedAavegotchiIndex,
+        selectedAavegotchiId: action.selectedAavegotchiId,
       };
     }
     case "START_ASYNC": {

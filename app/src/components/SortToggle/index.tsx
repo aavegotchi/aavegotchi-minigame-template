@@ -14,14 +14,27 @@ interface Props {
   }>
   onSelect: (val: Sort) => void;
   selected: Sort;
+  onToggle?: (active: boolean) => void;
+  activeOverride?: boolean;
 }
 
-export const SortToggle = ({ options, onSelect, selected }: Props) => {
+export const SortToggle = ({ options, onSelect, selected, onToggle, activeOverride }: Props) => {
   const [open, setOpen] = useState(false);
 
+  const handleToggle = () => {
+    setOpen((prevState) => !prevState);
+    onToggle ? onToggle(!open) : null;
+  };
+
   return (
-    <div className={`${styles.inputContainer} ${open ? styles.open : ''}`}>
-      <button className={styles.toggle} onClick={() => setOpen(prevState => !prevState)}>
+    <div
+      className={`${styles.inputContainer} ${
+        (activeOverride !== undefined ? activeOverride : open)
+          ? styles.open
+          : ""
+      }`}
+    >
+      <button className={styles.toggle} onClick={handleToggle}>
         <SortIcon width={32} height={32} fill="white" />
       </button>
       <div className={styles.sortOptions}>

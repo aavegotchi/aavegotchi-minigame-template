@@ -71,12 +71,13 @@
 }
 
 .filterOptions {
-  position: absolute;
+  display: flex;
   left: 100%;
   top: 0;
+  margin-bottom: 1.6rem;
 }
 .filterOptions > * + * {
-  margin-top: 1.2rem;
+  margin-left: 1.2rem;
 }
 
 @media only screen and (min-width: 768px) {
@@ -112,5 +113,16 @@
   .chevron.down {
     margin-left: 0;
     margin-top: 2.4rem;
+  }
+
+  .filterOptions {
+    position: absolute;
+    display: revert;
+    left: 100%;
+    top: 0;
+  }
+  .filterOptions > * + * {
+    margin-top: 1.2rem;
+    margin-left: 0;
   }
 }

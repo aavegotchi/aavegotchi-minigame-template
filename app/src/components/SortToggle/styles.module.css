@@ -37,6 +37,7 @@
   font-size: 1.6rem;
   opacity: 0;
   transition: all 400ms ease;
+  overflow: hidden;
 }
 
 .option {

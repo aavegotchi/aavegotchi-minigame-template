@@ -16,7 +16,7 @@ import styles from './styles.module.css';
 const Home = () => {
   const {
     state: {
-      usersAavegotchis, address, selectedAavegotchiIndex, networkId
+      usersAavegotchis, address, selectedAavegotchiId, networkId
     },
     dispatch,
   } = useWeb3();
@@ -31,8 +31,8 @@ const Home = () => {
    * Updates global state with selected gotchi
    */
   const handleSelect = useCallback(
-    (gotchiIndex: number) => {
-      dispatch({ type: "SET_SELECTED_AAVEGOTCHI", selectedAavegotchiIndex: gotchiIndex });
+    (gotchiId: string) => {
+      dispatch({ type: "SET_SELECTED_AAVEGOTCHI", selectedAavegotchiId: gotchiId });
     },
     [dispatch],
   );
@@ -107,21 +107,21 @@ const Home = () => {
         <div className={styles.homeContainer}>
           <div className={styles.selectorContainer}>
             <GotchiSelector
-              initialGotchiIndex={selectedAavegotchiIndex}
+              initialGotchiId={selectedAavegotchiId}
               gotchis={usersAavegotchis}
               selectGotchi={handleSelect}
             />
           </div>
           <div className={styles.gotchiContainer}>
-            {usersAavegotchis ? (
-              <GotchiSVG tokenId={usersAavegotchis[selectedAavegotchiIndex].id} options={{ animate: true, removeBg: true }}  />
+            {selectedAavegotchiId ? (
+              <GotchiSVG tokenId={selectedAavegotchiId} options={{ animate: true, removeBg: true }}  />
             ) : (
               <img src={gotchiLoading} alt="Loading Aavegotchi" />
             )}
             <h1 className={styles.highscore}>
               Highscore:
               {' '}
-              {usersAavegotchis && highscores?.find((score) => score.tokenId === usersAavegotchis[selectedAavegotchiIndex]?.id)
+              {usersAavegotchis && highscores?.find((score) => score.tokenId === selectedAavegotchiId)
                 ?.score || 0}
             </h1>
             <div className={styles.buttonContainer}>
@@ -146,7 +146,7 @@ const Home = () => {
             </div>
           </div>
           <div className={styles.detailsPanelContainer}>
-            <DetailsPanel selectedGotchi={usersAavegotchis ? usersAavegotchis[selectedAavegotchiIndex] : undefined} />
+            <DetailsPanel selectedGotchi={usersAavegotchis?.find(gotchi => gotchi.id === selectedAavegotchiId)} />
           </div>
         </div>
       </div>
