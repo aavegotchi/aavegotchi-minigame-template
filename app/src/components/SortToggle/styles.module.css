@@ -12,7 +12,7 @@
   width: 25rem;
 }
 .inputContainer.open .sortOptions {
-  padding-left: 3.8rem;
+  padding-left: 4.4rem;
   opacity: 1;
 }
 
@@ -42,7 +42,7 @@
 .option {
   display: flex;
   align-items: center;
-  margin-left: 1.2rem;
+  margin-left: 0.6rem;
   cursor: pointer;
 }
 .sortOptions p {
@@ -60,5 +60,9 @@
   opacity: 0.4;
 }
 .option.inactive svg {
-  display: none;
+  opacity: 0;
+}
+
+.asc {
+  transform: rotate(180deg);
 }

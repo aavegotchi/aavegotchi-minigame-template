@@ -8,7 +8,7 @@ import useWindowWidth from 'helpers/hooks/windowSize';
 import styles from './styles.module.css';
 import { GotchiSVG } from 'components/GotchiSVG';
 import { SearchToggle } from 'components/SearchToggle';
-import { SortToggle } from 'components/SortToggle';
+import { SortToggle, Sort } from 'components/SortToggle';
 
 const sortOptions = [
   {
@@ -56,8 +56,12 @@ export const GotchiSelector = ({
    * Maximum amount of times you can scroll down
    */
   const [ maxIterations, setMaxIterations ] = useState(gotchis ? gotchis.length - maxVisible < 0 ? 0 : gotchis.length - maxVisible : 0);
-
   const [searchInput, setSearchInput] = useState<string>("");
+  const [sort, setSort] = useState<Sort>({
+    val: 'withSetsRarityScore',
+    dir: 'desc',
+  })
+
   const width = useWindowWidth();
   const isMobile = width < 768;
 
@@ -84,18 +88,32 @@ export const GotchiSelector = ({
     return !newGotchis.find((gotchi, i) => gotchi.id !== prevGotchis[i].id);
   }
 
-  // Handle search
+  const compareFunction = (a: AavegotchiObject, b: AavegotchiObject, options: Sort) => {
+    const { val, dir } = options;
+
+    switch (val) {
+      case "withSetsRarityScore":
+        return (dir === 'asc' ? 1 : -1) * (a.withSetsRarityScore - b.withSetsRarityScore);
+      case "name":
+        return (dir === 'asc' ? 1 : -1) * (a.name < b.name ? -1 : 1);
+      case "gotchiId":
+        return (dir === 'asc' ? 1 : -1) * (a.id < b.id ? -1 : 1);
+      default: 
+       return 0;
+    }
+  }
+
+  // Handle search & sort
   useEffect(() => {
     if (initGotchis && initGotchis?.length > 0) {
       const gotchis = [...initGotchis];
       const searchMatches = gotchis.filter(gotchi => gotchi.id.includes(searchInput) || gotchi.name.toLowerCase().includes(searchInput.toLowerCase()));
+      const sortedMatches = searchMatches.sort((a, b) => compareFunction(a, b, sort))
       setCurrentIteration(0);
-
       setMaxIterations(searchMatches.length - maxVisible < 0 ? 0 : searchMatches.length - maxVisible);
-
-      setDisplayedGotchis(searchMatches);
+      setDisplayedGotchis(sortedMatches);
     }
-  }, [searchInput, initGotchis])
+  }, [searchInput, initGotchis, sort])
 
   useEffect(() => {
     if (gotchis) {
@@ -153,7 +171,7 @@ export const GotchiSelector = ({
       </div>
       <div className={styles.filterOptions}>
         <SearchToggle placeholder="Token ID or Name" onChange={setSearchInput} />
-        <SortToggle options={sortOptions} />
+        <SortToggle options={sortOptions} onSelect={setSort} selected={sort} />
       </div>
     </div>
   );

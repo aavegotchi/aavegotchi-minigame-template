@@ -12,6 +12,7 @@ export const getAllAavegotchisOfOwner = (owner: string) => {
         name
         withSetsNumericTraits
         equippedWearables
+        withSetsRarityScore
       }
     }
   `
