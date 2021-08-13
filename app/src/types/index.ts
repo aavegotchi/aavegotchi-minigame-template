@@ -14,15 +14,17 @@ export interface AavegotchiObject extends AavegotchiContractObject {
 }
 
 export interface AavegotchiContractObject {
-  // collateral: string;
-  name: string;
-  // modifiedNumericTraits: number[];
-
   // Only in subgraph
   withSetsNumericTraits: Tuple<number, 6>;
   id: string;
-  // withSetsRarityScore?: ethers.BigNumber;
+  withSetsRarityScore: number;
+  owner: {
+    id: string;
+  };
 
+  // collateral: string;
+  name: string;
+  // modifiedNumericTraits: number[];
   // numericTraits: number[];
   // owner: string;
   // randomNumber: string;

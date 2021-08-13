@@ -1,0 +1,47 @@
+@import 'theme/vars.css';
+
+.inputContainer {
+  position: relative;
+  background-color: white;
+  height: 4.2rem;
+  width: 4.2rem;
+  border-radius: 2.3rem;
+  transition: width 200ms ease;
+}
+.inputContainer.open {
+  width: 25rem;
+}
+.inputContainer.open .input {
+  padding-left: 4.6rem;
+  opacity: 1;
+}
+
+.toggle {
+  position: absolute;
+  background-color: var(--color-purple_0);
+  height: 4.2rem;
+  width: 4.2rem;
+  border-radius: 2.3rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border: none;
+  z-index: 1;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  border-radius: 2.3rem;
+  padding: 0.4rem;
+  font-size: 1.6rem;
+  border: none;
+  opacity: 0;
+  transition: all 300ms ease;
+}
+.input:focus {
+  outline: none;
+  webkit-box-shadow: 0px 0px 15px 0px var(--color-pink_0);
+  -moz-box-shadow: 0px 0px 15px 0px var(--color-pink_0);
+  box-shadow: 0px 0px 15px 0px var(--color-pink_0);
+}

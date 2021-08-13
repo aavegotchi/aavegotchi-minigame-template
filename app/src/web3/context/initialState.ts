@@ -5,7 +5,7 @@ export interface State {
   address?: string;
   provider?: Web3Provider;
   usersAavegotchis?: Array<AavegotchiObject>;
-  selectedAavegotchiIndex: number;
+  selectedAavegotchiId?: string;
   loading: boolean;
   error?: Error;
   networkId?: number;
@@ -13,5 +13,4 @@ export interface State {
 
 export const initialState: State = {
   loading: false,
-  selectedAavegotchiIndex: 0,
 }
