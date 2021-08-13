@@ -41,7 +41,11 @@ const Home = () => {
     if (process.env.REACT_APP_OFFCHAIN) return useDefaultGotchi();
 
     if (address) {
-      updateAavegotchis(dispatch, address)
+      const prevGotchis = usersAavegotchis || [];
+      if (prevGotchis.find(gotchi => gotchi.owner.id.toLowerCase() === address.toLowerCase())) return;
+
+      dispatch({ type: "SET_SELECTED_AAVEGOTCHI", selectedAavegotchiId: undefined });
+      updateAavegotchis(dispatch, address);
     }
   }, [address]);
 

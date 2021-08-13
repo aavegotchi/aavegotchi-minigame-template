@@ -10,6 +10,9 @@ export const getDefaultGotchi = (): AavegotchiObject => {
     equippedWearables: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     status: 3,
     withSetsRarityScore: 300,
+    owner: {
+      id: '0000'
+    },
   }
 }
 
@@ -52,10 +55,10 @@ export const bounceAnimation = (svg: string) => {
   const style = `
     @keyframes downHands {
       from {
-        --hand_translateY: -4px;
+        --hand_translateY: -1px;
       }
       to {
-        --hand_translateY: -3.5px;
+        --hand_translateY: -0.5px;
       }
     }
     @keyframes up {
@@ -109,6 +112,7 @@ export const bounceAnimation = (svg: string) => {
       animation-iteration-count: infinite;
       animation-timing-function: linear;
       animation-timing-function: steps(2);
+      transform: translate(0, var(--hand_translateY));
     }
     .wearable-bg {
       animation-name: none;
