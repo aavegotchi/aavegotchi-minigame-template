@@ -33,6 +33,7 @@ export const GotchiSelector = ({
 }: Props) => {
   const [selected, setSelected] = useState<number>();
   const [currentIteration, setCurrentIteration] = useState(0);
+  const [initGotchis, setInitGotchis] = useState<Array<AavegotchiObject>>();
 
   /**
    * Maximum amount of times you can scroll down
@@ -58,12 +59,20 @@ export const GotchiSelector = ({
     setCurrentIteration(nextIteration);
   };
 
+  const isSameGotchis = (newGotchis: Array<AavegotchiObject>, prevGotchis?: Array<AavegotchiObject>) => {
+    if (!prevGotchis) return false;
+    return !newGotchis.find((gotchi, i) => gotchi.id !== prevGotchis[i].id);
+  }
+
   useEffect(() => {
     if (gotchis) {
+      if (isSameGotchis(gotchis, initGotchis)) return;
+      setInitGotchis(gotchis)
       const index = initialGotchiIndex;
       handleSelect(index);
       const selectorIteration = index + 1 - maxVisible < 0 ? 0 : index + 1 - maxVisible;
       setCurrentIteration(selectorIteration);
+      setInitGotchis(gotchis)
     }
   }, [gotchis, initialGotchiIndex, handleSelect, maxVisible]);
 
@@ -83,7 +92,7 @@ export const GotchiSelector = ({
                   <img src={gotchiLoading} alt={`Loading gotchi ${i}`} />
                 </div>
               ))
-              : gotchis?.map((gotchi, i) => {
+              : gotchis?.slice(0, 6 + 3 * currentIteration).map((gotchi, i) => {
                 const isSelected = selected === i;
                 
                 return (
