@@ -1,5 +1,47 @@
 import { mouths, eyes, defaultGotchi } from "./svg";
 import { Tuple, AavegotchiObject } from "types";
+import { Signer } from '@ethersproject/abstract-signer';
+import { Provider } from "@ethersproject/abstract-provider";
+import { useDiamondCall } from "web3/actions";
+import { collateralToAddress, Collaterals} from 'helpers/vars';
+
+interface GotchiOptions {
+  haunt?: "0" | "1",
+  numericTraits?: Tuple<number, 6>,
+  wearables?: Tuple<number, 16>,
+  collateral?: Collaterals,
+  name?: string,
+  id?: string,
+}
+
+export const getPreviewGotchi = async (provider: Signer | Provider, options?: GotchiOptions): Promise<AavegotchiObject> => {
+  const withSetsNumericTraits: Tuple<number, 6> = options?.numericTraits || [50, 50, 50, 50, 50, 50];
+  const equippedWearables: Tuple<number, 16> = options?.wearables || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const svg = await useDiamondCall<string>(provider, {
+    name: "previewAavegotchi",
+    parameters: [
+      options?.haunt || "0",
+      options?.collateral ? collateralToAddress[options.collateral] : collateralToAddress["aWETH"],
+      withSetsNumericTraits,
+      equippedWearables,
+    ],
+  });
+  const gotchi = {
+    id: options?.id || '0000',
+    name: options?.name || 'Aavegotchi',
+    withSetsNumericTraits,
+    svg: svg,
+    equippedWearables,
+    status: 3,
+    withSetsRarityScore: 300,
+    owner: {
+      id: '0000'
+    },
+  }
+  return gotchi;
+}
+
+
 
 export const getDefaultGotchi = (): AavegotchiObject => {
   return {
