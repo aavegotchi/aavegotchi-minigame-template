@@ -21,7 +21,7 @@ export const getPreviewGotchi = async (provider: Signer | Provider, options?: Go
     name: "previewAavegotchi",
     parameters: [
       options?.haunt || "0",
-      options?.collateral ? collateralToAddress[options.collateral] : collateralToAddress["maWETH"],
+      options?.collateral ? collateralToAddress[options.collateral] : collateralToAddress["aWETH"],
       withSetsNumericTraits,
       equippedWearables,
     ],

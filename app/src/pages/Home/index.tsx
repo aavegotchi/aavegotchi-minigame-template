@@ -14,9 +14,7 @@ import { useWeb3, updateAavegotchis } from "web3/context";
 import { getDefaultGotchi, getPreviewGotchi } from "helpers/aavegotchi";
 import gotchiLoading from "assets/gifs/loading.gif";
 import { playSound } from "helpers/hooks/useSound";
-import { collateralToAddress } from "helpers/vars";
 import styles from "./styles.module.css";
-import { Tuple } from 'types';
 
 const Home = () => {
   const {
@@ -42,8 +40,20 @@ const Home = () => {
   const usePreviewGotchis = async () => {
     if (provider) {
       try {
-        const gotchi1 = await getPreviewGotchi(provider);
-        const gotchi2 = await getPreviewGotchi(provider);
+        const gotchi1 = await getPreviewGotchi(provider, {
+          name: "GotchiDev",
+          id: "OG",
+          collateral: "aWETH",
+          wearables: [117, 55, 0, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          numericTraits: [50, 50, 50, 50, 40, 40]
+        });
+        const gotchi2 = await getPreviewGotchi(provider, {
+          name: "H4cker",
+          id: "l33T",
+          collateral: "aUSDT",
+          wearables: [211, 212, 213, 214, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          numericTraits: [100, 100, 100, 100, 100, 100]
+        });
         dispatch({
           type: "SET_USERS_AAVEGOTCHIS",
             usersAavegotchis: [gotchi1, gotchi2],
@@ -54,9 +64,6 @@ const Home = () => {
           error: err
         })
       }
-      // const res = await useDiamondCall(provider, {
-      //   name: "currentHaunt",
-      // });
     }
   };
 
@@ -133,7 +140,7 @@ const Home = () => {
                 onClick={usePreviewGotchis}
                 className={globalStyles.primaryButton}
               >
-                Use Preview Gotchi
+                Use Preview Gotchis
               </button>
             )}
           </div>
