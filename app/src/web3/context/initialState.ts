@@ -7,7 +7,7 @@ export interface State {
   usersAavegotchis?: Array<AavegotchiObject>;
   selectedAavegotchiId?: string;
   loading: boolean;
-  error?: Error;
+  error?: Error | unknown;
   networkId?: number;
 }
 

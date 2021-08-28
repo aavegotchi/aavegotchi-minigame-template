@@ -2,7 +2,7 @@ import { Modal } from '../Modal';
 import { CustomError } from 'types';
 
 interface Props {
-  error: CustomError;
+  error: CustomError | unknown;
   onHandleClose?: () => void;
 }
 
@@ -12,15 +12,17 @@ export const ErrorModal = ({ error, onHandleClose }: Props) => {
     if (onHandleClose) onHandleClose();
   }
 
+  const err = error as CustomError;
+
   return (
     <Modal onHandleClose={handleClose}>
-      <h3>Status Code: {error.status || 400}</h3>
-      <h2>{error.name}</h2>
-      <p>{error.message}</p>
-      {error.stack && (
+      <h3>Status Code: {err.status || 400}</h3>
+      <h2>{err.name}</h2>
+      <p>{err.message}</p>
+      {err.stack && (
         <pre>
           <code>
-            {error.stack}
+            {err.stack}
           </code>
         </pre>
       )}

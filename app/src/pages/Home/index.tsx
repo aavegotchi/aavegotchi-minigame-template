@@ -9,7 +9,6 @@ import {
 import { Link } from "react-router-dom";
 import globalStyles from "theme/globalStyles.module.css";
 import { useServer } from "server-store";
-import { useDiamondCall } from "web3/actions";
 import { useWeb3, updateAavegotchis } from "web3/context";
 import { getDefaultGotchi, getPreviewGotchi } from "helpers/aavegotchi";
 import gotchiLoading from "assets/gifs/loading.gif";
@@ -59,10 +58,10 @@ const Home = () => {
             usersAavegotchis: [gotchi1, gotchi2],
         }); 
       } catch (err) {
-        dispatch({
-          type: "SET_ERROR",
-          error: err
-        })
+        // dispatch({
+        //   type: "SET_ERROR",
+        //   error: err
+        // })
       }
     }
   };

@@ -11,16 +11,7 @@ export const useSubgraph = async <T extends unknown>(
   query: string,
   uri?: string
 ): Promise<T> => {
-  try {
-    const data = await request<T>(uri || coreURI, query);
-    return data;
-  } catch (err) {
-    throw {
-      status: 400,
-      name: "Subgraph error",
-      message: err.response.errors[0].message,
-    };
-  }
+    return await request<T>(uri || coreURI, query);
 };
 
 type DiamondCallMethods =
@@ -33,11 +24,7 @@ export const useDiamondCall = async <R extends unknown>(
   method: DiamondCallMethods,
 ): Promise<R> => {
   const contract = new ethers.Contract(addresses.diamond, diamondAbi, provider);
-  try {
-    const { name, parameters } = method;
-    const res = await (parameters ? contract[name](...parameters) : contract[name]());
-    return res;
-  } catch (err) {
-    throw { status: 400, name: "Diamond contract error", message: err.message, stack: err.stack };
-  }
+  const { name, parameters } = method;
+  const res = await (parameters ? contract[name](...parameters) : contract[name]());
+  return res;
 };
