@@ -58,10 +58,10 @@ const Home = () => {
             usersAavegotchis: [gotchi1, gotchi2],
         }); 
       } catch (err) {
-        // dispatch({
-        //   type: "SET_ERROR",
-        //   error: err
-        // })
+        dispatch({
+          type: "SET_ERROR",
+          error: err
+        })
       }
     }
   };
