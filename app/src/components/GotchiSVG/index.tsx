@@ -27,7 +27,7 @@ export const GotchiSVG = ({ tokenId, options, lazyloadIn }: Props) => {
       } else {
         setSvg(options ? customiseSvg(res, options) : res)
       }
-    } catch (error) {
+    } catch (error: any) {
       dispatch({
         type: "SET_ERROR",
         error
