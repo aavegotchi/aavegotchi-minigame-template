@@ -173,18 +173,18 @@ export const bounceAnimation = (svg: string) => {
  * @returns {string} Returns customised SVG
  */
 export const raiseHands = (svg: string, arms?: {left?: number, right?: number}) => {
-  const leftArm = arms?.left === 201 ? `
+  const leftArm = (arms?.left && [207, 217, 223].includes(arms?.left)) ? `
       .wearable-hand-left {
         transform: translateY(calc(14px + var(--hand_translateY, -4px))) scaleY(-1);
         transform-origin: 50% 50%;
       }
     ` : ''
-    const rightArm = arms?.right === 201 ? `
-      .wearable-hand-right {
-        transform: translateY(calc(14px + var(--hand_translateY, -4px))) scaleY(-1);
-        transform-origin: 50% 50%;
-      }
-    ` : ``
+  const rightArm = (arms?.right && [207, 217, 223].includes(arms?.right)) ? `
+    .wearable-hand-right {
+      transform: translateY(calc(14px + var(--hand_translateY, -4px))) scaleY(-1);
+      transform-origin: 50% 50%;
+    }
+  ` : ``
 
   const style = `
     .gotchi-handsDownClosed {
