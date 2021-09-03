@@ -6,7 +6,7 @@ import { useDiamondCall } from "web3/actions";
 import { collateralToAddress, Collaterals} from 'helpers/vars';
 
 interface GotchiOptions {
-  haunt?: "0" | "1",
+  haunt?: "1" | "2",
   numericTraits?: Tuple<number, 6>,
   wearables?: Tuple<number, 16>,
   collateral?: Collaterals,
@@ -20,12 +20,13 @@ export const getPreviewGotchi = async (provider: Signer | Provider, options?: Go
   const svg = await useDiamondCall<Tuple<string, 4>>(provider, {
     name: "previewSideAavegotchi",
     parameters: [
-      options?.haunt || "0",
+      options?.haunt || "1",
       options?.collateral ? collateralToAddress[options.collateral] : collateralToAddress["aWETH"],
       withSetsNumericTraits,
       equippedWearables,
     ],
   });
+  console.log(svg);
   const gotchi = {
     id: options?.id || '0000',
     name: options?.name || 'Aavegotchi',

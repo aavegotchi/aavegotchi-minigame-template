@@ -42,11 +42,16 @@ const Home = () => {
         const gotchi1 = await getPreviewGotchi(provider, {
           name: "GotchiDev",
           id: "OG",
-          collateral: "aWETH",
-          wearables: [117, 55, 0, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          numericTraits: [50, 50, 50, 50, 40, 40]
+          collateral: "aLINK",
+          wearables: [0, 0, 73, 72, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          numericTraits: [10, 50, 50, 100, 40, 40]
         });
         const gotchi2 = await getPreviewGotchi(provider, {
+          name: "Mascot",
+          id: "None",
+          numericTraits: [50, 50, 50, 0, 40, 40]
+        })
+        const gotchi3 = await getPreviewGotchi(provider, {
           name: "H4cker",
           id: "l33T",
           collateral: "aUSDT",
@@ -55,7 +60,7 @@ const Home = () => {
         });
         dispatch({
           type: "SET_USERS_AAVEGOTCHIS",
-            usersAavegotchis: [gotchi1, gotchi2],
+            usersAavegotchis: [gotchi1, gotchi2, gotchi3],
         }); 
       } catch (err) {
         dispatch({
