@@ -1,3 +1,5 @@
+import { Tuple } from "types";
+
 export const eyes = {
   happy: `
     <path d="M23 26V25V24H22H21V25V26H22H23Z"></path>
@@ -32,7 +34,7 @@ export const mouths = {
   `,
 };
 
-export const defaultGotchi =
+export const defaultGotchi: Tuple<string, 4> = [
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <style>.gotchi-primary{fill:#64438E;}.gotchi-secondary{fill:#EDD3FD;}.gotchi-cheek{fill:#F696C6;}.gotchi-eyeColor{fill:#64438E;}.gotchi-primary-mouth{fill:#64438E;}.gotchi-sleeves-up{display:none;}.gotchi-handsUp{display:none;}.gotchi-handsDownOpen{display:none;}.gotchi-handsDownClosed{display:block}
 svg {
@@ -262,5 +264,8 @@ svg {
       <path d="M8,36h2v1H8V36z" />
     </g>
   </g>
-</svg>`
-
+</svg>`,
+  "",
+  "",
+  "",
+];

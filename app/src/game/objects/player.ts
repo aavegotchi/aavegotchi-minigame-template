@@ -23,6 +23,18 @@ export class Player extends Phaser.GameObjects.Sprite {
       frameRate: 2,
       repeat: -1,
     });
+    this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNumbers(key || '', { frames: [ 2 ]}),
+    });
+    this.anims.create({
+      key: 'right',
+      frames: this.anims.generateFrameNumbers(key || '', { frames: [ 4 ]}),
+    });
+    this.anims.create({
+      key: 'up',
+      frames: this.anims.generateFrameNumbers(key || '', { frames: [ 6 ]}),
+    });
 
     // physics
     this.scene.physics.world.enable(this);
@@ -40,14 +52,12 @@ export class Player extends Phaser.GameObjects.Sprite {
     switch (true) {
       case this.cursorKeys?.left.isDown:
         velocity.x -= 1;
-        this.anims.play('idle', false);
+        this.anims.play('left', true);
         break;
       case this.cursorKeys?.right.isDown:
         velocity.x += 1;
-        this.anims.play('idle', false);
+        this.anims.play('right', true);
         break;
-      default:
-        this.anims.play('idle', true);
     }
 
     // Vertical movement
@@ -58,10 +68,8 @@ export class Player extends Phaser.GameObjects.Sprite {
         break;
       case this.cursorKeys?.up.isDown:
         velocity.y -= 1;
-        this.anims.play('idle', false);
+        this.anims.play('up', true);
         break;
-      default:
-        this.anims.play('idle', true);
     }
 
     // We normalize the velocity so that the player is always moving at the same speed, regardless of direction.

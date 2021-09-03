@@ -1,9 +1,14 @@
 import { useWeb3 } from "web3/context";
 import { useEffect, useState } from "react";
 import { useDiamondCall } from "web3/actions";
-import gotchiLoading from 'assets/gifs/loading.gif';
+import gotchiLoading from "assets/gifs/loading.gif";
 import { Web3Provider } from "@ethersproject/providers";
-import { convertInlineSVGToBlobURL, customiseSvg, CustomiseOptions} from 'helpers/aavegotchi';
+import {
+  convertInlineSVGToBlobURL,
+  customiseSvg,
+  CustomiseOptions,
+} from "helpers/aavegotchi";
+import { Tuple } from "types";
 
 interface Props {
   tokenId: string;
@@ -12,42 +17,64 @@ interface Props {
 }
 
 export const GotchiSVG = ({ tokenId, options, lazyloadIn }: Props) => {
-  const { state: { usersAavegotchis, provider }, dispatch} = useWeb3();
-  const [ svg, setSvg ] = useState<string>();
+  const {
+    state: { usersAavegotchis, provider },
+    dispatch,
+  } = useWeb3();
+  const [svg, setSvg] = useState<string>();
 
-  const fetchGotchiSvg = async (id: string, isOwner: boolean, provider: Web3Provider) => {
+  const fetchGotchiSvg = async (
+    id: string,
+    isOwner: boolean,
+    provider: Web3Provider
+  ) => {
     try {
-      const res = await useDiamondCall<string>(provider, { name: "getAavegotchiSvg", parameters: [id]});
+      const res = await useDiamondCall<Tuple<string, 4>>(provider, {
+        name: "getAavegotchiSideSvgs",
+        parameters: [id],
+      });
       if (isOwner) {
         dispatch({
           type: "UPDATE_AAVEGOTCHI_SVG",
           tokenId: id,
-          svg: res
-        })
+          svg: res,
+        });
       } else {
-        setSvg(options ? customiseSvg(res, options) : res)
+        setSvg(options ? customiseSvg(res[0], options) : res[0]);
       }
     } catch (error) {
       dispatch({
         type: "SET_ERROR",
-        error
-      })
+        error,
+      });
     }
-  }
+  };
 
   useEffect(() => {
     if (usersAavegotchis && (lazyloadIn === undefined || lazyloadIn)) {
-      const gotchis = [...usersAavegotchis]
-      const selectedGotchi = gotchis.find(gotchi => gotchi.id === tokenId);
+      const gotchis = [...usersAavegotchis];
+      const selectedGotchi = gotchis.find((gotchi) => gotchi.id === tokenId);
       if (selectedGotchi?.svg) {
-        setSvg(options ? customiseSvg(selectedGotchi.svg, options, selectedGotchi.equippedWearables) : selectedGotchi.svg);
+        setSvg(
+          options
+            ? customiseSvg(
+                selectedGotchi.svg[0],
+                options,
+                selectedGotchi.equippedWearables
+              )
+            : selectedGotchi.svg[0]
+        );
       } else if (provider) {
         fetchGotchiSvg(tokenId, !!selectedGotchi, provider);
       }
     }
-  }, [usersAavegotchis, tokenId, lazyloadIn])
+  }, [usersAavegotchis, tokenId, lazyloadIn]);
 
   return (
-    <img src={svg ? convertInlineSVGToBlobURL(svg) : gotchiLoading} height="100%" width="100%" />
-  )
-}
+    <img
+      src={svg ? convertInlineSVGToBlobURL(svg) : gotchiLoading}
+      height="100%"
+      width="100%"
+    />
+  );
+};

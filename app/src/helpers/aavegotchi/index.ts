@@ -17,8 +17,8 @@ interface GotchiOptions {
 export const getPreviewGotchi = async (provider: Signer | Provider, options?: GotchiOptions): Promise<AavegotchiObject> => {
   const withSetsNumericTraits: Tuple<number, 6> = options?.numericTraits || [50, 50, 50, 50, 50, 50];
   const equippedWearables: Tuple<number, 16> = options?.wearables || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const svg = await useDiamondCall<string>(provider, {
-    name: "previewAavegotchi",
+  const svg = await useDiamondCall<Tuple<string, 4>>(provider, {
+    name: "previewSideAavegotchi",
     parameters: [
       options?.haunt || "0",
       options?.collateral ? collateralToAddress[options.collateral] : collateralToAddress["aWETH"],
