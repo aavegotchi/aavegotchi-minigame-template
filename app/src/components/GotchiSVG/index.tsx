@@ -14,9 +14,10 @@ interface Props {
   tokenId: string;
   options?: CustomiseOptions;
   lazyloadIn?: boolean;
+  side?: 0 | 1 | 2 | 3;
 }
 
-export const GotchiSVG = ({ tokenId, options, lazyloadIn }: Props) => {
+export const GotchiSVG = ({ tokenId, options, lazyloadIn, side = 0 }: Props) => {
   const {
     state: { usersAavegotchis, provider },
     dispatch,
@@ -58,17 +59,17 @@ export const GotchiSVG = ({ tokenId, options, lazyloadIn }: Props) => {
         setSvg(
           options
             ? customiseSvg(
-                selectedGotchi.svg[0],
+                selectedGotchi.svg[side],
                 options,
                 selectedGotchi.equippedWearables
               )
-            : selectedGotchi.svg[0]
+            : selectedGotchi.svg[side]
         );
       } else if (provider) {
         fetchGotchiSvg(tokenId, !!selectedGotchi, provider);
       }
     }
-  }, [usersAavegotchis, tokenId, lazyloadIn]);
+  }, [usersAavegotchis, tokenId, lazyloadIn, side]);
 
   return (
     <img

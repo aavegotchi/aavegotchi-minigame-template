@@ -14,6 +14,8 @@ import { getDefaultGotchi, getPreviewGotchi } from "helpers/aavegotchi";
 import gotchiLoading from "assets/gifs/loading.gif";
 import { playSound } from "helpers/hooks/useSound";
 import styles from "./styles.module.css";
+import { RotateIcon } from "assets";
+
 
 const Home = () => {
   const {
@@ -28,6 +30,7 @@ const Home = () => {
   } = useWeb3();
   const { highscores } = useServer();
   const [showRulesModal, setShowRulesModal] = useState(false);
+  const [gotchiSide, setGotchiSide] = useState<0 | 1 | 2 | 3>(0);
 
   const useDefaultGotchi = () => {
     dispatch({
@@ -70,6 +73,27 @@ const Home = () => {
       }
     }
   };
+
+  const rotateGotchi = () => {
+    const currentPos = gotchiSide;
+    switch (currentPos) {
+      case 0:
+        setGotchiSide(1);
+        break;
+      case 1:
+        setGotchiSide(3);
+        break;
+      case 2:
+        setGotchiSide(0);
+        break;
+      case 3:
+        setGotchiSide(2);
+        break;
+      default:
+        setGotchiSide(0);
+        break;
+    }
+  }
 
   /**
    * Updates global state with selected gotchi
@@ -173,8 +197,12 @@ const Home = () => {
             />
           </div>
           <div className={styles.gotchiContainer}>
+            <button className={styles.rotateButton}>
+              <RotateIcon width={32} height={24} onClick={rotateGotchi} />
+            </button>
             {selectedAavegotchiId ? (
               <GotchiSVG
+                side={gotchiSide}
                 tokenId={selectedAavegotchiId}
                 options={{ animate: true, removeBg: true }}
               />

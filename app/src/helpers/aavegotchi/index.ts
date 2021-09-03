@@ -26,7 +26,6 @@ export const getPreviewGotchi = async (provider: Signer | Provider, options?: Go
       equippedWearables,
     ],
   });
-  console.log(svg);
   const gotchi = {
     id: options?.id || '0000',
     name: options?.name || 'Aavegotchi',
