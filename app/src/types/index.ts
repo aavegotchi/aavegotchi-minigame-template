@@ -6,11 +6,11 @@ export interface Tuple<T extends unknown, L extends number> extends Array<T> {
 
 export interface AavegotchiGameObject extends AavegotchiObject {
   spritesheetKey: string;
-  svg: string;
+  svg: Tuple<string, 4>;
 }
 
 export interface AavegotchiObject extends AavegotchiContractObject {
-  svg?: string;
+  svg?: Tuple<string, 4>;
 }
 
 export interface AavegotchiContractObject {

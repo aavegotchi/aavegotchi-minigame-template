@@ -22,7 +22,6 @@ const makeFirefoxCompatible = (svg: string) => {
   return styledSvg;
 };
 
-
 type SpriteMatrix = Array<Array<string>>;
 
 interface Spritesheet {

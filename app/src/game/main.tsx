@@ -5,7 +5,7 @@ import { useWeb3 } from "web3/context";
 import { Redirect } from "react-router";
 import Scenes from "./scenes";
 import io, { Socket } from "socket.io-client";
-import { AavegotchiObject } from "types";
+import { AavegotchiObject, Tuple } from "types";
 import { useDiamondCall } from "web3/actions";
 
 const Main = () => {
@@ -27,7 +27,7 @@ const Main = () => {
     if (!selectedGotchi.svg) {
       try {
         if (!provider) throw "Not connected to web3";
-        const svg = await useDiamondCall<string>(provider, {name: "getAavegotchiSvg", parameters: [selectedGotchi.id]});
+        const svg = await useDiamondCall<Tuple<string, 4>>(provider, {name: "getAavegotchiSideSvgs", parameters: [selectedGotchi.id]});
         selectedGotchi.svg = svg;
       } catch (err) {
         console.error(err);

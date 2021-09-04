@@ -1,4 +1,4 @@
-import { AavegotchiGameObject, AavegotchiObject } from "types";
+import { AavegotchiGameObject, AavegotchiObject, Tuple } from "types";
 import { getGameHeight, getGameWidth } from "game/helpers";
 import { assets, SpritesheetAsset } from "game/assets";
 import { constructSpritesheet } from "../helpers/spritesheet";
@@ -6,7 +6,7 @@ import { customiseSvg } from "helpers/aavegotchi";
 import { Socket } from "socket.io-client";
 
 interface AavegotchiWithSvg extends AavegotchiObject {
-  svg: string;
+  svg: Tuple<string, 4>;
 }
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -172,17 +172,29 @@ export class BootScene extends Phaser.Scene {
   ) => {
     const svg = gotchiObject.svg;
     const spriteMatrix = [
+      // Front
       [
-        customiseSvg(svg, { removeBg: true }),
-        customiseSvg(svg, {
+        customiseSvg(svg[0], { removeBg: true }),
+        customiseSvg(svg[0], {
           armsUp: true,
           eyes: "happy",
           float: true,
           removeBg: true,
         }),
       ],
+      // Left
+      [
+        customiseSvg(svg[1], { removeBg: true }),
+      ],
+      // Right
+      [
+        customiseSvg(svg[2], { removeBg: true }),
+      ],
+      // Right
+      [
+        customiseSvg(svg[3], { removeBg: true }),
+      ]
     ];
-
     const { src, dimensions } = await constructSpritesheet(spriteMatrix);
     this.load.spritesheet(gotchiObject.spritesheetKey, src, {
       frameWidth: dimensions.width / dimensions.x,

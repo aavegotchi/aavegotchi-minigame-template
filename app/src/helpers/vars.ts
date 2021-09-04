@@ -33,3 +33,14 @@ export const collateralToAddress: CollateralToAddress = {
   amWBTC: "0x5c2ed810328349100A66B82b78a1791B101C9D61",
   amWMATIC: "0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4"
 }
+
+export enum WearableSlots {
+  Body = 0,
+  Face = 1,
+  Eyes = 2,
+  Head = 3,
+  HandLeft = 4,
+  HandRight = 5,
+  Pet = 6,
+  BG = 7,
+}

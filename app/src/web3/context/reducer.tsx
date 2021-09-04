@@ -1,4 +1,5 @@
 import { State } from "./initialState";
+import { Tuple } from "types";
 
 export type Action =
   | {
@@ -26,7 +27,7 @@ export type Action =
   | {
       type: "UPDATE_AAVEGOTCHI_SVG";
       tokenId: string;
-      svg: string;
+      svg: Tuple<string, 4>;
     }
   | {
       type: "SET_PROVIDER";

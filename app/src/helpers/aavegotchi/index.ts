@@ -6,7 +6,7 @@ import { useDiamondCall } from "web3/actions";
 import { collateralToAddress, Collaterals} from 'helpers/vars';
 
 interface GotchiOptions {
-  haunt?: "0" | "1",
+  haunt?: "1" | "2",
   numericTraits?: Tuple<number, 6>,
   wearables?: Tuple<number, 16>,
   collateral?: Collaterals,
@@ -17,10 +17,10 @@ interface GotchiOptions {
 export const getPreviewGotchi = async (provider: Signer | Provider, options?: GotchiOptions): Promise<AavegotchiObject> => {
   const withSetsNumericTraits: Tuple<number, 6> = options?.numericTraits || [50, 50, 50, 50, 50, 50];
   const equippedWearables: Tuple<number, 16> = options?.wearables || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const svg = await useDiamondCall<string>(provider, {
-    name: "previewAavegotchi",
+  const svg = await useDiamondCall<Tuple<string, 4>>(provider, {
+    name: "previewSideAavegotchi",
     parameters: [
-      options?.haunt || "0",
+      options?.haunt || "1",
       options?.collateral ? collateralToAddress[options.collateral] : collateralToAddress["aWETH"],
       withSetsNumericTraits,
       equippedWearables,
@@ -172,18 +172,18 @@ export const bounceAnimation = (svg: string) => {
  * @returns {string} Returns customised SVG
  */
 export const raiseHands = (svg: string, arms?: {left?: number, right?: number}) => {
-  const leftArm = arms?.left === 201 ? `
+  const leftArm = (arms?.left && [207, 217, 223].includes(arms?.left)) ? `
       .wearable-hand-left {
         transform: translateY(calc(14px + var(--hand_translateY, -4px))) scaleY(-1);
         transform-origin: 50% 50%;
       }
     ` : ''
-    const rightArm = arms?.right === 201 ? `
-      .wearable-hand-right {
-        transform: translateY(calc(14px + var(--hand_translateY, -4px))) scaleY(-1);
-        transform-origin: 50% 50%;
-      }
-    ` : ``
+  const rightArm = (arms?.right && [207, 217, 223].includes(arms?.right)) ? `
+    .wearable-hand-right {
+      transform: translateY(calc(14px + var(--hand_translateY, -4px))) scaleY(-1);
+      transform-origin: 50% 50%;
+    }
+  ` : ``
 
   const style = `
     .gotchi-handsDownClosed {
