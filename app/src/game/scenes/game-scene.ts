@@ -1,14 +1,12 @@
-import {
-  LEFT_CHEVRON, BG, CLICK
-} from 'game/assets';
-import { AavegotchiGameObject } from 'types';
-import { getGameWidth, getGameHeight, getRelative } from '../helpers';
-import { Player } from 'game/objects';
+import { LEFT_CHEVRON, BG, CLICK } from "game/assets";
+import { AavegotchiGameObject } from "types";
+import { getGameWidth, getGameHeight, getRelative } from "../helpers";
+import { Player } from "game/objects";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: 'Game',
+  key: "Game",
 };
 
 /**
@@ -31,7 +29,9 @@ export class GameScene extends Phaser.Scene {
 
   public create(): void {
     // Add layout
-    this.add.image(getGameWidth(this) / 2, getGameHeight(this) / 2, BG).setDisplaySize(getGameWidth(this), getGameHeight(this));
+    this.add
+      .image(getGameWidth(this) / 2, getGameHeight(this) / 2, BG)
+      .setDisplaySize(getGameWidth(this), getGameHeight(this));
     this.back = this.sound.add(CLICK, { loop: false });
     this.createBackButton();
 
@@ -40,8 +40,8 @@ export class GameScene extends Phaser.Scene {
       scene: this,
       x: getGameWidth(this) / 2,
       y: getGameHeight(this) / 2,
-      key: this.selectedGotchi?.spritesheetKey || ''
-    })
+      key: this.selectedGotchi?.spritesheetKey || "",
+    });
   }
 
   private createBackButton = () => {
@@ -50,7 +50,7 @@ export class GameScene extends Phaser.Scene {
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .setDisplaySize(getRelative(94, this), getRelative(94, this))
-      .on('pointerdown', () => {
+      .on("pointerdown", () => {
         this.back?.play();
         window.history.back();
       });

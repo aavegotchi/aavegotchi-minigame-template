@@ -159,6 +159,12 @@ export class BootScene extends Phaser.Scene {
           (file as SpritesheetAsset).data
         );
         break;
+      case "TILEMAP_TILES":
+        this.load.image(file.key, file.src);
+        break;
+      case "TILEMAP_MAP":
+        this.load.tilemapTiledJSON(file.key, file.src);
+        break;
       default:
         break;
     }
