@@ -34,6 +34,35 @@ const updateAavegotchis = async (dispatch: React.Dispatch<Action>, owner: string
   }
 }
 
+const setProvider = async (dispatch: React.Dispatch<Action>, eth: any) => {
+  if (process.env.REACT_APP_OFFCHAIN) return;
+
+  dispatch({ type: "START_ASYNC" });
+  try {
+    const provider = new ethers.providers.Web3Provider(eth);
+
+    dispatch({ type: "SET_PROVIDER", provider });
+    dispatch({ type: "END_ASYNC" });
+    return provider;
+  } catch (error) {
+    dispatch({ type: "SET_ERROR", error });
+  }
+}
+
+const setNetworkDetails = async (dispatch: React.Dispatch<Action>, provider: ethers.providers.Web3Provider) => {
+  dispatch({ type: "START_ASYNC" });
+  try {
+    const { chainId } = await provider.getNetwork();
+    
+    dispatch({ type: "SET_NETWORK_ID", networkId: chainId });
+    const address = await provider.getSigner().getAddress();
+    dispatch({ type: "SET_ADDRESS", address });
+    dispatch({ type: "END_ASYNC" });
+  } catch (error) {
+    dispatch({ type: "SET_ERROR", error });
+  }
+}
+
 const connectToNetwork = async (dispatch: React.Dispatch<Action>, eth: any) => {
   if (process.env.REACT_APP_OFFCHAIN) return;
 
@@ -69,4 +98,4 @@ const Web3ContextProvider = ({ children }: Props) => {
 const useWeb3 = () => useContext(Web3Context);
 
 export default Web3ContextProvider;
-export { useWeb3, connectToNetwork, updateAavegotchis };
+export { useWeb3, setNetworkDetails, setProvider, updateAavegotchis };

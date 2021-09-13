@@ -1,26 +1,29 @@
 import { useState } from 'react';
 import globalStyles from 'theme/globalStyles.module.css';
 import { NavLink } from 'react-router-dom';
-import { useWeb3, connectToNetwork } from 'web3/context';
+import { useWeb3, setNetworkDetails } from 'web3/context';
 import { smartTrim } from 'helpers/functions';
 import { networkIdToName } from 'helpers/vars';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { Hamburger, SideTray } from 'components';
 import { playSound } from 'helpers/hooks/useSound';
 import styles from './styles.module.css';
+import { Web3Provider } from '@ethersproject/providers';
 
 const WalletButton = () => {
-  const { state: { address, networkId, loading }, dispatch } = useWeb3();
+  const { state: { address, networkId, loading, provider }, dispatch } = useWeb3();
 
-  const handleWalletClick = () => {
-    if (!address) {
+  const handleWalletClick = async (w3Provider?: Web3Provider) => {
+    if (w3Provider) {
       playSound('click');
-      connectToNetwork(dispatch, window.ethereum);
+      dispatch({ type: "START_ASYNC" });
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      setNetworkDetails(dispatch, w3Provider);
     }
   };
 
   return (
-    <button className={styles.walletContainer} onClick={handleWalletClick} disabled={!!address}>
+    <button className={styles.walletContainer} onClick={() => handleWalletClick(provider)} disabled={!!address || loading}>
       {loading ? "Loading..." : address  ? (
           <div className={styles.walletAddress}>
             <Jazzicon diameter={24} seed={jsNumberForAddress(address)} />
